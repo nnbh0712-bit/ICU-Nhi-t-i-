@@ -8,7 +8,8 @@
 <meta name="apple-mobile-web-app-title" content="Loét tì đè">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+<style>:root{padding-top:env(safe-area-inset-top,0px)}
+body{min-height:100vh;min-height:100dvh}
 html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
@@ -99,8 +100,10 @@ a{color:var(--accent);text-underline-offset:2px}
 .shell{display:flex;min-height:100%;flex:1}
 .rail{display:none}
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
-.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--card) 88%,transparent);
-  backdrop-filter:saturate(1.6) blur(12px);border-bottom:1px solid var(--line);
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--card);
+  background:color-mix(in srgb,var(--card) 88%,transparent);
+  -webkit-backdrop-filter:saturate(1.6) blur(12px);backdrop-filter:saturate(1.6) blur(12px);
+  border-bottom:1px solid var(--line);
   display:flex;align-items:center;gap:10px;padding:10px 16px;min-height:56px}
 .topbar h1{font-size:16px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .topbar .sub{font-size:11.5px;color:var(--ink-3);font-weight:400;display:block;letter-spacing:.02em}
@@ -113,8 +116,10 @@ a{color:var(--accent);text-underline-offset:2px}
 
 /* ---------- Thanh điều hướng dưới (điện thoại) ---------- */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;
-  background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);
-  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+  background:var(--card);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);
+  /* Lớp vẽ riêng: tránh lỗi thanh trôi theo trang trên Safari iPhone */
+  transform:translateZ(0);-webkit-transform:translateZ(0)}
 .tabbar button{flex:1;border:0;background:none;padding:8px 2px 9px;display:flex;flex-direction:column;
   align-items:center;gap:3px;color:var(--ink-3);font-size:10.5px;font-weight:500;position:relative}
 .tabbar button[aria-current="page"]{color:var(--accent)}
@@ -548,6 +553,18 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 .gblog-day{margin-bottom:16px}
 .gblog-date{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
   color:var(--ink-3);padding:0 2px 7px}
+/* Bộ lọc ngày của sổ giao ban */
+.gbfilter{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:14px}
+.gbfilter .btnrow{margin:0}
+.gbrange{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font-size:13px;color:var(--ink-2)}
+.gbrange label{font-size:13px;color:var(--ink-2);white-space:nowrap;margin:0;flex:none}
+.gbrange input[type=date]{padding:6px 9px;border:1px solid var(--line);border-radius:9px;
+  background:var(--card);color:var(--ink);font:inherit;font-size:13.5px;
+  width:150px;flex:none;-webkit-appearance:none;appearance:none}
+@media (max-width:520px){.gbrange{width:100%}.gbrange input[type=date]{flex:1 1 130px;width:auto}}
+/* Lịch sử sửa thông tin hành chính */
+.editlog .was{text-decoration:line-through;color:var(--ink-3)}
+.editlog .now{font-weight:600;color:var(--ink)}
 .gblog-row{display:flex;gap:11px;align-items:flex-start;background:var(--card);
   border:1px solid var(--line);border-left-width:4px;border-radius:var(--r-md);padding:10px 13px;margin-bottom:7px}
 .gblog-row.s-ok{border-left-color:var(--r0)}
@@ -662,7 +679,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
    ============================================================ */
 "use strict";
 const PREVIEW = false;
-const APP_VER = "1.1";
+const APP_VER = "1.2";
 const LS_KEY  = "ltd_db_v1";
 const LS_CFG  = "ltd_cfg_v1";
 
@@ -1093,13 +1110,24 @@ const DB = {
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   },
   openFlags() {
-    return this.data.flags.filter(f => f.status !== "dong")
+    const v = this.voidedSet();
+    return this.data.flags.filter(f => f.status !== "dong" && !v.has(f.patientId))
       .sort((a, b) => (b.priority || 0) - (a.priority || 0) || b.createdAt.localeCompare(a.createdAt));
   },
   admittedPatients() {
     return this.data.episodes.filter(e => !e.dischargedAt)
       .map(e => ({ ep: e, p: this.patient(e.patientId) }))
-      .filter(x => x.p);
+      .filter(x => x.p && !x.p.voidedAt);
+  },
+  /* Hồ sơ đã huỷ không được tính vào bất cứ thống kê hay danh sách nào */
+  voidedSet() {
+    const s = new Set();
+    this.data.patients.forEach(p => { if (p.voidedAt) s.add(p.id); });
+    return s;
+  },
+  liveEpisodes() {
+    const v = this.voidedSet();
+    return v.size ? this.data.episodes.filter(e => !v.has(e.patientId)) : this.data.episodes;
   },
 
   /* --- bản thử: xoay trở & liền thương --- */
@@ -1911,7 +1939,7 @@ function viewLogin() {
       <p id="lg-err" style="color:var(--bad);font-size:13px;text-align:center" hidden></p>
     </form>
     ${demo ? `<div class="card" style="padding:13px">
-      <p class="hintbox">Đây là <b>bản thử tính năng</b>, người bệnh hoàn toàn hư cấu.<br>
+      <p class="hintbox">Máy này đang chạy <b>dữ liệu mẫu</b>, người bệnh hoàn toàn hư cấu.<br>
         Đăng nhập: <code>ddt.chau</code> (điều dưỡng trưởng) hoặc <code>dd.an</code> (điều dưỡng)
         — mật khẩu <code>123456</code></p>
       ${PREVIEW ? "" : `<button class="btn block" id="lg-setup" style="margin-top:10px">Nối vào kho dữ liệu của khoa</button>`}
@@ -2225,7 +2253,7 @@ const SORTS = [
 
 function viewPatients() {
   const q = noAccent(PQ.q);
-  let list = DB.data.patients.map(p => {
+  let list = livePatients().map(p => {
     const ep = DB.activeEpisode(p.id);
     const lastEp = ep || DB.episodesOf(p.id)[0];
     const last = lastEp ? DB.lastAssessment(lastEp.id) : null;
@@ -2261,8 +2289,8 @@ function viewPatients() {
   });
 
   const counts = {
-    dang: DB.data.patients.filter(p => DB.activeEpisode(p.id)).length,
-    xuat: DB.data.patients.filter(p => !DB.activeEpisode(p.id)).length
+    dang: livePatients().filter(p => DB.activeEpisode(p.id)).length,
+    xuat: livePatients().filter(p => !DB.activeEpisode(p.id)).length
   };
 
   const html = `
@@ -2276,7 +2304,7 @@ function viewPatients() {
     </div>
     <div class="listbar">
       <div class="btnrow" role="tablist" style="margin:0">
-        ${[["dang", "Đang điều trị", counts.dang], ["xuat", "Đã xuất viện", counts.xuat], ["all", "Tất cả", DB.data.patients.length]]
+        ${[["dang", "Đang điều trị", counts.dang], ["xuat", "Đã xuất viện", counts.xuat], ["all", "Tất cả", livePatients().length]]
           .map(([k, t, n]) => `<button class="btn sm" data-filter="${k}"
             style="${PQ.filter === k ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t} · ${n}</button>`).join("")}
       </div>
@@ -2295,7 +2323,7 @@ function viewPatients() {
         ? patientRow(r, { showDue: true })
         : dischargedRow(r)).join("")}</div>`)
       : `<div class="empty">${PQ.q ? "Không tìm thấy người bệnh nào khớp với từ khoá."
-            : DB.data.patients.length ? "Chưa có người bệnh nào trong nhóm này."
+            : livePatients().length ? "Chưa có người bệnh nào trong nhóm này."
             : "Danh sách còn trống. Bấm nút bên dưới để tạo hồ sơ người bệnh đầu tiên."}
           <div style="margin-top:12px"><button class="btn sm pri" data-newp>
             ${PQ.q ? `Tạo hồ sơ mới cho “${esc(PQ.q)}”` : "Tạo hồ sơ người bệnh"}</button></div></div>`}
@@ -2394,13 +2422,13 @@ function newPatientDialog(prefill) {
       const dob = $("#np-dob", b).value;
       if (!name) { toast("Chưa nhập họ tên", "err"); return false; }
       if (!mrn) { toast("Chưa nhập mã hồ sơ bệnh viện", "err"); return false; }
-      const dupMrn = DB.data.patients.find(p => p.mrn.toLowerCase() === mrn.toLowerCase());
+      const dupMrn = livePatients().find(p => p.mrn.toLowerCase() === mrn.toLowerCase());
       if (dupMrn) {
         toast("Mã hồ sơ này đã tồn tại — mở hồ sơ cũ.", "err", 4500);
         Nav.go("patient", { id: dupMrn.id });
         return;
       }
-      const dupName = DB.data.patients.find(p => noAccent(p.name) === noAccent(name) && p.dob === dob && dob);
+      const dupName = livePatients().find(p => noAccent(p.name) === noAccent(name) && p.dob === dob && dob);
       if (dupName && !b.dataset.forced) {
         b.dataset.forced = "1";
         $("#np-dup", b).innerHTML = `<div class="notice warn"><svg><use href="#i-alert"/></svg>
@@ -2434,6 +2462,16 @@ function newEpisode(patientId, bed, dx) {
 function viewPatient({ id }) {
   const p = DB.patient(id);
   if (!p) return { title: "Không tìm thấy", html: `<div class="empty">Hồ sơ không còn tồn tại.</div>` };
+  if (isVoid(p)) return {
+    title: p.name, sub: "hồ sơ đã huỷ",
+    html: `<section class="card"><div class="notice warn"><svg><use href="#i-alert"/></svg><span>
+        Hồ sơ này đã bị huỷ ${fmtDT(p.voidedAt)} bởi
+        <b>${esc(p.voidedByName || DB.userName(p.voidedBy))}</b> — lý do: ${esc(p.voidReason || "—")}.<br>
+        Hồ sơ không còn trong danh sách người bệnh và không được tính vào báo cáo.
+        ${Session.isHead() ? "Khôi phục được trong Cài đặt." : "Cần khôi phục thì báo điều dưỡng trưởng."}
+      </span></div></section>` + editHistoryBlock(p),
+    bind() {}
+  };
   const ep = DB.activeEpisode(p.id);
   const eps = DB.episodesOf(p.id);
   const curEp = ep || eps[0];
@@ -2477,8 +2515,10 @@ function viewPatient({ id }) {
         ${ep ? `<button class="btn pri" data-assess>${last ? "Đánh giá lại" : "Đánh giá loét tì đè"}</button>` : ""}
         ${ep && Session.isHead() ? `<button class="btn" data-flag>📌 Cần quan tâm</button>` : ""}
         ${ep ? `<button class="btn" data-editep>Sửa giường / chẩn đoán</button>` : ""}
+        <button class="btn" data-editp>Sửa thông tin hành chính</button>
         ${ep ? `<button class="btn danger" data-discharge>Xuất viện</button>`
              : `<button class="btn pri" data-readmit>Nhập viện lại</button>`}
+        ${Session.isHead() ? `<button class="btn danger" data-voidp>Huỷ hồ sơ</button>` : ""}
       </div>
     </section>`;
 
@@ -2551,8 +2591,11 @@ function viewPatient({ id }) {
 
   return {
     title: p.name, sub: p.mrn,
-    html: header + turnSec + lesionsBlock + photoTl + careBlock + tl + flagBlock + epsBlock,
+    html: header + turnSec + lesionsBlock + photoTl + careBlock + tl + flagBlock + epsBlock
+          + editHistoryBlock(p),
     bind() {
+      const ep3 = $("[data-editp]"); if (ep3) ep3.onclick = () => editPatientDialog(p);
+      const vp = $("[data-voidp]"); if (vp) vp.onclick = () => voidPatientDialog(p);
       const tb = $("[data-turn]"); if (tb) tb.onclick = () => turnDialog(p, ep);
       bindLesionActions(p.id);
       const a = $("[data-assess]"); if (a) a.onclick = () => Nav.go("assess", { patientId: p.id, episodeId: ep.id });
@@ -3544,12 +3587,12 @@ function computeMetrics(days) {
   const from = days ? new Date(to.getTime() - days * 86400000) : new Date(0);
   const inWin = t => { const x = dOf(t).getTime(); return x >= from.getTime() && x <= to.getTime(); };
 
-  const eps = DB.data.episodes.filter(e => overlapDays(e, from, to) > 0);
+  const eps = DB.liveEpisodes().filter(e => overlapDays(e, from, to) > 0);
   const patientDays = eps.reduce((s, e) => s + overlapDays(e, from, to), 0);
   const asses = DB.data.assessments.filter(a => inWin(a.at));
 
   /* 1. Đánh giá trong giờ đầu sau nhập khoa */
-  const epsAdm = DB.data.episodes.filter(e => inWin(e.admittedAt)
+  const epsAdm = DB.liveEpisodes().filter(e => inWin(e.admittedAt)
     && Date.now() - dOf(e.admittedAt).getTime() > st.firstAssessHours * 3600000);
   let firstOk = 0;
   epsAdm.forEach(e => {
@@ -3613,7 +3656,7 @@ function computeMetrics(days) {
     const end = new Date(d); end.setMonth(end.getMonth() + 1);
     const label = pad(d.getMonth() + 1) + "/" + String(d.getFullYear()).slice(2);
     const inM = t => { const x = dOf(t).getTime(); return x >= d.getTime() && x < end.getTime(); };
-    const pd = DB.data.episodes.reduce((s, e) => s + overlapDays(e, d, end), 0);
+    const pd = DB.liveEpisodes().reduce((s, e) => s + overlapDays(e, d, end), 0);
     const h = hapi.filter(x => inM(x.at)).length;
     const p = poa.filter(x => inM(x.at)).length;
     const am = DB.data.assessments.filter(a => inM(a.at) && a.bundleTotal);
@@ -3651,7 +3694,7 @@ function viewReports() {
     </div>
 
     <section class="card">
-      <div class="card-h"><h2>Sổ giao ban</h2><span class="hint">bản thử</span></div>
+      <div class="card-h"><h2>Sổ giao ban</h2><span class="hint">biên bản các ca đã qua</span></div>
       <p style="font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:10px">
         Toàn bộ biên bản bàn giao của các ca đã qua, kèm những ca không ai chốt.</p>
       <button class="btn" data-gblog>Mở sổ giao ban</button>
@@ -4157,7 +4200,7 @@ function viewSettings() {
     </section>
 
     <section class="card">
-      <div class="card-h"><h2>Lịch xoay trở của khoa</h2><span class="hint">bản thử</span></div>
+      <div class="card-h"><h2>Lịch xoay trở của khoa</h2><span class="hint">cữ cố định</span></div>
       <p style="font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:12px">
         Cữ tính từ giờ mốc bên dưới, cả buồng cùng giờ — không tính từ lượt trước của từng người.</p>
       <div class="grid2">
@@ -4251,6 +4294,8 @@ function viewSettings() {
         <button class="btn" data-copyinvite>Sao chép link</button>
       </div>` : ""}
     </section>
+
+    ${voidedCard()}
 
     <section class="card">
       <div class="card-h"><h2>Sao lưu và dữ liệu</h2></div>
@@ -4376,6 +4421,8 @@ function viewSettings() {
         };
         inp.click();
       };
+      bindVoidedCard();
+
       const wp = $("[data-wipepatients]");
       if (wp) wp.onclick = wipePatientsDialog;
 
@@ -5270,23 +5317,58 @@ function viewHandoverDoc({ id }) {
 }
 
 /* ---------- SỔ GIAO BAN — điều dưỡng trưởng xem lại toàn bộ ---------- */
-let GBLOG = { days: 14 };
+let GBLOG = { days: 14, from: "", to: "" };   // from/to rỗng = dùng nút số ngày
+
+/* Mốc khoa bắt đầu dùng ứng dụng — trước mốc này không có gì để giao ban,
+   nên không tính là "ca không ai chốt" */
+function wardStartMs() {
+  const t = [];
+  const push = v => { if (v) { const m = dOf(v).getTime(); if (!isNaN(m)) t.push(m); } };
+  DB.data.episodes.forEach(e => push(e.admittedAt));
+  DB.data.patients.forEach(p => push(p.createdAt));
+  DB.data.assessments.forEach(a => push(a.at));
+  (DB.data.turns || []).forEach(x => push(x.at));
+  (DB.data.handovers || []).forEach(h => push(h.at));
+  DB.data.flags.forEach(f => push(f.createdAt));
+  (DB.data.audit || []).forEach(a => push(a.at));
+  return t.length ? Math.min.apply(null, t) : null;
+}
 
 function viewHandoverLog() {
-  const days = GBLOG.days;
   const now = new Date();
   const all = hoAll();
+  const startMs = wardStartMs();
 
-  /* Dựng đủ mọi ca trong khoảng, kể cả ca KHÔNG có biên bản — chỗ trống mới là thứ cần thấy */
+  /* Khoảng xem: hoặc do người dùng chọn từ ngày – đến ngày, hoặc theo nút số ngày */
+  const parseDay = v => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ""); 
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
+  let dFrom = parseDay(GBLOG.from), dTo = parseDay(GBLOG.to);
+  const ranged = !!(dFrom || dTo);
+  if (ranged) {
+    if (!dFrom) dFrom = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 13);
+    if (!dTo) dTo = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if (dFrom > dTo) { const t = dFrom; dFrom = dTo; dTo = t; }
+  } else {
+    dTo = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    dFrom = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (GBLOG.days - 1));
+  }
+  const days = Math.round((dTo - dFrom) / 864e5) + 1;
+
+  /* Dựng đủ mọi ca trong khoảng, kể cả ca KHÔNG có biên bản — chỗ trống mới là thứ cần thấy.
+     Nhưng chỉ tính từ lúc khoa bắt đầu dùng ứng dụng trở đi. */
   const list = [];
   for (let d = 0; d < days; d++) {
-    const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() - d);
+    const day = new Date(dTo.getFullYear(), dTo.getMonth(), dTo.getDate() - d);
     SHIFTS.forEach(sh => {
       const { start, end } = shiftRange(sh, new Date(day.getFullYear(), day.getMonth(), day.getDate(), sh.from, 30));
       if (start > now) return;                       // ca chưa tới
       const dayKey = isoDay(start);
       const h = hoFind(dayKey, sh.v);
       const running = now < end;                     // ca đang trực, chưa tới giờ chốt
+      if (!h && !running) {
+        if (startMs == null) return;                 // khoa chưa dùng ngày nào
+        if (end.getTime() <= startMs) return;        // ca kết thúc trước khi khoa bắt đầu dùng
+      }
       list.push({ day: dayKey, start, shift: sh, ho: h, running });
     });
   }
@@ -5304,6 +5386,19 @@ function viewHandoverLog() {
   const byDay = {};
   list.forEach(x => { (byDay[x.day] = byDay[x.day] || []).push(x); });
   const dayKeys = Object.keys(byDay).sort().reverse();
+
+  /* Khoảng thực sự có dữ liệu = khoảng đã chọn, cắt bớt phần trước khi khoa dùng app */
+  const toEnd = new Date(dTo.getFullYear(), dTo.getMonth(), dTo.getDate() + 1).getTime();
+  const chuaDung = startMs == null || startMs >= toEnd;   // cả khoảng nằm trước khi khoa dùng
+  const winFrom = chuaDung ? dFrom : new Date(Math.max(startMs, dFrom.getTime()));
+  const subTxt = ranged ? `${fmtDate(dFrom)} – ${fmtDate(dTo)}`
+    : startMs == null ? "khoa chưa bắt đầu dùng"
+    : (startMs > dFrom.getTime()
+        ? `từ ${fmtDate(new Date(startMs))} — ngày khoa bắt đầu dùng`
+        : `${days} ngày gần nhất`);
+  const tinhTu = chuaDung
+    ? (startMs == null ? "khoa chưa bắt đầu dùng" : "khoa chưa dùng trong khoảng này")
+    : `tính từ ${fmtDate(winFrom)}`;
 
   const rowHtml = x => {
     const h = x.ho;
@@ -5329,15 +5424,25 @@ function viewHandoverLog() {
   };
 
   const html = `
-    <div class="btnrow">
-      ${[[7, "7 ngày"], [14, "14 ngày"], [30, "30 ngày"], [90, "90 ngày"]].map(([d, t]) =>
-        `<button class="btn sm" data-gbdays="${d}"
-          style="${days === d ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t}</button>`).join("")}
+    <div class="gbfilter">
+      <div class="btnrow">
+        ${[[7, "7 ngày"], [14, "14 ngày"], [30, "30 ngày"], [90, "90 ngày"]].map(([d, t]) =>
+          `<button class="btn sm" data-gbdays="${d}"
+            style="${!ranged && GBLOG.days === d ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t}</button>`).join("")}
+      </div>
+      <div class="gbrange">
+        <label for="gb-from">Từ ngày</label>
+        <input id="gb-from" type="date" value="${esc(GBLOG.from || isoDay(dFrom))}" max="${esc(isoDay(now))}">
+        <label for="gb-to">đến</label>
+        <input id="gb-to" type="date" value="${esc(GBLOG.to || isoDay(dTo))}" max="${esc(isoDay(now))}">
+        <button class="btn sm pri" data-gbgo>Xem</button>
+        ${ranged ? `<button class="btn sm ghost" data-gbclear>Bỏ lọc</button>` : ""}
+      </div>
     </div>
 
     <section class="tiles">
       <div class="tile"><span class="lab">Ca đã qua trong kỳ</span><span class="val mono">${closed.length}</span>
-        <span class="note">${signed.length} ca có biên bản</span></div>
+        <span class="note">${tinhTu}</span></div>
       <div class="tile ${gaps.length ? "alert" : ""}"><span class="lab">Ca không ai chốt</span>
         <span class="val mono">${gaps.length}</span>
         <span class="note">${closed.length ? Math.round(signed.length / closed.length * 100) : 0}% ca có bàn giao</span></div>
@@ -5351,16 +5456,28 @@ function viewHandoverLog() {
 
     <section>
       <div class="card-h"><h2>Sổ giao ban</h2><span class="hint">mới nhất trước</span></div>
-      ${dayKeys.map(k => `<div class="gblog-day">
+      ${dayKeys.length ? dayKeys.map(k => `<div class="gblog-day">
         <div class="gblog-date">${fmtDate(byDay[k][0].start)}</div>
         ${byDay[k].sort((a, b) => b.start - a.start).map(rowHtml).join("")}
-      </div>`).join("")}
+      </div>`).join("") : `<p class="empty">${chuaDung
+        ? "Khoảng ngày này nằm trước lúc khoa bắt đầu dùng ứng dụng, nên không có ca nào để hiển thị."
+        : "Không có ca nào trong khoảng ngày đã chọn."}</p>`}
     </section>`;
 
   return {
-    title: "Sổ giao ban", sub: `${days} ngày gần nhất`, html,
+    title: "Sổ giao ban", sub: subTxt, html,
     bind() {
-      $$("[data-gbdays]").forEach(b => b.onclick = () => { GBLOG.days = +b.dataset.gbdays; render(); });
+      $$("[data-gbdays]").forEach(b => b.onclick = () => {
+        GBLOG.days = +b.dataset.gbdays; GBLOG.from = ""; GBLOG.to = ""; render(); });
+      const go = $("[data-gbgo]");
+      if (go) go.onclick = () => {
+        GBLOG.from = ($("#gb-from") || {}).value || "";
+        GBLOG.to = ($("#gb-to") || {}).value || "";
+        if (!GBLOG.from && !GBLOG.to) { toast("Chưa chọn ngày nào", "err"); return; }
+        render();
+      };
+      const cl = $("[data-gbclear]");
+      if (cl) cl.onclick = () => { GBLOG.from = ""; GBLOG.to = ""; render(); };
       $$("[data-hodoc]").forEach(b => b.onclick = () => Nav.go("handoverdoc", { id: b.dataset.hodoc }));
   const gl = $("[data-gblog]"); if (gl) gl.onclick = () => Nav.go("handoverlog");
     }
@@ -5439,6 +5556,237 @@ function bindHandoverActions(shift, dayKey, body) {
         toast("Đã xác nhận nhận bàn giao", "ok", 5000);
       }}]
     });
+  });
+}
+</script>
+<script>
+/* ============================================================
+   SỬA THÔNG TIN HÀNH CHÍNH & HUỶ HỒ SƠ NHẬP NHẦM
+   ------------------------------------------------------------
+   Nguyên tắc:
+   - Thông tin hành chính (tên, mã hồ sơ, ngày sinh, giới tính) SỬA ĐƯỢC,
+     vì nhập sai là chuyện xảy ra thật và để sai thì nguy hiểm hơn.
+   - Nhưng mọi lần sửa đều để lại vết: ai sửa, lúc nào, sửa từ gì thành gì,
+     vì lý do gì. Vết này không xoá được.
+   - Phiếu đánh giá đã ký vẫn KHÔNG sửa được — đó là nội dung lâm sàng.
+   - Hồ sơ nhập nhầm thì HUỶ chứ không xoá: biến khỏi danh sách và khỏi
+     mọi báo cáo, nhưng vẫn còn trong dữ liệu để truy vết, và khôi phục được.
+   ============================================================ */
+
+/* --- Hồ sơ đã huỷ thì coi như không tồn tại với phần còn lại của ứng dụng --- */
+function isVoid(p) { return !!(p && p.voidedAt); }
+function livePatients() { return DB.data.patients.filter(p => !isVoid(p)); }
+function voidedPatients() {
+  return DB.data.patients.filter(isVoid)
+    .sort((a, b) => String(b.voidedAt).localeCompare(String(a.voidedAt)));
+}
+
+const PFIELDS = [
+  { k: "name", t: "Họ và tên" },
+  { k: "mrn",  t: "Mã hồ sơ bệnh viện" },
+  { k: "dob",  t: "Ngày sinh", date: true },
+  { k: "sex",  t: "Giới tính", map: { nam: "Nam", nu: "Nữ" } }
+];
+const pfShow = (f, v) => !v ? "—" : f.date ? fmtDate(v) : (f.map ? f.map[v] || v : v);
+
+/* ============================================================
+   SỬA THÔNG TIN HÀNH CHÍNH
+   ============================================================ */
+function editPatientDialog(p) {
+  modal({
+    title: "Sửa thông tin hành chính",
+    body: `
+      <div class="notice"><svg><use href="#i-info"/></svg><span>
+        Chỉ sửa khi <b>nhập sai</b>. Mọi thay đổi đều ghi lại tên bạn, giờ phút và
+        nội dung cũ — điều dưỡng trưởng xem được trong Nhật ký thao tác.</span></div>
+      <div class="field"><label for="ep-name">Họ và tên</label>
+        <input id="ep-name" type="text" value="${esc(p.name)}"></div>
+      <div class="grid2">
+        <div class="field"><label for="ep-mrn">Mã hồ sơ bệnh viện</label>
+          <input id="ep-mrn" type="text" class="mono" value="${esc(p.mrn)}"></div>
+        <div class="field"><label for="ep-dob">Ngày sinh</label>
+          <input id="ep-dob" type="date" value="${esc(p.dob || "")}"></div>
+      </div>
+      <div class="field"><label for="ep-sex">Giới tính</label>
+        <select id="ep-sex">
+          <option value="nam"${p.sex === "nam" ? " selected" : ""}>Nam</option>
+          <option value="nu"${p.sex === "nu" ? " selected" : ""}>Nữ</option>
+        </select></div>
+      <div class="field"><label for="ep-why">Lý do sửa</label>
+        <input id="ep-why" type="text" placeholder="vd: nhập nhầm ngày sinh khi tiếp nhận">
+        <span class="help">Bắt buộc. Ghi ngắn gọn vì sao phải sửa.</span></div>
+      <div id="ep-warn"></div>`,
+    actions: [{ label: "Huỷ" }, { label: "Lưu thay đổi", kind: "pri", onClick: b => {
+      const next = {
+        name: $("#ep-name", b).value.trim(),
+        mrn:  $("#ep-mrn", b).value.trim(),
+        dob:  $("#ep-dob", b).value,
+        sex:  $("#ep-sex", b).value
+      };
+      const why = $("#ep-why", b).value.trim();
+
+      if (!next.name) { toast("Chưa nhập họ tên", "err"); return false; }
+      if (!next.mrn)  { toast("Chưa nhập mã hồ sơ bệnh viện", "err"); return false; }
+
+      const dup = DB.data.patients.find(x =>
+        x.id !== p.id && !isVoid(x) && x.mrn.toLowerCase() === next.mrn.toLowerCase());
+      if (dup) {
+        $("#ep-warn", b).innerHTML = `<div class="notice warn"><svg><use href="#i-alert"/></svg>
+          <span>Mã hồ sơ <b>${esc(next.mrn)}</b> đang thuộc về ${esc(dup.name)}.
+          Mỗi người bệnh một mã riêng — kiểm tra lại mã trước khi lưu.</span></div>`;
+        return false;
+      }
+
+      const changes = PFIELDS
+        .filter(f => (p[f.k] || "") !== (next[f.k] || ""))
+        .map(f => ({ k: f.k, t: f.t, from: p[f.k] || "", to: next[f.k] || "" }));
+      if (!changes.length) { toast("Không có gì thay đổi", "err"); return false; }
+      if (!why) { toast("Chưa ghi lý do sửa", "err"); return false; }
+
+      const rec = {
+        at: new Date().toISOString(), by: Session.user.id,
+        byName: Session.user.name, why,
+        fields: changes.map(c => ({ k: c.k, t: c.t, from: c.from, to: c.to }))
+      };
+      p.edits = (p.edits || []).concat([rec]);
+      changes.forEach(c => { p[c.k] = next[c.k]; });
+      touch(p);
+
+      const desc = changes.map(c => {
+        const f = PFIELDS.find(x => x.k === c.k);
+        return `${c.t}: ${pfShow(f, c.from)} → ${pfShow(f, c.to)}`;
+      }).join(" · ");
+      DB.log("sua-thong-tin-nb", `${desc} — lý do: ${why}`, "patient", p.id);
+      DB.save();
+      toast("Đã lưu và ghi vết thay đổi", "ok");
+      render();
+    }}]
+  });
+}
+
+/* Lịch sử chỉnh sửa, hiện ngay trong hồ sơ để không ai phải đi tìm */
+function editHistoryBlock(p) {
+  const eds = p.edits || [];
+  if (!eds.length) return "";
+  const rows = eds.slice().reverse().map(e => `<div class="row">
+    <div class="t">${fmtTime(e.at)}<span>${fmtDate(e.at)}</span></div>
+    <div class="d">
+      ${(e.fields || []).map(f => {
+        const def = PFIELDS.find(x => x.k === f.k) || { t: f.t };
+        return `<b>${esc(f.t || def.t)}</b>:
+          <span class="was">${esc(pfShow(def, f.from))}</span> →
+          <span class="now">${esc(pfShow(def, f.to))}</span>`;
+      }).join("<br>")}
+      <div class="m">${esc(e.byName || DB.userName(e.by))} sửa · lý do: ${esc(e.why || "—")}</div>
+    </div>
+  </div>`).join("");
+  return `<section class="card noprint">
+    <details class="closedbox">
+      <summary>Lịch sử chỉnh sửa thông tin hành chính (${eds.length} lần)</summary>
+      <div class="turnlog editlog" style="margin-top:10px">${rows}</div>
+    </details>
+  </section>`;
+}
+
+/* ============================================================
+   HUỶ HỒ SƠ NHẬP NHẦM — chỉ điều dưỡng trưởng
+   ============================================================ */
+function patientFootprint(p) {
+  const eps = DB.data.episodes.filter(e => e.patientId === p.id);
+  const epIds = eps.map(e => e.id);
+  return {
+    eps: eps.length,
+    assess: DB.data.assessments.filter(a => epIds.includes(a.episodeId)).length,
+    turns: (DB.data.turns || []).filter(t => t.patientId === p.id).length,
+    flags: DB.data.flags.filter(f => f.patientId === p.id).length,
+    notes: (DB.data.handoverNotes || []).filter(n => n.patientId === p.id).length
+  };
+}
+
+function voidPatientDialog(p) {
+  const fp = patientFootprint(p);
+  const has = fp.assess + fp.turns + fp.flags + fp.notes;
+  modal({
+    title: "Huỷ hồ sơ nhập nhầm",
+    body: `
+      <p style="font-size:14px;line-height:1.55">Huỷ hồ sơ <b>${esc(p.name)}</b>
+        (mã ${esc(p.mrn)}).</p>
+      <div class="notice"><svg><use href="#i-info"/></svg><span>
+        Hồ sơ sẽ <b>biến khỏi danh sách người bệnh và khỏi mọi báo cáo, giao ban</b>,
+        nhưng vẫn còn trong dữ liệu để truy vết. Điều dưỡng trưởng khôi phục lại được
+        trong Cài đặt.</span></div>
+      ${has ? `<div class="notice warn"><svg><use href="#i-alert"/></svg><span>
+        Hồ sơ này <b>đã có dữ liệu chăm sóc</b>:
+        ${[fp.assess ? fp.assess + " phiếu đánh giá" : "", fp.turns ? fp.turns + " lần ghi xoay trở" : "",
+           fp.flags ? fp.flags + " mục cần lưu ý" : "", fp.notes ? fp.notes + " lời dặn giao ban" : ""]
+          .filter(Boolean).join(", ")}.
+        Nếu đây là người bệnh thật thì <b>đừng huỷ</b> — chỉ sửa lại thông tin sai,
+        hoặc cho xuất viện.</span></div>` : ""}
+      <div class="field"><label for="vp-why">Lý do huỷ</label>
+        <input id="vp-why" type="text" placeholder="vd: tạo trùng, đã có hồ sơ mã 26-045678">
+        <span class="help">Bắt buộc.</span></div>`,
+    actions: [{ label: "Không huỷ" }, { label: "Huỷ hồ sơ", kind: "danger", onClick: b => {
+      const why = $("#vp-why", b).value.trim();
+      if (!why) { toast("Chưa ghi lý do huỷ", "err"); return false; }
+      p.voidedAt = new Date().toISOString();
+      p.voidedBy = Session.user.id;
+      p.voidedByName = Session.user.name;
+      p.voidReason = why;
+      touch(p);
+      DB.log("huy-ho-so", `${p.name} (${p.mrn}) — lý do: ${why}`, "patient", p.id);
+      DB.save();
+      toast("Đã huỷ hồ sơ. Khôi phục được trong Cài đặt.", "ok", 6000);
+      Nav.go("patients");
+    }}]
+  });
+}
+
+function restorePatientDialog(p) {
+  modal({
+    title: "Khôi phục hồ sơ",
+    body: `<p style="font-size:14px;line-height:1.55">Khôi phục hồ sơ <b>${esc(p.name)}</b>
+      (mã ${esc(p.mrn)}) về lại danh sách người bệnh?</p>
+      <p style="font-size:13px;color:var(--ink-2);margin-top:8px">
+        Đã huỷ ${fmtDT(p.voidedAt)} bởi ${esc(p.voidedByName || DB.userName(p.voidedBy))} —
+        lý do: ${esc(p.voidReason || "—")}</p>`,
+    actions: [{ label: "Thôi" }, { label: "Khôi phục", kind: "pri", onClick: () => {
+      const dup = DB.data.patients.find(x =>
+        x.id !== p.id && !isVoid(x) && x.mrn.toLowerCase() === String(p.mrn).toLowerCase());
+      if (dup) { toast(`Mã ${p.mrn} hiện thuộc về ${dup.name}. Sửa mã trước khi khôi phục.`, "err", 6000); return false; }
+      const why = p.voidReason;
+      delete p.voidedAt; delete p.voidedBy; delete p.voidedByName; delete p.voidReason;
+      touch(p);
+      DB.log("khoi-phuc-ho-so", `${p.name} (${p.mrn}) — từng huỷ vì: ${why || "—"}`, "patient", p.id);
+      DB.save();
+      toast("Đã khôi phục hồ sơ", "ok");
+      render();
+    }}]
+  });
+}
+
+/* Thẻ quản lý hồ sơ đã huỷ, đặt trong Cài đặt của điều dưỡng trưởng */
+function voidedCard() {
+  const list = voidedPatients();
+  if (!list.length) return "";
+  return `<section class="card">
+    <div class="card-h"><h2>Hồ sơ đã huỷ</h2><span class="hint">${list.length} hồ sơ</span></div>
+    <p class="hintbox">Các hồ sơ này không hiện trong danh sách người bệnh và không được tính
+      vào bất kỳ báo cáo nào. Dữ liệu vẫn còn để truy vết.</p>
+    <div class="turnlog" style="margin-top:10px">
+      ${list.map(p => `<div class="row">
+        <div class="t">${fmtTime(p.voidedAt)}<span>${fmtDate(p.voidedAt)}</span></div>
+        <div class="d"><b>${esc(p.name)}</b> · <span class="mono">${esc(p.mrn)}</span>
+          <div class="m">${esc(p.voidedByName || DB.userName(p.voidedBy))} huỷ ·
+            lý do: ${esc(p.voidReason || "—")}</div></div>
+        <button class="btn sm" data-restore="${p.id}" style="align-self:center">Khôi phục</button>
+      </div>`).join("")}
+    </div>
+  </section>`;
+}
+function bindVoidedCard() {
+  $$("[data-restore]").forEach(b => b.onclick = () => {
+    const p = DB.patient(b.dataset.restore);
+    if (p) restorePatientDialog(p);
   });
 }
 </script>
