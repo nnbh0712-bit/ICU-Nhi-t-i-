@@ -668,10 +668,64 @@ function compressImage(file, stamp) {
 
 /* ---------- Kho dữ liệu ---------- */
 const emptyDB = () => ({
-  meta: { ver: APP_VER, rev: 0, salt: "khoa-hstc" },
+  meta: { ver: APP_VER, rev: 0, salt: "khoa-hstc", epoch: uid("ep") },
   settings: null,
   users: [], patients: [], episodes: [], assessments: [], flags: [], audit: []
 });
+
+/* Đánh dấu thời điểm sửa, để khi hai máy cùng sửa một bản ghi thì biết bản nào mới hơn */
+function touch(o) { if (o) o.updatedAt = new Date().toISOString(); return o; }
+const stamp = o => (o && (o.updatedAt || o.createdAt)) || "";
+
+/* Hợp nhất dữ liệu hai máy — không để máy này ghi đè mất việc của máy kia */
+function mergeDB(local, server) {
+  const out = emptyDB();
+  out.meta = Object.assign({}, local.meta, server.meta);
+  out.meta.rev = Math.max(local.meta?.rev || 0, server.meta?.rev || 0) + 1;
+
+  // Phiếu đánh giá và nhật ký không bao giờ sửa: gộp theo mã, không mất bản nào
+  const union = key => {
+    const m = new Map();
+    (server[key] || []).forEach(x => m.set(x.id, x));
+    (local[key] || []).forEach(x => { if (!m.has(x.id)) m.set(x.id, x); });
+    return [...m.values()];
+  };
+  out.assessments = union("assessments").sort((a, b) => a.at.localeCompare(b.at));
+  out.audit = union("audit").sort((a, b) => a.at.localeCompare(b.at)).slice(-4000);
+
+  // Hồ sơ, đợt điều trị, tài khoản: bản nào sửa sau thì thắng
+  const newer = key => {
+    const m = new Map();
+    [...(server[key] || []), ...(local[key] || [])].forEach(x => {
+      const cur = m.get(x.id);
+      if (!cur || stamp(x) > stamp(cur)) m.set(x.id, x);
+    });
+    return [...m.values()];
+  };
+  out.patients = newer("patients");
+  out.episodes = newer("episodes");
+  out.users = newer("users");
+
+  // Chuỗi cần lưu ý: gộp từng bước xử lý, giữ trạng thái đi xa nhất
+  const rank = { moi: 0, tiepnhan: 1, xuly: 2, dong: 3 };
+  const fm = new Map();
+  [...(server.flags || []), ...(local.flags || [])].forEach(f => {
+    const cur = fm.get(f.id);
+    if (!cur) { fm.set(f.id, clone(f)); return; }
+    const key = e => e.type + "|" + e.at + "|" + (e.by || "");
+    const seen = new Set((cur.events || []).map(key));
+    (f.events || []).forEach(e => { if (!seen.has(key(e))) cur.events.push(e); });
+    cur.events.sort((a, b) => a.at.localeCompare(b.at));
+    if ((rank[f.status] || 0) > (rank[cur.status] || 0)) cur.status = f.status;
+  });
+  out.flags = [...fm.values()];
+
+  // Cài đặt chuyên môn: bản sửa sau thắng
+  out.settings = stamp(local.settings) > stamp(server.settings)
+    ? local.settings : (server.settings || local.settings);
+
+  return out;
+}
 
 const DB = {
   data: emptyDB(),
@@ -688,6 +742,7 @@ const DB = {
     this.mode = cfg.mode === "sheet" && cfg.url ? "sheet" : "local";
     this.url = cfg.url || "";
     this.loadLocal();
+    try { this.dirty = localStorage.getItem("ltd_dirty") === "1"; } catch (e) {}
     if (this.mode === "sheet") { await this.sync(true); }
   },
   loadLocal() {
@@ -706,7 +761,12 @@ const DB = {
   save() {
     this.data.meta.rev = (this.data.meta.rev || 0) + 1;
     this.saveLocal();
-    if (this.mode === "sheet") { this.dirty = true; this.queueSync(); }
+    if (this.mode === "sheet") {
+      this.dirty = true;
+      // Ghi nhớ là còn việc chưa đẩy lên, để mất mạng rồi tắt app vẫn không mất
+      try { localStorage.setItem("ltd_dirty", "1"); } catch (e) {}
+      this.queueSync();
+    }
     render();
   },
   queueSync() {
@@ -715,9 +775,10 @@ const DB = {
   },
 
   /* --- đồng bộ Google Sheet --- */
-  async call(action, payload) {
-    if (!this.url) throw new Error("Chưa cấu hình địa chỉ máy chủ");
-    const res = await fetch(this.url, {
+  async call(action, payload, url) {
+    const target = url || this.url;
+    if (!target) throw new Error("Chưa cấu hình địa chỉ máy chủ");
+    const res = await fetch(target, {
       method: "POST", redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({ action, payload })
@@ -727,22 +788,36 @@ const DB = {
     if (!j.ok) throw new Error(j.error || "Lỗi không xác định");
     return j.data;
   },
+  /* Xem máy chủ đang có gì, không đụng tới dữ liệu trên máy */
+  async peek(url) {
+    const out = await this.call("sync", { push: null }, url);
+    return (out && out.db) || null;
+  },
+  /* Thay toàn bộ dữ liệu trên máy bằng dữ liệu cho trước */
+  adopt(db) {
+    this.data = Object.assign(emptyDB(), db);
+    this.saveLocal();
+    if (Session.user && !this.user(Session.user.id)) {
+      Session.logout(true);
+      toast("Tài khoản của bạn không có trong dữ liệu vừa nhận. Vui lòng đăng nhập lại.", "err", 7000);
+    } else if (Session.user) {
+      Session.user = this.user(Session.user.id);
+    }
+  },
   async sync(initial) {
     if (this.mode !== "sheet" || this.syncing) return;
     this.syncing = true; renderStatus();
     try {
+      const replace = this.forceReplace;
       const out = await this.call("sync", {
-        rev: this.data.meta.rev || 0,
-        push: this.dirty ? this.data : null
+        push: (this.dirty || replace) ? this.data : null,
+        replace: !!replace
       });
-      if (out && out.db) {
-        // Máy chủ là nguồn đúng: ghi đè nếu bản trên máy chủ mới hơn
-        if ((out.db.meta?.rev || 0) >= (this.data.meta.rev || 0) || initial) {
-          this.data = Object.assign(emptyDB(), out.db);
-          this.saveLocal();
-        }
-      }
-      this.dirty = false; this.online = true; this.lastSync = Date.now();
+      this.forceReplace = false;
+      if (out && out.db) this.adopt(out.db);
+      this.dirty = false;
+      try { localStorage.removeItem("ltd_dirty"); } catch (e) {}
+      this.online = true; this.lastSync = Date.now();
     } catch (e) {
       this.online = false;
       if (initial) toast("Không kết nối được máy chủ — đang dùng dữ liệu trên máy.", "err", 5000);
@@ -1328,8 +1403,13 @@ function bindLogin() {
     const id = $("#lg-id").value.trim().toLowerCase();
     const pw = $("#lg-pw").value;
     const err = $("#lg-err");
-    const u = DB.data.users.find(x => x.username.toLowerCase() === id);
-    if (!u || u.active === false || u.pw !== hashPw(pw, DB.data.meta.salt)) {
+    // Có thể tồn tại nhiều tài khoản trùng tên đăng nhập sau khi hợp nhất dữ liệu:
+    // chọn đúng tài khoản có mật khẩu khớp.
+    const hash = hashPw(pw, DB.data.meta.salt);
+    const cands = DB.data.users.filter(x =>
+      x.username.toLowerCase() === id && x.active !== false);
+    const u = cands.find(x => x.pw === hash);
+    if (!u) {
       err.hidden = false;
       err.textContent = "Tên đăng nhập hoặc mật khẩu không đúng.";
       return;
@@ -1395,7 +1475,9 @@ function viewHome() {
     <section id="overdue-sec">
       <div class="card-h"><h2>Đến hạn đánh giá</h2><span class="hint">${overdue.length} người bệnh</span></div>
       ${overdue.length ? `<div class="plist">${overdueList}</div>`
-        : `<div class="empty">Tất cả người bệnh đang trong hạn đánh giá. Tốt lắm.</div>`}
+        : rows.length ? `<div class="empty">Tất cả người bệnh đang trong hạn đánh giá. Tốt lắm.</div>`
+        : `<div class="empty">Chưa có người bệnh nào trong khoa.
+            <div style="margin-top:12px"><button class="btn sm pri" data-go="patients">Tạo hồ sơ người bệnh</button></div></div>`}
     </section>
 
     ${Session.isHead() ? `
@@ -1528,7 +1610,7 @@ function changePasswordDialog() {
       if (u.pw !== hashPw(o, DB.data.meta.salt)) { toast("Mật khẩu hiện tại không đúng", "err"); return false; }
       if (n.length < 6) { toast("Mật khẩu mới phải từ 6 ký tự", "err"); return false; }
       if (n !== n2) { toast("Hai lần nhập không khớp", "err"); return false; }
-      u.pw = hashPw(n, DB.data.meta.salt); u.mustChange = false;
+      u.pw = hashPw(n, DB.data.meta.salt); u.mustChange = false; touch(u);
       DB.log("doi-mat-khau", "Tự đổi mật khẩu");
       DB.save(); toast("Đã đổi mật khẩu", "ok");
     }}]
@@ -1584,8 +1666,11 @@ function viewPatients() {
     ${list.length ? `<div class="plist">${list.map(r => r.ep
         ? patientRow(r, { showDue: true })
         : dischargedRow(r)).join("")}</div>`
-      : `<div class="empty">${PQ.q ? "Không tìm thấy người bệnh nào khớp với từ khoá." : "Chưa có người bệnh nào trong nhóm này."}
-          ${PQ.q ? `<div style="margin-top:12px"><button class="btn sm" data-newp>Tạo hồ sơ mới cho “${esc(PQ.q)}”</button></div>` : ""}</div>`}
+      : `<div class="empty">${PQ.q ? "Không tìm thấy người bệnh nào khớp với từ khoá."
+            : DB.data.patients.length ? "Chưa có người bệnh nào trong nhóm này."
+            : "Danh sách còn trống. Bấm nút bên dưới để tạo hồ sơ người bệnh đầu tiên."}
+          <div style="margin-top:12px"><button class="btn sm pri" data-newp>
+            ${PQ.q ? `Tạo hồ sơ mới cho “${esc(PQ.q)}”` : "Tạo hồ sơ người bệnh"}</button></div></div>`}
   `;
   return {
     title: "Người bệnh", sub: `${counts.dang} đang điều trị`, html,
@@ -1659,7 +1744,8 @@ function newPatientDialog(prefill) {
         $("[data-open-dup]", b).onclick = e => { e.preventDefault(); Nav.go("patient", { id: dupName.id }); $(".modal").remove(); };
         return false;
       }
-      const p = { id: uid("p"), name, mrn, dob, sex: $("#np-sex", b).value, createdAt: new Date().toISOString(), createdBy: Session.user.id };
+      const p = touch({ id: uid("p"), name, mrn, dob, sex: $("#np-sex", b).value,
+        createdAt: new Date().toISOString(), createdBy: Session.user.id });
       DB.data.patients.push(p);
       const ep = newEpisode(p.id, $("#np-bed", b).value.trim(), $("#np-dx", b).value.trim());
       DB.log("tao-nguoi-benh", `Tạo hồ sơ ${name} (${mrn}) và nhập khoa`, "patient", p.id);
@@ -1670,8 +1756,8 @@ function newPatientDialog(prefill) {
   });
 }
 function newEpisode(patientId, bed, dx) {
-  const ep = { id: uid("e"), patientId, admittedAt: new Date().toISOString(), dischargedAt: null,
-    bed: bed || "", diagnosis: dx || "", admittedBy: Session.user.id };
+  const ep = touch({ id: uid("e"), patientId, admittedAt: new Date().toISOString(), dischargedAt: null,
+    bed: bed || "", diagnosis: dx || "", admittedBy: Session.user.id });
   DB.data.episodes.push(ep);
   return ep;
 }
@@ -1888,6 +1974,7 @@ function dischargeDialog(p, ep) {
       ep.dischargeType = $("#dc-type", b).value;
       ep.dischargeNote = $("#dc-note", b).value.trim();
       ep.dischargedBy = Session.user.id;
+      touch(ep);
       DB.data.flags.filter(f => f.episodeId === ep.id && f.status !== "dong").forEach(f => {
         f.status = "dong";
         f.events.push({ by: Session.user.id, at: new Date().toISOString(), type: "dong", text: "Đóng tự động do người bệnh xuất khoa" });
@@ -1920,6 +2007,7 @@ function editEpisodeDialog(ep) {
       <div class="field"><label for="ee-dx">Chẩn đoán chính</label><input id="ee-dx" type="text" value="${esc(ep.diagnosis || "")}"></div>`,
     actions: [{ label: "Huỷ" }, { label: "Lưu", kind: "pri", onClick: (b) => {
       ep.bed = $("#ee-bed", b).value.trim(); ep.diagnosis = $("#ee-dx", b).value.trim();
+      touch(ep);
       DB.log("sua-dot-dieu-tri", `Giường ${ep.bed}`, "episode", ep.id);
       DB.save(); toast("Đã lưu", "ok");
     }}]
@@ -3054,7 +3142,13 @@ function exportCSV(kind, m) {
 function viewAdmin() {
   if (!Session.isHead()) return { title: "Không có quyền", html: `<div class="empty">Mục này dành cho điều dưỡng trưởng.</div>` };
   const us = DB.data.users.slice().sort((a, b) => (a.role === "dd" ? 1 : 0) - (b.role === "dd" ? 1 : 0) || a.name.localeCompare(b.name, "vi"));
+  const dupNames = [...new Set(us.map(u => u.username.toLowerCase())
+    .filter((v, i, a) => a.indexOf(v) !== i))];
   const html = `
+    ${dupNames.length ? `<div class="notice warn"><svg><use href="#i-alert"/></svg>
+      <span>Có <b>${dupNames.length} tên đăng nhập bị trùng</b>: ${esc(dupNames.join(", "))}.
+      Thường gặp sau khi hợp nhất dữ liệu của hai máy đều còn tài khoản mẫu.
+      Hãy <b>khoá</b> các tài khoản thừa để tránh nhầm lẫn khi đăng nhập.</span></div>` : ""}
     <div class="notice"><svg><use href="#i-shield"/></svg>
       <span>Mỗi điều dưỡng phải có tài khoản riêng. Dùng chung tài khoản làm mất giá trị truy vết khi có sự cố.</span></div>
     <button class="btn pri block" data-newuser><svg><use href="#i-plus"/></svg>Thêm tài khoản</button>
@@ -3062,7 +3156,8 @@ function viewAdmin() {
       <thead><tr><th>Họ tên</th><th>Tên đăng nhập</th><th>Vai trò</th><th>Lượt đánh giá</th><th>Trạng thái</th><th></th></tr></thead>
       <tbody>${us.map(u => {
         const n = DB.data.assessments.filter(a => a.userId === u.id).length;
-        return `<tr><td><b>${esc(u.name)}</b></td><td class="mono">${esc(u.username)}</td>
+        const dup = dupNames.includes(u.username.toLowerCase());
+        return `<tr><td><b>${esc(u.name)}</b>${dup ? ' <span class="pill r2 sm"><span class="bullet"></span>trùng tên</span>' : ''}</td><td class="mono">${esc(u.username)}</td>
           <td>${u.role === "admin" ? "Quản trị" : u.role === "ddt" ? "Điều dưỡng trưởng" : "Điều dưỡng"}</td>
           <td class="num">${n}</td>
           <td>${u.active === false ? '<span class="pill neutral sm">Đã khoá</span>' : '<span class="pill r0 sm"><span class="bullet"></span>Đang dùng</span>'}</td>
@@ -3113,8 +3208,8 @@ function userDialog(u) {
         if (!/^[a-z0-9._-]{3,}$/.test(un)) { toast("Tên đăng nhập chỉ gồm chữ thường, số, dấu chấm", "err"); return false; }
         if (DB.data.users.some(x => x.username.toLowerCase() === un)) { toast("Tên đăng nhập đã tồn tại", "err"); return false; }
         if (pw.length < 6) { toast("Mật khẩu phải từ 6 ký tự", "err"); return false; }
-        DB.data.users.push({ id: uid("u"), name, username: un, role,
-          pw: hashPw(pw, DB.data.meta.salt), active: true, mustChange: true, createdAt: new Date().toISOString() });
+        DB.data.users.push(touch({ id: uid("u"), name, username: un, role,
+          pw: hashPw(pw, DB.data.meta.salt), active: true, mustChange: true, createdAt: new Date().toISOString() }));
         DB.log("tao-tai-khoan", `${name} (${un}) — ${role}`, "user", un);
       } else {
         u.name = name; u.role = role;
@@ -3124,6 +3219,7 @@ function userDialog(u) {
           u.pw = hashPw(pw, DB.data.meta.salt); u.mustChange = true;
           DB.log("dat-lai-mat-khau", `${u.name} (${u.username})`, "user", u.id);
         }
+        touch(u);
         DB.log("sua-tai-khoan", `${u.name} (${u.username})`, "user", u.id);
       }
       DB.save(); toast("Đã lưu", "ok");
@@ -3150,7 +3246,8 @@ function viewAudit() {
     "tao-tai-khoan": "Tạo tài khoản", "sua-tai-khoan": "Sửa tài khoản",
     "dat-lai-mat-khau": "Đặt lại mật khẩu", "doi-mat-khau": "Đổi mật khẩu",
     "sua-cai-dat": "Sửa cài đặt", "sua-dot-dieu-tri": "Sửa đợt điều trị",
-    "xoa-du-lieu-mau": "Xoá dữ liệu mẫu", "nhap-du-lieu": "Nhập dữ liệu"
+    "xoa-du-lieu-mau": "Xoá dữ liệu mẫu", "nhap-du-lieu": "Nhập dữ liệu",
+    "xoa-danh-sach-nguoi-benh": "Xoá danh sách người bệnh"
   };
   const html = `
     <div class="notice"><svg><use href="#i-info"/></svg>
@@ -3178,6 +3275,154 @@ function viewAudit() {
 /* ============================================================
    CÀI ĐẶT CHUYÊN MÔN & KẾT NỐI DỮ LIỆU
    ============================================================ */
+
+/* Xoá sạch danh sách người bệnh, giữ tài khoản và cài đặt */
+function wipePatientsDialog() {
+  const nP = DB.data.patients.length;
+  const nE = DB.data.episodes.length;
+  const nA = DB.data.assessments.length;
+  const nF = DB.data.flags.length;
+  let nPh = 0;
+  DB.data.assessments.forEach(a =>
+    [...(a.lesions || []), ...(a.mdrpi || [])].forEach(l => { nPh += (l.photos || []).length; }));
+
+  if (!nP) { toast("Danh sách người bệnh đang trống", "err"); return; }
+
+  modal({
+    title: "Xoá danh sách người bệnh",
+    body: `<div class="notice bad"><svg><use href="#i-alert"/></svg>
+        <span>Thao tác này <b>không thể hoàn tác</b>. Nếu cần giữ lại, hãy tải bản sao lưu trước.</span></div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:6px">Sẽ bị xoá</div>
+        <div class="tagrow">
+          <span class="tag">${nP} người bệnh</span>
+          <span class="tag">${nE} đợt điều trị</span>
+          <span class="tag">${nA} lượt đánh giá</span>
+          <span class="tag">${nF} lưu ý</span>
+          <span class="tag">${nPh} ảnh tổn thương</span>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:6px">Được giữ nguyên</div>
+        <div class="tagrow">
+          <span class="tag poa">${DB.data.users.length} tài khoản đăng nhập</span>
+          <span class="tag poa">Cài đặt chuyên môn và gói chăm sóc</span>
+          <span class="tag poa">Nhật ký truy vết</span>
+        </div>
+      </div>
+      <div class="field"><label for="wp-confirm">Gõ chữ <b>XOA</b> rồi bấm nút bên dưới để xác nhận</label>
+        <input id="wp-confirm" type="text" autocapitalize="characters" autocomplete="off" placeholder="XOA"></div>`,
+    actions: [{ label: "Huỷ" }, { label: "Xoá danh sách người bệnh", kind: "danger", onClick: (b) => {
+      if ($("#wp-confirm", b).value.trim().toUpperCase() !== "XOA") {
+        toast("Chưa gõ đúng chữ XOA để xác nhận", "err"); return false;
+      }
+      DB.data.assessments.forEach(a =>
+        [...(a.lesions || []), ...(a.mdrpi || [])].forEach(l =>
+          (l.photos || []).forEach(ph => Photos.del(ph.id))));
+      DB.data.patients = [];
+      DB.data.episodes = [];
+      DB.data.assessments = [];
+      DB.data.flags = [];
+      DB.data.meta.epoch = uid("ep");   // báo cho các máy khác: dữ liệu đã dựng lại
+      DB.forceReplace = true;
+      DB.log("xoa-danh-sach-nguoi-benh",
+        `Xoá ${nP} người bệnh, ${nA} lượt đánh giá, ${nPh} ảnh — giữ tài khoản và cài đặt`);
+      DB.save();
+      Nav.tab("patients");
+      toast("Đã xoá sạch danh sách người bệnh", "ok", 4000);
+    }}]
+  });
+}
+/* Nối máy này vào kho dữ liệu chung — hỏi rõ chiều nào thắng để không ghi đè nhầm */
+async function connectSheetDialog(url) {
+  toast("Đang kiểm tra máy chủ…");
+  let server = null;
+  try { server = await DB.peek(url); }
+  catch (e) {
+    modal({ title: "Không kết nối được máy chủ",
+      body: `<div class="notice bad"><svg><use href="#i-alert"/></svg><span>${esc(e.message)}</span></div>
+        <p style="font-size:13.5px;line-height:1.55">Kiểm tra lại: địa chỉ đã dán đúng chưa, và khi triển khai trên Apps Script
+        mục <b>Người có quyền truy cập</b> đã chọn <b>Bất kỳ ai</b> chưa. Sửa xong phải <b>Triển khai lại</b> và lấy địa chỉ mới.</p>` });
+    return;
+  }
+
+  const sN = server ? (server.patients || []).length : 0;
+  const sU = server ? (server.users || []).length : 0;
+  const sA = server ? (server.assessments || []).length : 0;
+  const lN = DB.data.patients.length, lU = DB.data.users.length, lA = DB.data.assessments.length;
+
+  const finish = async (mode) => {
+    CFG.write({ mode: "sheet", url });
+    DB.mode = "sheet"; DB.url = url;
+    if (mode === "pull") {
+      DB.adopt(server); DB.dirty = false;
+      try { localStorage.removeItem("ltd_dirty"); } catch (e) {}
+      toast("Đã lấy dữ liệu chung về máy này", "ok", 4000);
+    } else {
+      DB.dirty = true;
+      DB.forceReplace = (mode === "replace");
+      await DB.sync();
+      toast(mode === "replace" ? "Đã đưa dữ liệu máy này lên làm dữ liệu gốc" : "Đã nối và hợp nhất dữ liệu", "ok", 4000);
+    }
+    render();
+  };
+
+  if (!server || (!sN && !sU)) {
+    modal({
+      title: "Nối vào kho dữ liệu chung",
+      body: `<div class="notice"><svg><use href="#i-check"/></svg>
+          <span>Kết nối tốt. Kho dữ liệu chung đang <b>trống</b>.</span></div>
+        <p style="font-size:14px;line-height:1.55">Dữ liệu trên máy này
+        (<b>${lU} tài khoản</b>, <b>${lN} người bệnh</b>, <b>${lA} lượt đánh giá</b>)
+        sẽ được đưa lên làm dữ liệu gốc của khoa. Các máy khác sau đó chỉ cần nối vào là thấy.</p>`,
+      actions: [{ label: "Huỷ" }, { label: "Đưa dữ liệu máy này lên", kind: "pri",
+        onClick: () => { finish("replace"); } }]
+    });
+    return;
+  }
+
+  modal({
+    title: "Kho dữ liệu chung đã có dữ liệu",
+    body: `<div class="notice warn"><svg><use href="#i-alert"/></svg>
+        <span>Chọn đúng hướng, vì chọn sai có thể ghi đè mất dữ liệu của máy khác.</span></div>
+      <div class="tablewrap"><table style="min-width:0">
+        <thead><tr><th></th><th>Máy chủ chung</th><th>Máy này</th></tr></thead>
+        <tbody>
+          <tr><td>Tài khoản</td><td class="num">${sU}</td><td class="num">${lU}</td></tr>
+          <tr><td>Người bệnh</td><td class="num">${sN}</td><td class="num">${lN}</td></tr>
+          <tr><td>Lượt đánh giá</td><td class="num">${sA}</td><td class="num">${lA}</td></tr>
+        </tbody></table></div>
+      <div class="qopts" style="padding:0">
+        <button class="opt" type="button" id="cs-pull" aria-pressed="true">
+          <span class="mark"><svg><use href="#i-check"/></svg></span>
+          <span class="txt"><b>Lấy dữ liệu chung về máy này</b><br>
+            <span style="font-size:12.5px;color:var(--ink-3)">Dữ liệu hiện có trên máy này bị thay thế.
+            Chọn cách này cho mọi máy nối vào sau máy đầu tiên.</span></span></button>
+        <button class="opt" type="button" id="cs-merge" aria-pressed="false">
+          <span class="mark"><svg><use href="#i-check"/></svg></span>
+          <span class="txt"><b>Hợp nhất hai bên</b><br>
+            <span style="font-size:12.5px;color:var(--ink-3)">Giữ cả hai: phiếu đánh giá của bên nào cũng còn,
+            hồ sơ trùng thì lấy bản sửa sau. Chọn khi máy này có dữ liệu chưa kịp đẩy lên.</span></span></button>
+        <button class="opt" type="button" id="cs-replace" aria-pressed="false">
+          <span class="mark"><svg><use href="#i-check"/></svg></span>
+          <span class="txt"><b>Ghi đè máy chủ bằng dữ liệu máy này</b><br>
+            <span style="font-size:12.5px;color:var(--r3-ink)">Xoá sạch dữ liệu chung, thay bằng dữ liệu máy này.
+            Chỉ dùng khi bạn chắc chắn máy chủ đang chứa dữ liệu bỏ đi.</span></span></button>
+      </div>`,
+    actions: [{ label: "Huỷ" }, { label: "Thực hiện", kind: "pri", onClick: (b) => {
+      const sel = ["pull", "merge", "replace"].find(k =>
+        $("#cs-" + k, b).getAttribute("aria-pressed") === "true");
+      finish(sel || "pull");
+    }}]
+  });
+  const bd = $(".modal .sb");
+  ["pull", "merge", "replace"].forEach(k => {
+    $("#cs-" + k, bd).onclick = () =>
+      ["pull", "merge", "replace"].forEach(x =>
+        $("#cs-" + x, bd).setAttribute("aria-pressed", x === k));
+  });
+}
+
 function viewSettings() {
   if (!Session.isHead()) return { title: "Không có quyền", html: `<div class="empty">Mục này dành cho điều dưỡng trưởng.</div>` };
   const s = DB.data.settings || DEFAULT_SETTINGS();
@@ -3275,12 +3520,19 @@ function viewSettings() {
       <div class="btnrow">
         <button class="btn" data-backup><svg><use href="#i-dl"/></svg>Tải bản sao lưu</button>
         <button class="btn" data-restore>Phục hồi từ bản sao lưu</button>
-        ${DB.data.patients.some(p => p.demo) ? `<button class="btn" data-reseed>Tạo lại dữ liệu mẫu theo hôm nay</button>
-        <button class="btn danger" data-wipedemo>Xoá toàn bộ dữ liệu mẫu</button>` : ""}
+        ${DB.data.patients.some(p => p.demo) ? `<button class="btn" data-reseed>Tạo lại dữ liệu mẫu theo hôm nay</button>` : ""}
       </div>
-      <p style="font-size:12px;color:var(--ink-3);margin-top:10px;line-height:1.55">
-        Bản sao lưu không kèm ảnh — ảnh nằm trong bộ nhớ riêng của từng máy.
-        Khi bàn giao ứng dụng cho khoa, hãy xoá dữ liệu mẫu trước.</p>
+      <hr class="divider">
+      <div class="eyebrow" style="margin-bottom:8px">Dọn dữ liệu</div>
+      <div class="btnrow">
+        <button class="btn danger" data-wipepatients>Xoá danh sách người bệnh</button>
+        ${DB.data.users.some(u => u.demo) ? `<button class="btn danger" data-wipedemo>Xoá toàn bộ dữ liệu mẫu</button>` : ""}
+      </div>
+      <p style="font-size:12px;color:var(--ink-3);margin-top:10px;line-height:1.6">
+        <b>Xoá danh sách người bệnh</b> — xoá hết người bệnh, lượt đánh giá, lưu ý và ảnh,
+        nhưng <b>giữ nguyên tài khoản đăng nhập và cài đặt chuyên môn</b>. Dùng khi muốn bắt đầu với danh sách trắng.<br>
+        <b>Xoá toàn bộ dữ liệu mẫu</b> — xoá thêm cả các tài khoản trình diễn. Dùng khi bàn giao hẳn cho khoa.<br>
+        Bản sao lưu không kèm ảnh; ảnh nằm trong bộ nhớ riêng của từng máy.</p>
     </section>`;
 
   return {
@@ -3303,7 +3555,7 @@ function viewSettings() {
         $$("[data-sw]").forEach(b => { ns[b.dataset.sw] = b.getAttribute("aria-pressed") === "true"; });
         ns.bundles = LEVELS.map((L, i) => ({ level: i,
           items: $("#s-b" + i).value.split("\n").map(x => x.trim()).filter(Boolean) }));
-        DB.data.settings = ns;
+        DB.data.settings = touch(ns);
         DB.log("sua-cai-dat", "Cập nhật cài đặt chuyên môn");
         DB.save(); toast("Đã lưu cài đặt", "ok");
       };
@@ -3331,13 +3583,7 @@ function viewSettings() {
         if (m === "sheet") {
           const url = $("#s-url").value.trim();
           if (!url) { toast("Chưa nhập địa chỉ máy chủ", "err"); return; }
-          confirmBox("Chuyển sang Google Sheet",
-            "Dữ liệu hiện có trên máy sẽ được đẩy lên Google Sheet trong lần đồng bộ đầu tiên. Tiếp tục?",
-            "Chuyển", async () => {
-              CFG.write({ mode: "sheet", url });
-              DB.mode = "sheet"; DB.url = url; DB.dirty = true;
-              await DB.sync(); toast("Đã chuyển sang chế độ dùng chung", "ok"); render();
-            });
+          connectSheetDialog(url);
         } else {
           CFG.write({ mode: "local", url: $("#s-url").value.trim() });
           DB.mode = "local"; toast("Đã chuyển về lưu trên máy này", "ok"); render();
@@ -3366,6 +3612,8 @@ function viewSettings() {
                  Toàn bộ dữ liệu hiện tại trên máy sẽ bị thay thế. Tiếp tục?`,
                 "Phục hồi", () => {
                   DB.data = Object.assign(emptyDB(), d);
+                  DB.data.meta.epoch = uid("ep");
+                  DB.forceReplace = true;
                   DB.log("nhap-du-lieu", "Phục hồi từ bản sao lưu");
                   DB.save(); toast("Đã phục hồi dữ liệu", "ok");
                 }, true);
@@ -3375,6 +3623,9 @@ function viewSettings() {
         };
         inp.click();
       };
+      const wp = $("[data-wipepatients]");
+      if (wp) wp.onclick = wipePatientsDialog;
+
       const rs = $("[data-reseed]");
       if (rs) rs.onclick = () => confirmBox("Tạo lại dữ liệu mẫu",
         "Dựng lại toàn bộ dữ liệu trình diễn tính theo ngày hôm nay, để các mốc thời gian và hạn đánh giá luôn hợp lý khi bạn trình bày. Dữ liệu mẫu hiện tại sẽ bị thay thế.",
@@ -3383,7 +3634,9 @@ function viewSettings() {
           await Photos.clearAll();
           await seedDemo();
           keep.forEach(u => DB.data.users.push(u));
+          DB.forceReplace = true;
           DB.saveLocal();
+          if (DB.mode === "sheet") DB.sync();
           Session.logout(true);
           toast("Đã tạo lại dữ liệu mẫu — đăng nhập lại để xem", "ok", 5000);
         });
@@ -3400,6 +3653,8 @@ function viewSettings() {
           DB.data.assessments = DB.data.assessments.filter(a => !demoP.has(a.patientId));
           DB.data.flags = DB.data.flags.filter(f => !demoP.has(f.patientId));
           DB.data.users = DB.data.users.filter(u => !u.demo || u.id === Session.user.id);
+          DB.data.meta.epoch = uid("ep");
+          DB.forceReplace = true;
           DB.log("xoa-du-lieu-mau", "Đã xoá toàn bộ dữ liệu trình diễn");
           DB.save(); toast("Đã xoá dữ liệu mẫu", "ok");
         }, true);
