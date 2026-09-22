@@ -739,6 +739,21 @@ const DB = {
   /* --- nạp --- */
   async boot() {
     const cfg = CFG.read();
+    // Link mời dạng  .../#s=<địa chỉ máy chủ>  — máy mới mở link là tự nối đúng,
+    // lấy dữ liệu chung về, không tạo dữ liệu mẫu.
+    let invited = null;
+    try {
+      const m = String(location.hash || "").match(/[#&]s=([^&]+)/);
+      if (m) invited = decodeURIComponent(m[1]);
+    } catch (e) {}
+    if (invited && /^https?:\/\//.test(invited) && !cfg.url) {
+      CFG.write({ mode: "sheet", url: invited });
+      cfg.mode = "sheet"; cfg.url = invited;
+      this.invitedFresh = true;
+    }
+    if (invited) {
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    }
     this.mode = cfg.mode === "sheet" && cfg.url ? "sheet" : "local";
     this.url = cfg.url || "";
     this.loadLocal();
@@ -3513,6 +3528,20 @@ function viewSettings() {
         ${DB.mode === "sheet" ? `<button class="btn" data-syncnow>Đồng bộ ngay</button>` : ""}
       </div>
       <p id="s-urlmsg" style="font-size:12.5px;margin-top:8px"></p>
+
+      ${DB.mode === "sheet" && cfg.url ? `
+      <hr class="divider">
+      <div class="eyebrow" style="margin-bottom:6px">Link cài đặt cho điều dưỡng</div>
+      <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:8px;line-height:1.55">
+        Gửi link này cho từng điều dưỡng qua Zalo. Mở link một lần là máy đó <b>tự nối vào kho dữ liệu chung</b>,
+        không tạo dữ liệu mẫu, không phải dán địa chỉ máy chủ bằng tay.</p>
+      <div class="field">
+        <input id="s-invite" type="text" class="mono" style="font-size:12px" readonly
+          value="${esc(location.origin + location.pathname + "#s=" + encodeURIComponent(cfg.url))}">
+      </div>
+      <div class="btnrow" style="margin-top:8px">
+        <button class="btn" data-copyinvite>Sao chép link</button>
+      </div>` : ""}
     </section>
 
     <section class="card">
@@ -3590,6 +3619,17 @@ function viewSettings() {
         }
       });
       const sn = $("[data-syncnow]"); if (sn) sn.onclick = () => DB.sync();
+      const ci = $("[data-copyinvite]");
+      if (ci) ci.onclick = async () => {
+        const inp = $("#s-invite");
+        try {
+          await navigator.clipboard.writeText(inp.value);
+          toast("Đã sao chép link. Dán vào Zalo gửi cho điều dưỡng.", "ok", 5000);
+        } catch (e) {
+          inp.focus(); inp.select(); inp.setSelectionRange(0, 99999);
+          toast("Link đã được bôi đen — nhấn Cmd+C hoặc nhấn giữ để sao chép", "err", 6000);
+        }
+      };
 
       $("[data-backup]").onclick = () => {
         const d = clone(DB.data);
@@ -4005,7 +4045,7 @@ function placeholderPhoto(mrn, date, seq) {
 
   await DB.boot();
 
-  if (!DB.data.users.length) {
+  if (!DB.data.users.length && !DB.invitedFresh) {
     try { await seedDemo(); }
     catch (e) { console.error("Không tạo được dữ liệu mẫu", e); DB.data.settings = DEFAULT_SETTINGS(); }
   }
@@ -4013,6 +4053,14 @@ function placeholderPhoto(mrn, date, seq) {
 
   Session.restore();
   render();
+
+  if (DB.invitedFresh) {
+    if (DB.data.users.length) {
+      toast("Đã nối vào kho dữ liệu chung của khoa. Đăng nhập bằng tài khoản của bạn.", "ok", 7000);
+    } else {
+      toast("Chưa lấy được dữ liệu từ máy chủ. Kiểm tra mạng rồi mở lại ứng dụng.", "err", 8000);
+    }
+  }
 
   // Làm mới định kỳ để cập nhật hạn đánh giá và đồng bộ
   setInterval(() => {
