@@ -739,20 +739,27 @@ const DB = {
   /* --- nạp --- */
   async boot() {
     const cfg = CFG.read();
-    // Link mời dạng  .../#s=<địa chỉ máy chủ>  — máy mới mở link là tự nối đúng,
-    // lấy dữ liệu chung về, không tạo dữ liệu mẫu.
+    // Link mời:  .../?s=<địa chỉ máy chủ>  (chấp nhận cả dạng #s= của bản cũ).
+    // Máy chưa cài gì thì tự nối luôn; máy đã cài rồi thì hỏi lại trước khi đổi.
     let invited = null;
     try {
-      const m = String(location.hash || "").match(/[#&]s=([^&]+)/);
+      const m = (String(location.search || "") + String(location.hash || ""))
+        .match(/[?#&]s=([^&#]+)/);
       if (m) invited = decodeURIComponent(m[1]);
     } catch (e) {}
-    if (invited && /^https?:\/\//.test(invited) && !cfg.url) {
+    if (invited && !/^https?:\/\//.test(invited)) invited = null;
+
+    if (invited && !cfg.url) {
       CFG.write({ mode: "sheet", url: invited });
       cfg.mode = "sheet"; cfg.url = invited;
       this.invitedFresh = true;
+    } else if (invited && cfg.url && cfg.url !== invited) {
+      this.invitePending = invited;      // hỏi lại sau khi giao diện đã lên
+    } else if (invited) {
+      this.inviteSame = true;            // đã nối đúng kho này rồi
     }
     if (invited) {
-      try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+      try { history.replaceState(null, "", location.pathname); } catch (e) {}
     }
     this.mode = cfg.mode === "sheet" && cfg.url ? "sheet" : "local";
     this.url = cfg.url || "";
@@ -1319,6 +1326,8 @@ const NAV_ITEMS = () => {
 
 function render() {
   const app = $("#app"); if (!app) return;
+  // Máy chưa có dữ liệu: hỏi rõ muốn nối vào kho của khoa hay chỉ dùng thử
+  if (!DB.data.users.length) { app.innerHTML = viewFirstRun(); bindFirstRun(); return; }
   if (!Session.user) { app.innerHTML = viewLogin(); bindLogin(); return; }
   const v = Nav.cur;
   const inner = ({
@@ -1384,6 +1393,75 @@ function toggleTheme() {
     : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
   document.documentElement.setAttribute("data-theme", next);
   try { localStorage.setItem("ltd_theme", next); } catch (e) {}
+}
+
+/* ============================================================
+   THIẾT LẬP LẦN ĐẦU — máy chưa có dữ liệu
+   ============================================================ */
+function viewFirstRun() {
+  const pre = DB.invitePending || CFG.read().url || "";
+  return `<div class="login"><div class="loginbox">
+    <div class="brand">
+      <span class="glyph"><svg><use href="#i-shield"/></svg></span>
+      <h1>Thiết lập lần đầu</h1>
+      <p>Máy này chưa có dữ liệu. Chọn một trong hai cách bên dưới.</p>
+    </div>
+
+    <form id="fr-form" autocomplete="off">
+      <div class="eyebrow">Dùng thật tại khoa</div>
+      <div class="field"><label for="fr-url">Địa chỉ kho dữ liệu của khoa</label>
+        <input id="fr-url" type="text" class="mono" style="font-size:12.5px"
+          value="${esc(pre)}" placeholder="https://script.google.com/macros/s/..../exec">
+        <span class="help">Điều dưỡng trưởng gửi địa chỉ này. Dán vào rồi bấm nút bên dưới.</span></div>
+      <button class="btn pri block" type="submit">Nối vào kho dữ liệu của khoa</button>
+      <p id="fr-msg" style="font-size:13px;text-align:center" hidden></p>
+    </form>
+
+    <div class="card" style="padding:14px">
+      <div class="eyebrow" style="margin-bottom:6px">Chỉ xem thử</div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.5;margin-bottom:10px">
+        Tạo sẵn người bệnh hư cấu để xem ứng dụng hoạt động thế nào.
+        <b>Không dùng cho người bệnh thật.</b></p>
+      <button class="btn block" id="fr-demo">Dùng thử với dữ liệu mẫu</button>
+    </div>
+  </div></div>`;
+}
+
+function bindFirstRun() {
+  const f = $("#fr-form"), msg = $("#fr-msg");
+  f.onsubmit = async e => {
+    e.preventDefault();
+    const url = $("#fr-url").value.trim();
+    msg.hidden = false; msg.style.color = "var(--ink-3)";
+    if (!/^https?:\/\//.test(url)) {
+      msg.textContent = "Địa chỉ phải bắt đầu bằng https://"; msg.style.color = "var(--bad)"; return;
+    }
+    msg.textContent = "Đang kết nối…";
+    try {
+      const server = await DB.peek(url);
+      if (!server || !(server.users || []).length) {
+        msg.textContent = "Kho dữ liệu này đang trống. Hỏi lại điều dưỡng trưởng.";
+        msg.style.color = "var(--bad)"; return;
+      }
+      CFG.write({ mode: "sheet", url });
+      DB.mode = "sheet"; DB.url = url;
+      DB.adopt(server); DB.dirty = false;
+      try { localStorage.removeItem("ltd_dirty"); } catch (e) {}
+      toast("Đã nối vào kho dữ liệu của khoa. Đăng nhập bằng tài khoản của bạn.", "ok", 7000);
+      render();
+    } catch (err) {
+      msg.innerHTML = "Không kết nối được. Kiểm tra mạng và xem đã dán <b>trọn vẹn</b> địa chỉ chưa (phải kết thúc bằng <code>/exec</code>).";
+      msg.style.color = "var(--bad)";
+    }
+  };
+  $("#fr-demo").onclick = () => confirmBox("Dùng thử với dữ liệu mẫu",
+    "Ứng dụng sẽ tạo người bệnh hư cấu để bạn xem thử. Dữ liệu này chỉ nằm trên máy này và không liên quan tới người bệnh thật.",
+    "Tạo dữ liệu mẫu", async () => {
+      toast("Đang tạo dữ liệu mẫu…");
+      await seedDemo();
+      toast("Xong. Đăng nhập bằng ddt.chau hoặc dd.an, mật khẩu 123456", "ok", 7000);
+      render();
+    });
 }
 
 /* ============================================================
@@ -3228,6 +3306,7 @@ function userDialog(u) {
         DB.log("tao-tai-khoan", `${name} (${un}) — ${role}`, "user", un);
       } else {
         u.name = name; u.role = role;
+        delete u.demo;   // đã sửa tay thì không còn là tài khoản mẫu nữa
         u.active = $("#u-on", b).getAttribute("aria-pressed") === "true";
         if (pw) {
           if (pw.length < 6) { toast("Mật khẩu phải từ 6 ký tự", "err"); return false; }
@@ -3534,10 +3613,12 @@ function viewSettings() {
       <div class="eyebrow" style="margin-bottom:6px">Link cài đặt cho điều dưỡng</div>
       <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:8px;line-height:1.55">
         Gửi link này cho từng điều dưỡng qua Zalo. Mở link một lần là máy đó <b>tự nối vào kho dữ liệu chung</b>,
-        không tạo dữ liệu mẫu, không phải dán địa chỉ máy chủ bằng tay.</p>
+        không tạo dữ liệu mẫu, không phải dán địa chỉ máy chủ bằng tay.<br>
+        Nhắc người nhận: bấm link rồi chọn <b>Mở bằng Safari</b> (hoặc Chrome), đừng xem trong Zalo.
+        Nhớ sao chép <b>trọn vẹn</b> đường link, kể cả phần sau dấu hỏi.</p>
       <div class="field">
         <input id="s-invite" type="text" class="mono" style="font-size:12px" readonly
-          value="${esc(location.origin + location.pathname + "#s=" + encodeURIComponent(cfg.url))}">
+          value="${esc(location.origin + location.pathname + "?s=" + encodeURIComponent(cfg.url))}">
       </div>
       <div class="btnrow" style="margin-top:8px">
         <button class="btn" data-copyinvite>Sao chép link</button>
@@ -3549,7 +3630,7 @@ function viewSettings() {
       <div class="btnrow">
         <button class="btn" data-backup><svg><use href="#i-dl"/></svg>Tải bản sao lưu</button>
         <button class="btn" data-restore>Phục hồi từ bản sao lưu</button>
-        ${DB.data.patients.some(p => p.demo) ? `<button class="btn" data-reseed>Tạo lại dữ liệu mẫu theo hôm nay</button>` : ""}
+        ${DB.data.patients.some(p => p.demo) && DB.mode !== "sheet" ? `<button class="btn" data-reseed>Tạo lại dữ liệu mẫu theo hôm nay</button>` : ""}
       </div>
       <hr class="divider">
       <div class="eyebrow" style="margin-bottom:8px">Dọn dữ liệu</div>
@@ -4045,10 +4126,8 @@ function placeholderPhoto(mrn, date, seq) {
 
   await DB.boot();
 
-  if (!DB.data.users.length && !DB.invitedFresh) {
-    try { await seedDemo(); }
-    catch (e) { console.error("Không tạo được dữ liệu mẫu", e); DB.data.settings = DEFAULT_SETTINGS(); }
-  }
+  // Không tự tạo dữ liệu mẫu nữa: máy trắng sẽ hiện màn hình Thiết lập lần đầu,
+  // để người dùng chọn rõ là nối vào kho của khoa hay chỉ xem thử.
   if (!DB.data.settings) { DB.data.settings = DEFAULT_SETTINGS(); DB.saveLocal(); }
 
   Session.restore();
@@ -4060,6 +4139,29 @@ function placeholderPhoto(mrn, date, seq) {
     } else {
       toast("Chưa lấy được dữ liệu từ máy chủ. Kiểm tra mạng rồi mở lại ứng dụng.", "err", 8000);
     }
+  } else if (DB.inviteSame) {
+    toast("Máy này đã nối đúng kho dữ liệu của khoa rồi.", "ok", 5000);
+  } else if (DB.invitePending) {
+    const url = DB.invitePending; DB.invitePending = null;
+    modal({
+      title: "Nối máy này vào kho dữ liệu của khoa",
+      body: `<div class="notice"><svg><use href="#i-info"/></svg>
+          <span>Bạn vừa mở một <b>link mời</b>. Máy này đang dùng một kho dữ liệu khác.</span></div>
+        <p style="font-size:14px;line-height:1.55">Chọn <b>Lấy dữ liệu của khoa về</b> nếu đây là điện thoại
+        sẽ dùng để làm việc tại khoa. Dữ liệu hiện có trên máy này (kể cả dữ liệu mẫu) sẽ bị thay thế.</p>`,
+      actions: [{ label: "Để nguyên" }, { label: "Lấy dữ liệu của khoa về", kind: "pri", onClick: async () => {
+        try {
+          const server = await DB.peek(url);
+          if (!server) { toast("Máy chủ chưa có dữ liệu", "err", 5000); return; }
+          CFG.write({ mode: "sheet", url });
+          DB.mode = "sheet"; DB.url = url;
+          DB.adopt(server); DB.dirty = false;
+          try { localStorage.removeItem("ltd_dirty"); } catch (e) {}
+          toast("Đã nối vào kho dữ liệu của khoa. Đăng nhập bằng tài khoản của bạn.", "ok", 7000);
+          render();
+        } catch (e) { toast("Không kết nối được máy chủ: " + e.message, "err", 7000); }
+      }}]
+    });
   }
 
   // Làm mới định kỳ để cập nhật hạn đánh giá và đồng bộ
