@@ -1324,10 +1324,12 @@ const NAV_ITEMS = () => {
   return base;
 };
 
+let SHOW_SETUP = false;   // bật khi người dùng chủ động mở lại màn hình Thiết lập
+
 function render() {
   const app = $("#app"); if (!app) return;
   // Máy chưa có dữ liệu: hỏi rõ muốn nối vào kho của khoa hay chỉ dùng thử
-  if (!DB.data.users.length) { app.innerHTML = viewFirstRun(); bindFirstRun(); return; }
+  if (!DB.data.users.length || SHOW_SETUP) { app.innerHTML = viewFirstRun(); bindFirstRun(); return; }
   if (!Session.user) { app.innerHTML = viewLogin(); bindLogin(); return; }
   const v = Nav.cur;
   const inner = ({
@@ -1404,7 +1406,9 @@ function viewFirstRun() {
     <div class="brand">
       <span class="glyph"><svg><use href="#i-shield"/></svg></span>
       <h1>Thiết lập lần đầu</h1>
-      <p>Máy này chưa có dữ liệu. Chọn một trong hai cách bên dưới.</p>
+      <p>${DB.data.users.length
+        ? "Nối máy này vào kho dữ liệu chung của khoa. Dữ liệu mẫu hiện có sẽ bị thay thế."
+        : "Máy này chưa có dữ liệu. Chọn một trong hai cách bên dưới."}</p>
     </div>
 
     <form id="fr-form" autocomplete="off">
@@ -1417,7 +1421,9 @@ function viewFirstRun() {
       <p id="fr-msg" style="font-size:13px;text-align:center" hidden></p>
     </form>
 
-    <div class="card" style="padding:14px">
+    ${DB.data.users.length ? `<button class="btn block" id="fr-back">Quay lại</button>` : ""}
+
+    <div class="card" style="padding:14px" ${DB.data.users.length ? "hidden" : ""}>
       <div class="eyebrow" style="margin-bottom:6px">Chỉ xem thử</div>
       <p style="font-size:13px;color:var(--ink-2);line-height:1.5;margin-bottom:10px">
         Tạo sẵn người bệnh hư cấu để xem ứng dụng hoạt động thế nào.
@@ -1447,6 +1453,7 @@ function bindFirstRun() {
       DB.mode = "sheet"; DB.url = url;
       DB.adopt(server); DB.dirty = false;
       try { localStorage.removeItem("ltd_dirty"); } catch (e) {}
+      SHOW_SETUP = false;
       toast("Đã nối vào kho dữ liệu của khoa. Đăng nhập bằng tài khoản của bạn.", "ok", 7000);
       render();
     } catch (err) {
@@ -1454,7 +1461,11 @@ function bindFirstRun() {
       msg.style.color = "var(--bad)";
     }
   };
-  $("#fr-demo").onclick = () => confirmBox("Dùng thử với dữ liệu mẫu",
+  const back = $("#fr-back");
+  if (back) back.onclick = () => { SHOW_SETUP = false; render(); };
+  const demoBtn = $("#fr-demo");
+  if (!demoBtn) return;
+  demoBtn.onclick = () => confirmBox("Dùng thử với dữ liệu mẫu",
     "Ứng dụng sẽ tạo người bệnh hư cấu để bạn xem thử. Dữ liệu này chỉ nằm trên máy này và không liên quan tới người bệnh thật.",
     "Tạo dữ liệu mẫu", async () => {
       toast("Đang tạo dữ liệu mẫu…");
@@ -1486,7 +1497,11 @@ function viewLogin() {
       <button class="btn pri block" type="submit">Đăng nhập</button>
       <p id="lg-err" style="color:var(--bad);font-size:13px;text-align:center" hidden></p>
     </form>
-    ${demo ? `<p class="hintbox">Tài khoản dùng thử: <code>dd.an</code> / <code>dd.binh</code> / <code>ddt.chau</code> · mật khẩu <code>123456</code></p>` : ""}
+    ${demo ? `<div class="card" style="padding:13px">
+      <p class="hintbox" style="margin-bottom:10px">Máy này đang chạy <b>dữ liệu mẫu</b>.
+        Tài khoản dùng thử: <code>dd.an</code> · <code>ddt.chau</code> — mật khẩu <code>123456</code></p>
+      <button class="btn block" id="lg-setup">Nối vào kho dữ liệu của khoa</button>
+    </div>` : ""}
   </div></div>`;
 }
 function bindLogin() {
@@ -1510,6 +1525,8 @@ function bindLogin() {
     Session.login(u);
     toast("Xin chào " + u.name, "ok");
   };
+  const su = $("#lg-setup");
+  if (su) su.onclick = () => { SHOW_SETUP = true; render(); };
 }
 
 /* ============================================================
