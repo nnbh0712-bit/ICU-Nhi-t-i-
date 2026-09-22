@@ -1,0 +1,19 @@
+{
+  "name": "Đánh giá loét tì đè — Khoa Hồi sức tích cực",
+  "short_name": "Loét tì đè",
+  "description": "Đánh giá nguy cơ loét tì đè theo thang Waterlow, theo dõi gói chăm sóc và chuỗi cảnh báo có truy vết.",
+  "lang": "vi",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f2f6f5",
+  "theme_color": "#0d7a76",
+  "categories": ["medical", "health", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
