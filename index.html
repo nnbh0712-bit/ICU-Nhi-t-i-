@@ -442,6 +442,191 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 @media(min-width:1180px){
   .split{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:start}
 }
+
+/* ============================================================
+   BẢN THỬ — xoay trở, liền thương, giao ban
+   ============================================================ */
+.thubanner{position:sticky;top:0;z-index:40;background:var(--r1-bg);color:var(--r1-ink);
+  border-bottom:1px solid var(--r1);padding:7px 14px;font-size:12.5px;font-weight:600;
+  text-align:center;line-height:1.4}
+.thubanner b{font-weight:700}
+
+.bigtap{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  padding:15px 16px;border-radius:var(--r-md);border:0;background:var(--accent);color:var(--accent-ink);
+  font-size:15.5px;font-weight:600;box-shadow:var(--shadow)}
+.bigtap:hover{background:var(--accent-2)}
+.bigtap svg{width:21px;height:21px}
+.bigtap.warnb{background:var(--r2);color:#fff}
+
+.turnhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.turnhead .now{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.turnhead .when{font-size:12.5px;color:var(--ink-3)}
+.turnhead .when.bad{color:var(--r2-ink);font-weight:600}
+
+.turnstrip{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;-webkit-overflow-scrolling:touch}
+.turnchip{flex:none;min-width:72px;border:1px solid var(--line);border-radius:10px;background:var(--card-2);
+  padding:7px 9px;text-align:center}
+.turnchip .h{font-family:var(--mono);font-size:12.5px;font-weight:600}
+.turnchip .p{font-size:11.5px;color:var(--ink-2);margin-top:2px;line-height:1.3}
+.turnchip .w{font-size:10.5px;color:var(--ink-3);margin-top:2px}
+.turnchip.gap{min-width:34px;display:grid;place-items:center;background:none;border-style:dashed;
+  color:var(--ink-3);font-size:11px}
+/* trạng thái từng cữ */
+.turnchip.s-done{border-color:var(--r0);background:var(--r0-bg)}
+.turnchip.s-done .h{color:var(--r0-ink)}
+.turnchip.s-late{border-color:var(--r1);background:var(--r1-bg)}
+.turnchip.s-late .h{color:var(--r1-ink)}
+.turnchip.s-miss{border-color:var(--r3);background:var(--r3-bg)}
+.turnchip.s-miss .h,.turnchip.s-miss .w{color:var(--r3-ink);font-weight:600}
+.turnchip.s-skip{border-color:var(--line-2);background:var(--card);border-style:dashed}
+.turnchip.s-now{border-color:var(--accent);background:var(--accent-soft);border-width:2px}
+.turnchip.s-now .h{color:var(--accent)}
+.turnchip.s-future{opacity:.5;border-style:dashed;background:none}
+
+.turnlog{display:flex;flex-direction:column;gap:0}
+.turnlog .row{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.turnlog .row:last-child{border-bottom:0}
+.turnlog .row .t{font-family:var(--mono);font-size:13px;font-weight:600;min-width:46px}
+.turnlog .row .d{flex:1;min-width:0;font-size:13.5px}
+.turnlog .row .m{font-size:12px;color:var(--ink-3);margin-top:2px}
+.turnlog .row .gaptag{font-size:11px;font-family:var(--mono);color:var(--ink-3);align-self:center}
+.turnlog .row .gaptag.bad{color:var(--r2-ink);font-weight:600}
+
+.lesion.healed{opacity:.9;border-color:var(--r0)}
+.lshist{margin-top:4px;border-top:1px dashed var(--line);padding-top:8px}
+.lsrow{display:flex;gap:9px;align-items:flex-start;padding:5px 0}
+.lsrow .tag{flex:none;margin-top:1px}
+.lsrow .lsnote{font-size:13px;line-height:1.45;color:var(--ink)}
+.lsrow .who{display:block;font-size:11.5px;color:var(--ink-3);font-family:var(--mono);margin-top:2px}
+.tag.healed{background:var(--r0-bg);color:var(--r0-ink);border-color:var(--r0)}
+.tag.watch{background:var(--r1-bg);color:var(--r1-ink);border-color:var(--r1)}
+
+.hoshift{display:flex;gap:6px;flex-wrap:wrap}
+.hoshift button{padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  font-size:13px;font-weight:500}
+.hoshift button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
+  color:var(--accent-ink);font-weight:600}
+
+.hocase{border:1px solid var(--line);border-left-width:4px;border-radius:var(--r-md);padding:11px 13px;
+  background:var(--card);margin-bottom:9px}
+.hocase.r3{border-left-color:var(--r3)} .hocase.r2{border-left-color:var(--r2)}
+.hocase.r1{border-left-color:var(--r1)} .hocase.r0{border-left-color:var(--r0)}
+.hocase .hn{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap}
+.hocase .hn b{font-size:15px}
+.hocase .hn .bed{font-family:var(--mono);font-size:12px;background:var(--card-2);border:1px solid var(--line);
+  border-radius:6px;padding:1px 6px}
+.hocase ul{margin:7px 0 0;padding-left:17px;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.hocase ul li::marker{color:var(--ink-3)}
+.hocase .todo{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:13px}
+.hocase .todo b{color:var(--r2-ink)}
+/* Thanh lọc + sắp xếp danh sách người bệnh */
+.listbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.listbar .btnrow{flex:1;min-width:0}
+.sortsel{display:flex;align-items:center;gap:7px;flex:none}
+.sortsel>span{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.sortsel select{width:auto;min-width:172px;padding:7px 10px;font-size:13px}
+.sorthint{font-size:12px;color:var(--ink-3);margin-top:-6px;line-height:1.45}
+.viewtog{display:flex;flex:none;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--card)}
+.viewtog button{border:0;background:none;padding:7px 14px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.viewtog button + button{border-left:1px solid var(--line)}
+.viewtog button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.ptable{min-width:860px}
+.ptable thead th{line-height:1.25;padding:9px 9px}
+.ptable td{padding:9px 9px}
+.ptable th,.ptable td{white-space:nowrap}
+.ptable td:first-child{white-space:normal;min-width:150px}
+.ptable tbody tr:hover{background:var(--accent-soft)}
+.ptable tbody tr.out{color:var(--ink-3)}
+.ptable tbody tr.out b{font-weight:500}
+@media(max-width:560px){
+  .listbar{flex-direction:column;align-items:stretch}
+  .sortsel{justify-content:space-between}
+  .sortsel select{flex:1;min-width:0;margin-left:8px}
+}
+
+/* Sổ giao ban */
+.gblog-day{margin-bottom:16px}
+.gblog-date{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-3);padding:0 2px 7px}
+.gblog-row{display:flex;gap:11px;align-items:flex-start;background:var(--card);
+  border:1px solid var(--line);border-left-width:4px;border-radius:var(--r-md);padding:10px 13px;margin-bottom:7px}
+.gblog-row.s-ok{border-left-color:var(--r0)}
+.gblog-row.s-wait{border-left-color:var(--r1)}
+.gblog-row.s-gap{border-left-color:var(--r3);background:var(--card-2)}
+.gblog-row.s-running{border-left-color:var(--accent);border-style:dashed}
+.gb-sh{flex:none;width:96px;font-size:13.5px;font-weight:600;line-height:1.3}
+.gb-sh span{display:block;font-size:11px;color:var(--ink-3);font-family:var(--mono);font-weight:400}
+.gb-body{flex:1;min-width:0}
+.gb-sign{font-size:13.5px;line-height:1.45}
+.gb-sign span{font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+.gb-sign .gb-wait{color:var(--r2-ink);font-weight:600;font-family:var(--sans)}
+.gb-meta{font-size:12.5px;color:var(--ink-3);margin-top:3px;line-height:1.45}
+.gb-right{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.gb-pill{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-3);white-space:nowrap}
+.gb-pill.ok{background:var(--r0-bg);color:var(--r0-ink);border-color:var(--r0)}
+.gb-pill.wait{background:var(--r1-bg);color:var(--r1-ink);border-color:var(--r1)}
+.gb-pill.gap{background:var(--r3-bg);color:var(--r3-ink);border-color:var(--r3);font-weight:600}
+.gb-pill.running{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+@media(max-width:560px){
+  .gblog-row{flex-wrap:wrap}
+  .gb-sh{width:auto}
+  .gb-right{width:100%;flex-direction:row;align-items:center;justify-content:space-between}
+}
+
+/* Ghi cả buồng một lượt */
+.rndrow{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:11px 13px;margin-bottom:9px}
+.rndrow.skipped{background:var(--card-2);border-style:dashed}
+.rnd-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:9px}
+.rnd-h b{font-size:15px}
+.rnd-h .bed{font-size:12px;background:var(--card-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.rnd-slot{font-size:12px;color:var(--ink-3);font-family:var(--mono)}
+.rnd-slot.bad{color:var(--r2-ink);font-weight:600}
+.rnd-prev{font-size:12px;color:var(--ink-3);margin-left:auto}
+.rnd-pos{display:flex;gap:6px;flex-wrap:wrap}
+.rnd-pos button{padding:9px 13px;border-radius:9px;border:1px solid var(--line);background:var(--card);
+  font-size:13.5px;font-weight:500;min-height:40px}
+.rnd-pos button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
+  color:var(--accent-ink);font-weight:600}
+.rnd-pos button.skip{margin-left:auto;color:var(--ink-3);font-size:12.5px}
+.rnd-pos button.skip[aria-pressed="true"]{background:var(--r2);border-color:var(--r2);color:#fff}
+.rnd-reason{margin-top:9px}
+.rnd-skin{display:flex;align-items:center;gap:8px;margin-top:9px;border:0;background:none;padding:0;
+  font-size:12.5px;color:var(--ink-3)}
+.rnd-skin .box{width:19px;height:19px;border-radius:5px;border:1.5px solid var(--line-2);
+  display:grid;place-items:center;flex:none}
+.rnd-skin .box svg{width:13px;height:13px;opacity:0}
+.rnd-skin[aria-pressed="true"] .box{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.rnd-skin[aria-pressed="true"] .box svg{opacity:1}
+.rnd-skin[aria-pressed="true"]{color:var(--ink-2)}
+
+.whyline{margin-top:6px;font-size:11.5px;color:var(--ink-3);font-style:italic;line-height:1.45}
+/* Hộp gói phần lưu ý đã đóng */
+.closedbox>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;
+  padding:3px 0;font-size:13.5px;color:var(--ink-2)}
+.closedbox>summary::-webkit-details-marker{display:none}
+.closedbox>summary::before{content:"";width:0;height:0;flex:none;
+  border-left:6px solid var(--ink-3);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;
+  transition:transform .15s}
+.closedbox[open]>summary::before{transform:rotate(90deg)}
+.closedbox>summary .ct{font-weight:600}
+.closedbox>summary .cn{font-family:var(--mono);font-size:12px;background:var(--r0-bg);color:var(--r0-ink);
+  border:1px solid var(--r0);border-radius:999px;padding:1px 9px}
+.closedbox>summary .cx{margin-left:auto;font-size:11.5px;color:var(--ink-3)}
+.closedbox[open]>summary .cx{visibility:hidden}
+.hnotes{margin-top:8px;display:flex;flex-direction:column;gap:7px}
+.hnote{display:flex;gap:8px;background:var(--accent-soft);border-radius:var(--r-sm);padding:8px 11px;
+  font-size:13.5px;line-height:1.5}
+.hnote .q{font-size:22px;line-height:.9;color:var(--accent);font-weight:700;flex:none}
+.hnote .who{display:block;font-size:11.5px;color:var(--ink-3);font-family:var(--mono);margin-top:3px}
+
+@media print{
+  .rail,.tabbar,.topbar,.thubanner,.noprint{display:none!important}
+  .content{padding:0}
+  .card{break-inside:avoid;box-shadow:none}
+  body{background:#fff}
+}
 </style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -463,6 +648,8 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 <symbol id="i-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 20H5V4h9"/><path d="M18 15.5 21.5 12 18 8.5"/><path d="M21 12H10"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
 <symbol id="i-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4.5 19.5h15"/></symbol>
+<symbol id="i-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 3.5V8h-4.5"/></symbol>
+<symbol id="i-handover" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.2"/><path d="M9 3h6v3H9z"/><path d="M9 11h6M9 15h4"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></symbol>
 </defs></svg>
 
@@ -474,7 +661,8 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
    LÕI: tiện ích, mã hoá mật khẩu, kho dữ liệu, đồng bộ, ảnh
    ============================================================ */
 "use strict";
-const APP_VER = "1.0";
+const PREVIEW = false;
+const APP_VER = "1.1";
 const LS_KEY  = "ltd_db_v1";
 const LS_CFG  = "ltd_cfg_v1";
 
@@ -670,7 +858,12 @@ function compressImage(file, stamp) {
 const emptyDB = () => ({
   meta: { ver: APP_VER, rev: 0, salt: "khoa-hstc", epoch: uid("ep") },
   settings: null,
-  users: [], patients: [], episodes: [], assessments: [], flags: [], audit: []
+  users: [], patients: [], episodes: [], assessments: [], flags: [], audit: [],
+  /* --- ba nhóm dữ liệu mới của bản thử --- */
+  turns: [],         // lượt xoay trở: {id, patientId, episodeId, at, pos, by, skinOk, note}
+  lesionStates: [],  // trạng thái liền thương: {id, key, episodeId, site, device, status, at, by, note}
+  handovers: [],     // biên bản giao ban: {id, at, shift, day, by, note, snapshot, receivedBy, receivedAt}
+  handoverNotes: []  // dặn dò cho ca sau theo từng người bệnh: {id, episodeId, day, shift, text, by, at}
 });
 
 /* Đánh dấu thời điểm sửa, để khi hai máy cùng sửa một bản ghi thì biết bản nào mới hơn */
@@ -692,6 +885,18 @@ function mergeDB(local, server) {
   };
   out.assessments = union("assessments").sort((a, b) => a.at.localeCompare(b.at));
   out.audit = union("audit").sort((a, b) => a.at.localeCompare(b.at)).slice(-4000);
+  // Lượt xoay trở và biên bản giao ban cũng không sửa: gộp theo mã
+  out.turns = union("turns").sort((a, b) => a.at.localeCompare(b.at));
+  out.handoverNotes = union("handoverNotes").sort((a, b) => a.at.localeCompare(b.at));
+  // Biên bản giao ban có hai chữ ký (giao và nhận): lấy bản có đủ chữ ký hơn
+  const hm = new Map();
+  [...(server.handovers || []), ...(local.handovers || [])].forEach(h => {
+    const cur = hm.get(h.id);
+    if (!cur) { hm.set(h.id, h); return; }
+    if (h.receivedAt && !cur.receivedAt) hm.set(h.id, h);
+    else if (stamp(h) > stamp(cur)) hm.set(h.id, h);
+  });
+  out.handovers = [...hm.values()].sort((a, b) => a.at.localeCompare(b.at));
 
   // Hồ sơ, đợt điều trị, tài khoản: bản nào sửa sau thì thắng
   const newer = key => {
@@ -705,6 +910,14 @@ function mergeDB(local, server) {
   out.patients = newer("patients");
   out.episodes = newer("episodes");
   out.users = newer("users");
+
+  // Trạng thái liền thương: gộp theo khoá tổn thương, bản ghi sau thắng
+  const lm = new Map();
+  [...(server.lesionStates || []), ...(local.lesionStates || [])].forEach(x => {
+    const cur = lm.get(x.key);
+    if (!cur || stamp(x) > stamp(cur)) lm.set(x.key, x);
+  });
+  out.lesionStates = [...lm.values()];
 
   // Chuỗi cần lưu ý: gộp từng bước xử lý, giữ trạng thái đi xa nhất
   const rank = { moi: 0, tiepnhan: 1, xuly: 2, dong: 3 };
@@ -887,7 +1100,17 @@ const DB = {
     return this.data.episodes.filter(e => !e.dischargedAt)
       .map(e => ({ ep: e, p: this.patient(e.patientId) }))
       .filter(x => x.p);
-  }
+  },
+
+  /* --- bản thử: xoay trở & liền thương --- */
+  turnsOf(epId, sinceMs) {
+    const from = sinceMs ? Date.now() - sinceMs : 0;
+    return (this.data.turns || [])
+      .filter(t => t.episodeId === epId && dOf(t.at).getTime() >= from)
+      .sort((a, b) => b.at.localeCompare(a.at));
+  },
+  lastTurn(epId) { return this.turnsOf(epId)[0] || null; },
+  lesionState(key) { return (this.data.lesionStates || []).find(s => s.key === key) || null; }
 };
 
 /* ---------- Phiên làm việc ---------- */
@@ -1213,12 +1436,201 @@ const DEFAULT_BUNDLES = [
   ]}
 ];
 
+/* ============================================================
+   BẢN THỬ — TƯ THẾ VÀ LỊCH XOAY TRỞ
+   ============================================================ */
+const POSITIONS = [
+  { v: "ngua",    t: "Nằm ngửa",            s: "Ngửa" },
+  { v: "ngtrai",  t: "Nghiêng trái 30°",    s: "Ngh. trái" },
+  { v: "ngphai",  t: "Nghiêng phải 30°",    s: "Ngh. phải" },
+  { v: "sap",     t: "Nằm sấp (prone)",     s: "Sấp" },
+  { v: "nuangoi", t: "Nửa ngồi (đầu cao 30°)", s: "Nửa ngồi" },
+  { v: "ngoi",    t: "Ngồi ghế / xe lăn",   s: "Ngồi" }
+];
+const posName = v => (POSITIONS.find(p => p.v === v) || {}).t || v || "—";
+const posShort = v => (POSITIONS.find(p => p.v === v) || {}).s || v || "—";
+
+/* Khoa xoay trở theo CỮ CỐ ĐỊNH, cả buồng cùng giờ (vd 07:00, 10:00, 13:00…),
+   ca nặng xen thêm cữ giữa. Lịch tính từ một giờ mốc, không tính từ lượt trước. */
+function turnEveryFor(level, settings) {
+  const st = settings || DB.data.settings || DEFAULT_SETTINGS();
+  return level >= (st.turnHighFrom != null ? st.turnHighFrom : 2)
+    ? (st.turnEveryHoursHigh || 2) : (st.turnEveryHours || 3);
+}
+
+/* Danh sách mốc cữ trong khoảng thời gian, neo theo giờ mốc của khoa */
+function turnSlotList(every, anchorHour, fromMs, toMs) {
+  const step = every * 3600000;
+  const a = new Date(fromMs); a.setHours(anchorHour || 0, 0, 0, 0);
+  let t = a.getTime();
+  while (t > fromMs) t -= step;
+  while (t < fromMs) t += step;
+  const out = [];
+  for (; t <= toMs; t += step) out.push(t);
+  return out;
+}
+
+/* Cữ xoay chung của cả khoa đang trong hiệu lực */
+function wardTurnSlot(now) {
+  const st = DB.data.settings || DEFAULT_SETTINGS();
+  const nowMs = now ? dOf(now).getTime() : Date.now();
+  const list = turnSlotList(st.turnEveryHours || 3, st.turnAnchorHour != null ? st.turnAnchorHour : 7,
+    nowMs - (st.turnEveryHours || 3) * 3600000, nowMs);
+  return new Date(list[list.length - 1]);
+}
+
+/* Tình trạng xoay trở của một đợt điều trị, theo bảng cữ */
+function turnInfo(ep, now) {
+  const st = DB.data.settings || DEFAULT_SETTINGS();
+  const nowMs = now ? dOf(now).getTime() : Date.now();
+  const last = DB.lastAssessment(ep.id);
+  const clv = last ? careLevelOf(last) : 1;
+  const every = turnEveryFor(clv, st);
+  const step = every * 3600000;
+  const grace = (st.turnGraceMin != null ? st.turnGraceMin : 45) * 60000;
+  const anchorHour = st.turnAnchorHour != null ? st.turnAnchorHour : 7;
+
+  const from = Math.max(dOf(ep.admittedAt).getTime(), nowMs - 24 * 3600000);
+  const slots = turnSlotList(every, anchorHour, from, nowMs + step);
+
+  const turns = (DB.data.turns || [])
+    .filter(t => t.episodeId === ep.id && dOf(t.at).getTime() >= from - step)
+    .sort((a, b) => a.at.localeCompare(b.at));
+
+  // Ghép mỗi lượt đã ghi vào đúng cữ: ưu tiên cữ mà người ghi đã chỉ định, sau đó mới tính gần nhất
+  const map = new Map();
+  const slotSet = new Set(slots);
+  const rest = [];
+  turns.forEach(tr => {
+    const declared = tr.slotAt ? dOf(tr.slotAt).getTime() : null;
+    if (declared != null && slotSet.has(declared) && !map.has(declared)) map.set(declared, tr);
+    else rest.push(tr);
+  });
+  rest.forEach(tr => {
+    const ms = dOf(tr.at).getTime();
+    let best = null, bd = Infinity;
+    slots.forEach(s => {
+      if (map.has(s)) return;
+      const d = Math.abs(ms - s);
+      if (d < bd) { bd = d; best = s; }
+    });
+    if (best != null && bd <= step / 2 + grace) map.set(best, tr);
+  });
+
+  const rows = slots.map(s => {
+    const tr = map.get(s) || null;
+    const lateMs = tr ? Math.max(0, dOf(tr.at).getTime() - s) : 0;
+    let status;
+    if (tr) status = tr.skipped ? "skip" : (lateMs > grace ? "late" : "done");
+    else if (nowMs > s + grace) status = "miss";
+    else if (nowMs >= s) status = "now";
+    else status = "future";
+    return { ms: s, at: new Date(s), turn: tr, status, lateMs };
+  });
+
+  const past = rows.filter(r => r.ms <= nowMs);
+  const cur = past[past.length - 1] || null;
+  const next = rows.find(r => r.ms > nowMs) || null;
+  const lastTurn = turns.filter(t => !t.skipped).slice(-1)[0] || null;
+
+  return {
+    every, level: clv, grace, anchorHour, rows, cur, next,
+    due: next ? next.at : null,
+    last: lastTurn,
+    never: !turns.length,
+    overdue: !!(cur && cur.status === "miss"),
+    late: cur && cur.status === "miss" ? nowMs - cur.ms : 0,
+    doneCount: rows.filter(r => r.status === "done" || r.status === "late").length,
+    missCount: rows.filter(r => r.status === "miss").length,
+    skipCount: rows.filter(r => r.status === "skip").length,
+    totalDue: rows.filter(r => r.ms <= nowMs).length
+  };
+}
+
+/* Lý do không xoay đúng cữ — ghi lại để biết vì sao, thay vì để ô trống */
+const TURN_REASONS = [
+  "Kẹt cấp cứu / thủ thuật tại buồng",
+  "Huyết động không ổn định, chưa xoay được",
+  "Đang lọc máu / ECMO, chờ ổn định",
+  "Người bệnh đang làm cận lâm sàng tại giường",
+  "Thiếu người hỗ trợ tại thời điểm đó",
+  "Lý do khác"
+];
+
+/* Khoá định danh một tổn thương xuyên suốt các phiếu đã ký:
+   phiếu không sửa được, nên trạng thái liền thương lưu riêng theo khoá này. */
+function lesionKey(epId, l) {
+  return epId + "|" + (l.site || "") + "|" + (l.device || "");
+}
+const LESION_STATUS = {
+  theodoi:  { t: "Đang theo dõi",  tag: "watch" },
+  caithien: { t: "Đang cải thiện", tag: "poa" },
+  xauhon:   { t: "Nặng thêm",      tag: "hapi" },
+  lanh:     { t: "Đã lành",        tag: "healed" }
+};
+/* Các trạng thái ghi được nhiều lần trong quá trình theo dõi */
+const LESION_PROGRESS = ["theodoi", "caithien", "xauhon"];
+
+/* Tập hợp tổn thương của một đợt điều trị, kèm trạng thái liền thương.
+   Lấy bản ghi mới nhất của mỗi vị trí trong toàn bộ các phiếu đã ký. */
+function lesionsOfEpisode(epId) {
+  const out = new Map();
+  DB.assessmentsOf(epId).slice().reverse().forEach(a => {
+    [...(a.lesions || []), ...(a.mdrpi || [])].forEach(l => {
+      const key = lesionKey(epId, l);
+      const prev = out.get(key);
+      out.set(key, {
+        key, site: l.site, device: l.device || "", stage: l.stage, poa: !!l.poa,
+        size: l.size, note: l.note,
+        foundAt: prev ? prev.foundAt : (l.foundAt || a.at),
+        lastAt: a.at, isDevice: !!l.device,
+        photos: (prev ? prev.photos : []).concat(l.photos || []),
+        firstStage: prev ? prev.firstStage : l.stage
+      });
+    });
+  });
+  return [...out.values()].map(l => {
+    const st = DB.lesionState(l.key);
+    return Object.assign(l, { status: st ? st.status : "theodoi", state: st });
+  });
+}
+
+/* --- Ca trực, phục vụ màn hình giao ban --- */
+const SHIFTS = [
+  { v: "sang",   t: "Ca sáng",  from: 6,  to: 14 },
+  { v: "chieu",  t: "Ca chiều", from: 14, to: 22 },
+  { v: "dem",    t: "Ca đêm",   from: 22, to: 6  }
+];
+function currentShift(d) {
+  const h = (d || new Date()).getHours();
+  if (h >= 6 && h < 14) return SHIFTS[0];
+  if (h >= 14 && h < 22) return SHIFTS[1];
+  return SHIFTS[2];
+}
+/* Mốc bắt đầu và kết thúc của ca đang xét */
+function shiftRange(shift, ref) {
+  const d = new Date(ref || Date.now());
+  const start = new Date(d);
+  start.setMinutes(0, 0, 0);
+  start.setHours(shift.from);
+  if (shift.v === "dem" && d.getHours() < 6) start.setDate(start.getDate() - 1);
+  if (shift.v !== "dem" && d.getHours() < shift.from) start.setDate(start.getDate() - 1);
+  const end = new Date(start.getTime() + (shift.v === "dem" ? 8 : 8) * 3600000);
+  return { start, end };
+}
+
 /* --- Cài đặt mặc định --- */
 const DEFAULT_SETTINGS = () => ({
   wardName: "Khoa Hồi sức tích cực",
   hospital: "Bệnh viện Bệnh Nhiệt đới",
   thresholds: [10, 15, 20],          // ngưỡng lên mức 1, 2, 3
   reassessHours: [48, 24, 12, 8],    // hạn đánh giá lại theo mức
+  /* Lịch xoay trở theo cữ cố định của khoa (bản thử) */
+  turnAnchorHour: 7,                 // giờ mốc cữ đầu tiên trong ngày
+  turnEveryHours: 3,                 // cữ chung: mỗi 3 giờ
+  turnEveryHoursHigh: 2,             // ca nặng: mỗi 2 giờ
+  turnHighFrom: 2,                   // từ mức chăm sóc này trở lên thì dùng cữ ca nặng
+  turnGraceMin: 45,                  // châm chước, quá mốc bao nhiêu phút mới tính là trễ
   firstAssessHours: 8,               // hạn đánh giá lần đầu sau nhập khoa
   icuEscalate: 2,                    // số yếu tố hồi sức để nâng một mức
   idleMinutes: 20,
@@ -1317,7 +1729,8 @@ const NAV_ITEMS = () => {
   const base = [
     { k: "home", t: "Trang chủ", i: "i-home" },
     { k: "patients", t: "Người bệnh", i: "i-users" },
-    { k: "flags", t: "Cần lưu ý", i: "i-flag", badge: true }
+    { k: "flags", t: "Cần lưu ý", i: "i-flag", badge: true },
+    { k: "handover", t: "Giao ban", i: "i-handover" }
   ];
   if (Session.isHead()) base.push({ k: "reports", t: "Báo cáo", i: "i-chart" });
   base.push({ k: "account", t: "Tài khoản", i: "i-user" });
@@ -1334,7 +1747,7 @@ function render() {
   const v = Nav.cur;
   const inner = ({
     home: viewHome, patients: viewPatients, patient: viewPatient, assess: viewAssess,
-    flags: viewFlags, reports: viewReports, account: viewAccount,
+    flags: viewFlags, reports: viewReports, account: viewAccount, handover: viewHandover, round: viewRound, handoverdoc: viewHandoverDoc, handoverlog: viewHandoverLog,
     admin: viewAdmin, audit: viewAudit, settings: viewSettings
   }[v.name] || viewHome)(v.params || {});
 
@@ -1498,9 +1911,10 @@ function viewLogin() {
       <p id="lg-err" style="color:var(--bad);font-size:13px;text-align:center" hidden></p>
     </form>
     ${demo ? `<div class="card" style="padding:13px">
-      <p class="hintbox" style="margin-bottom:10px">Máy này đang chạy <b>dữ liệu mẫu</b>.
-        Tài khoản dùng thử: <code>dd.an</code> · <code>ddt.chau</code> — mật khẩu <code>123456</code></p>
-      <button class="btn block" id="lg-setup">Nối vào kho dữ liệu của khoa</button>
+      <p class="hintbox">Đây là <b>bản thử tính năng</b>, người bệnh hoàn toàn hư cấu.<br>
+        Đăng nhập: <code>ddt.chau</code> (điều dưỡng trưởng) hoặc <code>dd.an</code> (điều dưỡng)
+        — mật khẩu <code>123456</code></p>
+      ${PREVIEW ? "" : `<button class="btn block" id="lg-setup" style="margin-top:10px">Nối vào kho dữ liệu của khoa</button>`}
     </div>` : ""}
   </div></div>`;
 }
@@ -1552,6 +1966,37 @@ function viewHome() {
   const flagCards = flags.slice(0, 4).map(f => flagCard(f, true)).join("");
   const overdueList = overdue.slice(0, 6).map(r => patientRow(r, { showDue: true })).join("");
 
+  /* BẢN THỬ: cữ xoay trở của khoa — ai chưa xoay trong cữ đang chạy */
+  const wardSlot = wardTurnSlot();
+  const tRows = rows.map(r => ({ ...r, ti: turnInfo(r.ep) }));
+  const pending = tRows.filter(r => r.ti.cur && (r.ti.cur.status === "miss" || r.ti.cur.status === "now"))
+    .sort((a, b) => (b.ti.cur.status === "miss") - (a.ti.cur.status === "miss") || a.ti.cur.ms - b.ti.cur.ms);
+  const missNow = pending.filter(r => r.ti.cur.status === "miss").length;
+  const doneNow = tRows.length - pending.length;
+  const turnSection = `
+    <section id="turn-home">
+      <div class="card-h"><h2>Cữ xoay trở</h2>
+        <span class="hint">cữ chung ${fmtTime(wardSlot)} · ${doneNow}/${tRows.length} người bệnh đã ghi</span></div>
+      ${pending.length ? `<button class="bigtap ${missNow ? "warnb" : ""}" data-goround style="margin-bottom:10px">
+        <svg><use href="#i-rotate"/></svg>Ghi cả buồng một lượt (${pending.length} người bệnh)
+      </button>
+      <div class="turnlog card" style="padding:4px 14px">
+        ${pending.slice(0, 10).map(r => `<div class="row">
+          <div class="t">${esc(r.ep.bed || "—")}</div>
+          <div class="d"><button class="btn ghost sm" data-patient="${r.p.id}"
+              style="padding:0;font-size:14px;font-weight:600">${esc(r.p.name)}</button>
+            <div class="m">Cữ <b>${fmtTime(r.ti.cur.at)}</b>${r.ti.every !== 3 ? ` (lịch ${r.ti.every} giờ)` : ""} ·
+              ${r.ti.cur.status === "miss"
+                ? `<span style="color:var(--r2-ink);font-weight:600">đã qua ${fmtDur(Date.now() - r.ti.cur.ms)}, chưa ghi</span>`
+                : "đang trong cữ"}${r.ti.last ? ` · lượt trước ${fmtTime(r.ti.last.at)} ${esc(posShort(r.ti.last.pos))}` : ""}</div></div>
+          <button class="btn sm pri" data-qturn="${r.ep.id}" style="align-self:center">Ghi xoay trở</button>
+        </div>`).join("")}
+      </div>` : `<div class="empty">Cả buồng đã xoay xong cữ này.${(() => {
+          const nx = tRows.map(r => r.ti.next && r.ti.next.ms).filter(Boolean).sort((a, b) => a - b)[0];
+          return nx ? `<div style="margin-top:6px;font-size:12.5px">Cữ sau bắt đầu lúc <b>${fmtTime(new Date(nx))}</b>.</div>` : "";
+        })()}</div>`}
+    </section>`;
+
   const html = `
     <section class="card" style="background:linear-gradient(135deg,var(--accent-soft),var(--card) 70%)">
       <div style="display:flex;align-items:flex-start;gap:12px">
@@ -1564,6 +2009,17 @@ function viewHome() {
       </div>
     </section>
 
+    ${PREVIEW ? `<section class="card" style="border-color:var(--r1)">
+      <div class="card-h"><h2>Ba mục đang thử trong bản này</h2><span class="hint">chưa có trong app của khoa</span></div>
+      <ol style="font-size:13.5px;line-height:1.7;color:var(--ink-2);margin:0;padding-left:20px">
+        <li><b>Bảng theo dõi xoay trở</b> — ô “Đến hạn xoay trở” ngay bên dưới, và thẻ riêng trong hồ sơ từng người bệnh.</li>
+        <li><b>Trạng thái tổn thương “đã lành”</b> — mở hồ sơ một ca có tổn thương, xem mục <i>Tổn thương của đợt điều trị này</i>.</li>
+        <li><b>Màn hình giao ban</b> — tab <b>Giao ban</b> ở thanh dưới.</li>
+      </ol>
+      <p style="font-size:12.5px;color:var(--ink-3);margin-top:9px">
+        Cứ bấm thử thoải mái: dữ liệu ở đây hoàn toàn hư cấu và nằm riêng, không đụng gì tới kho dữ liệu của khoa.</p>
+    </section>` : ""}
+
     <section class="tiles">
       <button class="tile tap" data-go="patients"><span class="lab">Người bệnh đang điều trị</span>
         <span class="val mono">${rows.length}</span>
@@ -1571,6 +2027,9 @@ function viewHome() {
       <button class="tile tap ${overdue.length ? "warnT" : ""}" data-goto-overdue><span class="lab">Đến hạn đánh giá</span>
         <span class="val mono">${overdue.length}</span>
         <span class="note">${noAssess} ca chưa đánh giá lần nào</span></button>
+      <button class="tile tap ${missNow ? "warnT" : ""}" data-goto-turn><span class="lab">Cữ xoay trở chưa ghi</span>
+        <span class="val mono">${pending.length}</span>
+        <span class="note">cữ chung ${fmtTime(wardSlot)}${missNow ? ` · ${missNow} ca quá mốc` : ""}</span></button>
       <button class="tile tap ${flags.length ? "alert" : ""}" data-go="flags"><span class="lab">Cần lưu ý chưa xử lý</span>
         <span class="val mono">${flags.length}</span>
         <span class="note">${flags.filter(f => f.status === "moi").length} mục chưa tiếp nhận</span></button>
@@ -1590,6 +2049,8 @@ function viewHome() {
             <div style="margin-top:12px"><button class="btn sm pri" data-go="patients">Tạo hồ sơ người bệnh</button></div></div>`}
     </section>
 
+    ${turnSection}
+
     ${Session.isHead() ? `
     <section class="card">
       <div class="card-h"><h2>Phân bố mức nguy cơ tại khoa</h2>
@@ -1608,6 +2069,14 @@ function viewHome() {
       $$("[data-go]").forEach(b => b.onclick = () => Nav.tab(b.dataset.go));
       const ov = $("[data-goto-overdue]");
       if (ov) ov.onclick = () => $("#overdue-sec").scrollIntoView({ behavior: "smooth", block: "start" });
+      const tv = $("[data-goto-turn]");
+      if (tv) tv.onclick = () => $("#turn-home").scrollIntoView({ behavior: "smooth", block: "start" });
+      const gr = $("[data-goround]"); if (gr) gr.onclick = () => Nav.go("round");
+      $$("[data-qturn]").forEach(b => b.onclick = () => {
+        const ep = DB.episode(b.dataset.qturn);
+        const p = ep && DB.patient(ep.patientId);
+        if (ep && p) turnDialog(p, ep);
+      });
       bindPatientRows(); bindFlagCards(); bindCharts();
     }
   };
@@ -1731,7 +2200,28 @@ function changePasswordDialog() {
 /* ============================================================
    DANH SÁCH & HỒ SƠ NGƯỜI BỆNH
    ============================================================ */
-let PQ = { q: "", filter: "dang" };
+let PQ = { q: "", filter: "dang", sort: "uutien", view: null };   // view: "the" = thẻ, "bang" = bảng
+/* Chưa chọn thì tự quyết theo bề ngang màn hình: máy tính xem bảng, điện thoại xem thẻ */
+function listView() {
+  if (PQ.view) return PQ.view;
+  try { return window.innerWidth >= 900 ? "bang" : "the"; } catch (e) { return "the"; }
+}
+
+/* Sắp xếp tên theo lối Việt Nam: lấy TÊN trước, rồi mới tới họ và chữ lót */
+function nameKey(full) {
+  const parts = String(full || "").trim().split(/\s+/);
+  const ten = parts.length ? parts[parts.length - 1] : "";
+  return ten + " " + parts.slice(0, -1).join(" ");
+}
+const SORTS = [
+  { v: "uutien", t: "Ưu tiên chăm sóc" },
+  { v: "az",     t: "Tên A → Z" },
+  { v: "za",     t: "Tên Z → A" },
+  { v: "giuong", t: "Theo giường" },
+  { v: "nvmoi",  t: "Nhập viện mới nhất" },
+  { v: "nvcu",   t: "Nhập viện lâu nhất" },
+  { v: "diem",   t: "Điểm Waterlow cao nhất" }
+];
 
 function viewPatients() {
   const q = noAccent(PQ.q);
@@ -1745,13 +2235,29 @@ function viewPatients() {
   if (PQ.filter === "dang") list = list.filter(x => x.ep);
   if (PQ.filter === "xuat") list = list.filter(x => !x.ep);
   if (q) list = list.filter(x => noAccent(x.p.name).includes(q) || noAccent(x.p.mrn).includes(q));
+  const byName = (a, b) => nameKey(a.p.name).localeCompare(nameKey(b.p.name), "vi");
+  const admOf = r => (r.lastEp ? dOf(r.lastEp.admittedAt).getTime() : 0);
   list.sort((a, b) => {
-    if (PQ.filter === "dang") {
-      const ao = a.due?.overdue ? 1 : 0, bo = b.due?.overdue ? 1 : 0;
-      if (ao !== bo) return bo - ao;
-      if ((b.lv ?? -1) !== (a.lv ?? -1)) return (b.lv ?? -1) - (a.lv ?? -1);
+    switch (PQ.sort) {
+      case "az": return byName(a, b);
+      case "za": return byName(b, a);
+      case "giuong": {
+        const ab = (a.ep && a.ep.bed) || "zzz", bb = (b.ep && b.ep.bed) || "zzz";
+        return ab.localeCompare(bb, "vi", { numeric: true }) || byName(a, b);
+      }
+      case "nvmoi": return admOf(b) - admOf(a) || byName(a, b);
+      case "nvcu":  return admOf(a) - admOf(b) || byName(a, b);
+      case "diem":  return ((b.last && b.last.score) || -1) - ((a.last && a.last.score) || -1) || byName(a, b);
+      default: {
+        if (PQ.filter === "dang") {
+          const ao = a.due && a.due.overdue ? 1 : 0, bo = b.due && b.due.overdue ? 1 : 0;
+          if (ao !== bo) return bo - ao;
+          if ((b.lv == null ? -1 : b.lv) !== (a.lv == null ? -1 : a.lv))
+            return (b.lv == null ? -1 : b.lv) - (a.lv == null ? -1 : a.lv);
+        }
+        return byName(a, b);
+      }
     }
-    return a.p.name.localeCompare(b.p.name, "vi");
   });
 
   const counts = {
@@ -1768,14 +2274,26 @@ function viewPatients() {
       </div>
       <button class="btn pri" data-newp aria-label="Tạo hồ sơ mới"><svg><use href="#i-plus"/></svg><span class="hidesm">Hồ sơ mới</span></button>
     </div>
-    <div class="btnrow" role="tablist">
-      ${[["dang", "Đang điều trị", counts.dang], ["xuat", "Đã xuất viện", counts.xuat], ["all", "Tất cả", DB.data.patients.length]]
-        .map(([k, t, n]) => `<button class="btn sm" data-filter="${k}"
-          style="${PQ.filter === k ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t} · ${n}</button>`).join("")}
+    <div class="listbar">
+      <div class="btnrow" role="tablist" style="margin:0">
+        ${[["dang", "Đang điều trị", counts.dang], ["xuat", "Đã xuất viện", counts.xuat], ["all", "Tất cả", DB.data.patients.length]]
+          .map(([k, t, n]) => `<button class="btn sm" data-filter="${k}"
+            style="${PQ.filter === k ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t} · ${n}</button>`).join("")}
+      </div>
+      <label class="sortsel">
+        <span>Sắp xếp</span>
+        <select id="psort">${SORTS.map(s =>
+          `<option value="${s.v}" ${PQ.sort === s.v ? "selected" : ""}>${esc(s.t)}</option>`).join("")}</select>
+      </label>
+      <div class="viewtog" role="group" aria-label="Kiểu hiển thị">
+        <button data-view="the" aria-pressed="${listView() === "the"}">Thẻ</button>
+        <button data-view="bang" aria-pressed="${listView() === "bang"}">Bảng</button>
+      </div>
     </div>
-    ${list.length ? `<div class="plist">${list.map(r => r.ep
+    ${PQ.sort === "az" || PQ.sort === "za" ? `<p class="sorthint">Xếp theo tên gọi, không theo họ.</p>` : ""}
+    ${list.length ? (listView() === "bang" ? patientTable(list) : `<div class="plist">${list.map(r => r.ep
         ? patientRow(r, { showDue: true })
-        : dischargedRow(r)).join("")}</div>`
+        : dischargedRow(r)).join("")}</div>`)
       : `<div class="empty">${PQ.q ? "Không tìm thấy người bệnh nào khớp với từ khoá."
             : DB.data.patients.length ? "Chưa có người bệnh nào trong nhóm này."
             : "Danh sách còn trống. Bấm nút bên dưới để tạo hồ sơ người bệnh đầu tiên."}
@@ -1789,10 +2307,48 @@ function viewPatients() {
       s.oninput = () => { PQ.q = s.value; const p = s.selectionStart; render();
         const n = $("#psearch"); if (n) { n.focus(); try { n.setSelectionRange(p, p); } catch (e) {} } };
       $$("[data-filter]").forEach(b => b.onclick = () => { PQ.filter = b.dataset.filter; render(); });
+      const so = $("#psort");
+      if (so) so.onchange = () => { PQ.sort = so.value; render(); };
+      $$("[data-view]").forEach(b => b.onclick = () => { PQ.view = b.dataset.view; render(); });
+      $$("tr[data-row]").forEach(tr => tr.onclick = () => Nav.go("patient", { id: tr.dataset.row }));
       $$("[data-newp]").forEach(b => b.onclick = () => newPatientDialog(PQ.q));
       bindPatientRows();
     }
   };
+}
+
+/* Dạng bảng — một dòng một người bệnh, đọc nhanh khi chiếu máy chiếu hoặc xem trên máy tính */
+function patientTable(list) {
+  const showOut = list.some(r => !r.ep);
+  return `<div class="card" style="padding:14px">
+    <div class="tablewrap"><table class="ptable">
+      <thead><tr><th>Người bệnh</th><th>Mã hồ sơ</th><th>Giường</th><th>Ngày<br>nằm</th>
+        <th>Waterlow</th><th>Mức</th><th>${showOut ? "Tình trạng" : "Đánh giá gần nhất"}</th>
+        <th>Xoay trở<br>24 giờ</th><th>Tổn<br>thương</th></tr></thead>
+      <tbody>${list.map(r => {
+        const { p, ep, lastEp, last, lv, due } = r;
+        const ls = last ? (last.lesions || []).length + (last.mdrpi || []).length : 0;
+        const ti = ep ? turnInfo(ep) : null;
+        const dayN = lastEp ? daysBetween(lastEp.admittedAt, (ep ? new Date() : lastEp.dischargedAt)) + 1 : "—";
+        const tinh = ep
+          ? `<span style="${due && due.overdue ? "color:var(--r2-ink);font-weight:600" : ""}">${
+              last ? ago(last.at) : "chưa có"}${due && due.overdue ? " · quá hạn" : ""}</span>`
+          : `<span style="color:var(--ink-3)">Xuất viện ${lastEp ? fmtDate(lastEp.dischargedAt) : "—"}</span>`;
+        return `<tr data-row="${p.id}" style="cursor:pointer"${ep ? "" : ' class="out"'}>
+          <td><b>${esc(p.name)}</b></td>
+          <td class="mono">${esc(p.mrn)}</td>
+          <td>${esc((ep || lastEp || {}).bed || "—")}</td>
+          <td class="num">${dayN}</td>
+          <td class="num">${last ? last.score : "—"}</td>
+          <td>${lv != null ? levelPill(lv, " sm") : '<span class="pill neutral sm">chưa đánh giá</span>'}</td>
+          <td>${tinh}</td>
+          <td class="num">${ti ? `<span style="${ti.missCount ? "color:var(--r2-ink);font-weight:600" : ""}">${
+            ti.doneCount}/${ti.totalDue}</span>` : "—"}</td>
+          <td class="num">${ls || "—"}</td></tr>`;
+      }).join("")}</tbody></table></div>
+    <p style="font-size:12px;color:var(--ink-3);margin-top:9px">
+      Cột <b>Xoay trở 24 giờ</b>: số cữ đã ghi trên tổng số cữ đến hạn.</p>
+  </div>`;
 }
 
 function dischargedRow(r) {
@@ -1926,12 +2482,9 @@ function viewPatient({ id }) {
       </div>
     </section>`;
 
-  const lesionsBlock = last && ((last.lesions || []).length || (last.mdrpi || []).length) ? `
-    <section class="card">
-      <div class="card-h"><h2>Tổn thương ghi nhận lần gần nhất</h2><span class="hint">${fmtDT(last.at)}</span></div>
-      ${(last.lesions || []).map(l => lesionView(l)).join("")}
-      ${(last.mdrpi || []).map(l => lesionView(l, true)).join("")}
-    </section>` : "";
+  /* BẢN THỬ: bảng xoay trở + danh sách tổn thương có trạng thái liền thương */
+  const turnSec = turnBlock(p, ep);
+  const lesionsBlock = lesionsBlockNew(curEp);
 
   const photoTl = photoTimeline(p.id, curEp);
 
@@ -1998,8 +2551,10 @@ function viewPatient({ id }) {
 
   return {
     title: p.name, sub: p.mrn,
-    html: header + lesionsBlock + photoTl + careBlock + tl + flagBlock + epsBlock,
+    html: header + turnSec + lesionsBlock + photoTl + careBlock + tl + flagBlock + epsBlock,
     bind() {
+      const tb = $("[data-turn]"); if (tb) tb.onclick = () => turnDialog(p, ep);
+      bindLesionActions(p.id);
       const a = $("[data-assess]"); if (a) a.onclick = () => Nav.go("assess", { patientId: p.id, episodeId: ep.id });
       const f = $("[data-flag]"); if (f) f.onclick = () => flagDialog(p.id, ep.id);
       const d = $("[data-discharge]"); if (d) d.onclick = () => dischargeDialog(p, ep);
@@ -2792,8 +3347,19 @@ function flagAction(fid, type) {
 function viewFlags() {
   const st = DB.data.settings || DEFAULT_SETTINGS();
   const open = DB.openFlags();
-  const closed = DB.data.flags.filter(f => f.status === "dong")
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 15);
+  /* Xếp theo THỜI ĐIỂM ĐÓNG, không phải thời điểm tạo — mới đóng thì nằm trên */
+  const closedAt = f => {
+    const ev = (f.events || []).filter(e => e.type === "dong").slice(-1)[0];
+    return (ev && ev.at) || f.createdAt;
+  };
+  /* Chỉ giữ những mục đóng trong 24 giờ qua, và gói lại cho gọn —
+     trang này để xem việc CHƯA làm, phần đã xong không nên chiếm chỗ. */
+  const CLOSED_WINDOW_H = 24;
+  const allClosed = DB.data.flags.filter(f => f.status === "dong")
+    .sort((a, b) => closedAt(b).localeCompare(closedAt(a)));
+  const cutoff = Date.now() - CLOSED_WINDOW_H * 3600000;
+  const closed = allClosed.filter(f => dOf(closedAt(f)).getTime() >= cutoff);
+  const olderCount = allClosed.length - closed.length;
   const overdue = st.autoFlagOverdue
     ? DB.admittedPatients().map(({ ep, p }) => ({ ep, p, due: dueInfo(ep) })).filter(x => x.due.overdue)
     : [];
@@ -2811,10 +3377,22 @@ function viewFlags() {
         : `<div class="empty">Không có lưu ý nào đang mở.</div>`}
     </section>
 
-    ${closed.length ? `<section>
-      <div class="card-h"><h2>Đã đóng gần đây</h2><span class="hint">${closed.length} lưu ý</span></div>
-      <div style="display:flex;flex-direction:column;gap:10px">${closed.map(f => flagCard(f)).join("")}</div>
-    </section>` : ""}`;
+    ${closed.length ? `<section class="card" style="padding:12px 14px">
+      <details class="closedbox">
+        <summary>
+          <span class="ct">Đã đóng trong ${CLOSED_WINDOW_H} giờ</span>
+          <span class="cn">${closed.length} lưu ý</span>
+          <span class="cx">bấm để xem</span>
+        </summary>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+          ${closed.map(f => flagCard(f)).join("")}
+        </div>
+      </details>
+      ${olderCount ? `<p style="font-size:12px;color:var(--ink-3);margin-top:8px">
+        Còn ${olderCount} lưu ý đã đóng cũ hơn ${CLOSED_WINDOW_H} giờ${
+          Session.isHead() ? " — xem trong <b>Nhật ký truy vết</b>" : ""}.</p>` : ""}
+    </section>`
+      : olderCount ? `<p class="hintbox">Không có lưu ý nào được đóng trong ${CLOSED_WINDOW_H} giờ qua.</p>` : ""}`;
 
   return { title: "Cần lưu ý", sub: open.length + " đang mở", html,
     bind() { bindFlagCards(); bindPatientRows(); } };
@@ -3072,6 +3650,13 @@ function viewReports() {
           style="${RP.days === d ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t}</button>`).join("")}
     </div>
 
+    <section class="card">
+      <div class="card-h"><h2>Sổ giao ban</h2><span class="hint">bản thử</span></div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:10px">
+        Toàn bộ biên bản bàn giao của các ca đã qua, kèm những ca không ai chốt.</p>
+      <button class="btn" data-gblog>Mở sổ giao ban</button>
+    </section>
+
     <section>
       <div class="card-h"><h2>Chỉ số đầu ra</h2><span class="hint">kết quả trên người bệnh</span></div>
       <div class="tiles">
@@ -3179,6 +3764,7 @@ function viewReports() {
     title: "Báo cáo", sub: RP.days ? RP.days + " ngày gần nhất" : "toàn bộ dữ liệu", html,
     bind() {
       $$("[data-days]").forEach(b => b.onclick = () => { RP.days = +b.dataset.days; render(); });
+      const gl = $("[data-gblog]"); if (gl) gl.onclick = () => Nav.go("handoverlog");
       $$("[data-row]").forEach(r => r.onclick = () => Nav.go("patient", { id: r.dataset.row }));
       $$("[data-ex]").forEach(b => b.onclick = () => exportCSV(b.dataset.ex, m));
       bindCharts();
@@ -3571,6 +4157,30 @@ function viewSettings() {
     </section>
 
     <section class="card">
+      <div class="card-h"><h2>Lịch xoay trở của khoa</h2><span class="hint">bản thử</span></div>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.55;margin-bottom:12px">
+        Cữ tính từ giờ mốc bên dưới, cả buồng cùng giờ — không tính từ lượt trước của từng người.</p>
+      <div class="grid2">
+        <div class="field"><label for="s-tanchor">Giờ mốc cữ đầu tiên trong ngày</label>
+          <input id="s-tanchor" type="number" min="0" max="23" value="${s.turnAnchorHour != null ? s.turnAnchorHour : 7}">
+          <span class="help">vd: 7 → các cữ 07:00, 10:00, 13:00, 16:00…</span></div>
+        <div class="field"><label for="s-tevery">Cữ chung — mỗi mấy giờ</label>
+          <input id="s-tevery" type="number" min="1" max="12" value="${s.turnEveryHours || 3}"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="s-tevery2">Ca nặng — mỗi mấy giờ</label>
+          <input id="s-tevery2" type="number" min="1" max="12" value="${s.turnEveryHoursHigh || 2}"></div>
+        <div class="field"><label for="s-tgrace">Châm chước bao nhiêu phút mới tính là trễ</label>
+          <input id="s-tgrace" type="number" min="0" max="180" value="${s.turnGraceMin != null ? s.turnGraceMin : 45}">
+          <span class="help">Kẹt cấp cứu ghi trễ một chút vẫn tính là đạt.</span></div>
+      </div>
+      <div class="field"><label for="s-thigh">Từ mức chăm sóc nào trở lên thì dùng lịch ca nặng</label>
+        <select id="s-thigh">${LEVELS.map((L, i) =>
+          `<option value="${i}" ${(s.turnHighFrom != null ? s.turnHighFrom : 2) === i ? "selected" : ""}>${esc(L.short)}</option>`).join("")}</select></div>
+    </section>
+
+
+    <section class="card">
       <div class="card-h"><h2>Quy tắc tự động</h2></div>
       <div class="field" style="margin-bottom:12px"><label for="s-icu">Số yếu tố nguy cơ hồi sức để nâng gói chăm sóc lên một mức</label>
         <input id="s-icu" type="number" min="1" max="12" value="${s.icuEscalate}"></div>
@@ -3677,6 +4287,11 @@ function viewSettings() {
         ns.thresholds = t;
         ns.firstAssessHours = Math.max(1, +$("#s-first").value || 8);
         ns.reassessHours = LEVELS.map((L, i) => Math.max(1, +$("#s-r" + i).value || 24));
+        ns.turnAnchorHour = Math.min(23, Math.max(0, +$("#s-tanchor").value || 0));
+        ns.turnEveryHours = Math.max(1, +$("#s-tevery").value || 3);
+        ns.turnEveryHoursHigh = Math.max(1, +$("#s-tevery2").value || 2);
+        ns.turnGraceMin = Math.max(0, +$("#s-tgrace").value || 0);
+        ns.turnHighFrom = +$("#s-thigh").value;
         ns.icuEscalate = Math.max(1, +$("#s-icu").value || 2);
         ns.idleMinutes = Math.min(120, Math.max(2, +$("#s-idle").value || 20));
         $$("[data-sw]").forEach(b => { ns[b.dataset.sw] = b.getAttribute("aria-pressed") === "true"; });
@@ -3798,6 +4413,1033 @@ function viewSettings() {
         }, true);
     }
   };
+}
+</script>
+<script>
+/* ============================================================
+   BẢN THỬ — BA TÍNH NĂNG ĐANG CÂN NHẮC
+   1. Bảng theo dõi xoay trở
+   2. Trạng thái liền thương ("đã lành")
+   3. Màn hình giao ban
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. XOAY TRỞ
+   ------------------------------------------------------------ */
+
+/* Gợi ý tư thế kế tiếp: luân phiên ngửa → nghiêng, đổi bên mỗi vòng */
+function suggestPosition(epId) {
+  const recent = DB.turnsOf(epId).slice(0, 6);
+  const last = recent[0];
+  if (!last) return "ngua";
+  if (last.pos === "ngua" || last.pos === "nuangoi") {
+    const lastLeft = recent.find(t => t.pos === "ngtrai");
+    const lastRight = recent.find(t => t.pos === "ngphai");
+    if (!lastLeft) return "ngtrai";
+    if (!lastRight) return "ngphai";
+    return dOf(lastLeft.at) < dOf(lastRight.at) ? "ngtrai" : "ngphai";
+  }
+  if (last.pos === "ngtrai") return "ngua";
+  if (last.pos === "ngphai") return "ngua";
+  return "ngua";
+}
+
+function turnDialog(p, ep, onDone) {
+  const sug = suggestPosition(ep.id);
+  const info = turnInfo(ep);
+  const slot = info.cur;                       // cữ đang ghi cho
+  const nowMs = Date.now();
+  const lateMs = slot ? Math.max(0, nowMs - slot.ms) : 0;
+  const isLate = lateMs > info.grace;
+
+  const body = `
+    <div class="notice ${isLate ? "warn" : ""}"><svg><use href="#i-clock"/></svg><span>
+      ${slot ? `Đang ghi cho <b>cữ ${fmtTime(slot.at)}</b> — lịch của người bệnh này là mỗi
+        <b>${info.every} giờ</b> (${esc(LEVELS[info.level].short.toLowerCase())}).
+        ${isLate ? `Ghi trễ ${fmtDur(lateMs)} so với mốc cữ.` : "Trong giờ."}`
+        : "Ghi lượt xoay trở."}
+      ${info.last ? `<br>Lượt gần nhất ${fmtTime(info.last.at)} — ${esc(posName(info.last.pos))}.`
+                  : "<br>Chưa ghi lượt nào trong đợt điều trị này."}</span></div>
+
+    <div class="field"><label>Tư thế vừa chuyển sang</label>
+      <div class="bundle" id="tr-pos">
+        ${POSITIONS.map(o => `<div class="bitem" data-pos="${o.v}" aria-pressed="${o.v === sug}" role="button" tabindex="0">
+          <span class="box"><svg><use href="#i-check"/></svg></span>
+          <span class="bt">${esc(o.t)}${o.v === sug ? ` <span style="color:var(--ink-3);font-size:12px">— gợi ý</span>` : ""}</span>
+        </div>`).join("")}
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="bundle">
+        <div class="bitem" id="tr-skin" aria-pressed="true" role="button" tabindex="0">
+          <span class="box"><svg><use href="#i-check"/></svg></span>
+          <span class="bt">Đã quan sát da các điểm tì đè khi xoay trở</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" id="tr-reasonwrap" ${isLate ? "" : "hidden"}>
+      <label for="tr-reason">Vì sao trễ cữ này</label>
+      <select id="tr-reason">${TURN_REASONS.map(r => `<option>${esc(r)}</option>`).join("")}</select>
+      <span class="help">Ghi lý do để không bị tính là bỏ cữ.</span></div>
+
+    <div class="field"><label for="tr-note">Ghi chú (không bắt buộc)</label>
+      <textarea id="tr-note" placeholder="vd: Cùng cụt còn hồng ban nhạt, đã kê gối chèn hông trái."></textarea></div>`;
+
+  const save = (skipped) => (b) => {
+    const sel = $("[data-pos][aria-pressed='true']", b);
+    if (!skipped && !sel) { toast("Chưa chọn tư thế", "err"); return false; }
+    const rs = $("#tr-reason", b);
+    const t = {
+      id: uid("t"), patientId: p.id, episodeId: ep.id,
+      at: new Date().toISOString(),
+      slotAt: slot ? slot.at.toISOString() : null,
+      pos: skipped ? null : sel.dataset.pos,
+      skipped: !!skipped,
+      reason: (skipped || isLate) && rs ? rs.value : "",
+      by: Session.user.id,
+      skinOk: skipped ? false : $("#tr-skin", b).getAttribute("aria-pressed") === "true",
+      note: $("#tr-note", b).value.trim()
+    };
+    DB.data.turns.push(t);
+    DB.log(skipped ? "xoay-tro-hoan" : "xoay-tro",
+      `${p.name} — ${skipped ? "chưa xoay được: " + t.reason : posName(t.pos)}`, "episode", ep.id);
+    DB.save();
+    toast(skipped ? "Đã ghi nhận chưa xoay được cữ này" : "Đã ghi lượt xoay trở lúc " + fmtTime(t.at), "ok");
+    if (onDone) onDone();
+  };
+
+  modal({
+    title: slot ? `Ghi xoay trở — cữ ${fmtTime(slot.at)}` : "Ghi lượt xoay trở",
+    body,
+    actions: [
+      { label: "Huỷ" },
+      { label: "Chưa xoay được", onClick: (b) => {
+        const rw = $("#tr-reasonwrap", b);
+        if (rw.hidden) {                       // lần bấm đầu: mở ô chọn lý do
+          rw.hidden = false;
+          $("#tr-reasonwrap label", b).textContent = "Vì sao chưa xoay được";
+          toast("Chọn lý do rồi bấm lại nút này", "err", 4000);
+          return false;
+        }
+        return save(true)(b);
+      }},
+      { label: "Lưu lượt xoay trở", kind: "pri", onClick: save(false) }
+    ]
+  });
+
+  // chọn tư thế: một lựa chọn duy nhất
+  setTimeout(() => {
+    const host = $(".modal");
+    $$("[data-pos]", host).forEach(el => {
+      const set = () => {
+        $$("[data-pos]", host).forEach(x => x.setAttribute("aria-pressed", "false"));
+        el.setAttribute("aria-pressed", "true");
+      };
+      el.onclick = set;
+      el.onkeydown = e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); set(); } };
+    });
+    const sk = $("#tr-skin", host);
+    const tog = () => sk.setAttribute("aria-pressed", sk.getAttribute("aria-pressed") === "true" ? "false" : "true");
+    sk.onclick = tog;
+    sk.onkeydown = e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); tog(); } };
+  }, 30);
+}
+
+/* Bảng cữ xoay trở — dựng đúng như bảng giấy treo đầu giường */
+const SLOT_LABEL = { done: "đúng cữ", late: "trễ cữ", miss: "bỏ cữ", skip: "chưa xoay được", now: "đang tới cữ", future: "cữ sau" };
+
+function slotChip(r) {
+  const t = r.turn;
+  return `<div class="turnchip s-${r.status}">
+    <div class="h">${fmtTime(r.at)}</div>
+    <div class="p">${t ? (t.skipped ? "hoãn" : esc(posShort(t.pos))) :
+      r.status === "miss" ? "—" : r.status === "now" ? "chờ" : "·"}</div>
+    <div class="w">${t ? esc((DB.userName(t.by) || "").split(" ").slice(-1)[0])
+      : r.status === "miss" ? "bỏ cữ" : ""}</div>
+  </div>`;
+}
+
+function turnBlock(p, ep) {
+  if (!ep) return "";
+  const info = turnInfo(ep);
+  const done = info.rows.filter(r => r.status === "done").length;
+  const late = info.rows.filter(r => r.status === "late").length;
+  const miss = info.rows.filter(r => r.status === "miss").length;
+  const skip = info.rows.filter(r => r.status === "skip").length;
+  const dueRows = info.rows.filter(r => r.ms <= Date.now());
+  const withSkin = info.rows.filter(r => r.turn && r.turn.skinOk).length;
+  const cur = info.cur;
+
+  const chips = `<div class="turnstrip">${info.rows.map(slotChip).join("")}</div>`;
+
+  const logRows = info.rows.filter(r => r.turn || r.status === "miss").slice().reverse().slice(0, 10);
+  const log = logRows.length ? `<div class="turnlog">${logRows.map(r => {
+    const t = r.turn;
+    return `<div class="row">
+      <div class="t">${fmtTime(r.at)}</div>
+      <div class="d">${t
+        ? `${t.skipped ? "<b>Chưa xoay được</b>" : esc(posName(t.pos))}
+           ${t.skipped ? "" : (t.skinOk ? `<span class="tag" style="margin-left:6px">đã xem da</span>`
+                                        : `<span class="tag watch" style="margin-left:6px">chưa xem da</span>`)}
+           <div class="m">${esc(DB.userName(t.by))} · ghi lúc ${fmtTime(t.at)}${
+             t.reason ? " · " + esc(t.reason) : ""}${t.note ? " · " + esc(t.note) : ""}</div>`
+        : `<b style="color:var(--r2-ink)">Bỏ cữ — không có ghi nhận</b>`}
+      </div>
+      <div class="gaptag ${r.status === "done" ? "" : "bad"}">${esc(SLOT_LABEL[r.status])}${
+        r.status === "late" ? " " + fmtDur(r.lateMs) : ""}</div>
+    </div>`;
+  }).join("")}</div>` : `<div class="empty">Chưa có cữ nào trong 24 giờ qua.</div>`;
+
+  return `<section class="card" id="turn-sec">
+    <div class="card-h"><h2>Bảng theo dõi xoay trở</h2>
+      <span class="hint">cữ mỗi ${info.every} giờ · ${esc(LEVELS[info.level].short.toLowerCase())}</span></div>
+
+    <div class="turnhead">
+      <span class="now">${info.last ? esc(posName(info.last.pos)) : "Chưa ghi"}</span>
+      <span class="when ${info.overdue ? "bad" : ""}">
+        ${info.overdue
+          ? `Chưa ghi cữ ${fmtTime(cur.at)} — đã qua ${fmtDur(info.late)}`
+          : cur && (cur.status === "done" || cur.status === "late")
+            ? `Đã xong cữ ${fmtTime(cur.at)}${cur.status === "late" ? " (trễ)" : ""} · cữ sau ${info.next ? fmtTime(info.next.at) : "—"}`
+            : cur && cur.status === "skip"
+              ? `Cữ ${fmtTime(cur.at)}: chưa xoay được · cữ sau ${info.next ? fmtTime(info.next.at) : "—"}`
+              : `Đang trong cữ ${cur ? fmtTime(cur.at) : "—"}`}</span>
+    </div>
+
+    <button class="bigtap ${info.overdue ? "warnb" : ""}" data-turn>
+      <svg><use href="#i-rotate"/></svg>${info.overdue ? `Ghi cữ ${fmtTime(cur.at)}` : "Ghi lượt xoay trở"}
+    </button>
+
+    <div class="tiles" style="grid-template-columns:repeat(3,1fr);margin-top:12px">
+      <div class="tile"><span class="lab">Cữ đạt trong 24 giờ</span>
+        <span class="val mono">${done + late}/${dueRows.length}</span>
+        <span class="note">${late} cữ ghi trễ</span></div>
+      <div class="tile ${miss ? "alert" : ""}"><span class="lab">Bỏ cữ</span><span class="val mono">${miss}</span>
+        <span class="note">${skip} cữ có lý do hoãn</span></div>
+      <div class="tile"><span class="lab">Có quan sát da</span>
+        <span class="val mono">${withSkin}/${done + late}</span>
+        <span class="note">cữ xoay kèm xem da</span></div>
+    </div>
+
+    ${chips}
+    ${log}
+    <p style="font-size:12px;color:var(--ink-3);margin-top:8px">
+      Mốc cữ ${pad(info.anchorHour)}:00 · châm chước ${Math.round(info.grace / 60000)} phút.</p>
+  </section>`;
+}
+
+/* ------------------------------------------------------------
+   1b. GHI CẢ BUỒNG MỘT LƯỢT — dành cho cữ xoay đồng loạt
+   Mở một màn hình, tư thế đã gợi ý sẵn, bấm một nút lưu hết.
+   ------------------------------------------------------------ */
+let ROUND = {};   // epId -> {pos, skin, skip, reason}
+
+const QUICK_POS = ["ngua", "ngtrai", "ngphai", "nuangoi"];
+
+function viewRound() {
+  const wardSlot = wardTurnSlot();
+  const rows = DB.admittedPatients().map(({ ep, p }) => {
+    const ti = turnInfo(ep);
+    const last = DB.lastAssessment(ep.id);
+    const lv = last ? (last.level != null ? last.level : levelOf(last.score)) : null;
+    return { p, ep, ti, lv, last };
+  }).filter(r => r.ti.cur)
+    .sort((a, b) => a.ep.bed.localeCompare(b.ep.bed, "vi"));
+
+  const todo = rows.filter(r => r.ti.cur.status === "miss" || r.ti.cur.status === "now");
+  const done = rows.filter(r => !(r.ti.cur.status === "miss" || r.ti.cur.status === "now"));
+
+  // gợi ý sẵn cho từng người, giữ lại lựa chọn người dùng đã sửa
+  todo.forEach(r => {
+    if (!ROUND[r.ep.id]) ROUND[r.ep.id] = { pos: suggestPosition(r.ep.id), skin: true, skip: false, reason: "" };
+  });
+
+  const rowHtml = r => {
+    const sel = ROUND[r.ep.id] || {};
+    return `<div class="rndrow ${sel.skip ? "skipped" : ""}" data-rrow="${r.ep.id}">
+      <div class="rnd-h">
+        <span class="bed mono">${esc(r.ep.bed || "—")}</span>
+        <b>${esc(r.p.name)}</b>
+        ${r.lv != null ? levelPill(r.lv, " sm") : ""}
+        <span class="rnd-slot ${r.ti.cur.status === "miss" ? "bad" : ""}">cữ ${fmtTime(r.ti.cur.at)}${
+          r.ti.every !== 3 ? ` · ${r.ti.every}g` : ""}</span>
+        ${r.ti.last ? `<span class="rnd-prev">trước: ${esc(posShort(r.ti.last.pos))} ${fmtTime(r.ti.last.at)}</span>` : ""}
+      </div>
+      <div class="rnd-pos">
+        ${QUICK_POS.map(v => `<button type="button" data-rpos="${v}" data-ep="${r.ep.id}"
+          aria-pressed="${sel.pos === v && !sel.skip}">${esc(posShort(v))}</button>`).join("")}
+        <button type="button" class="more" data-rmore="${r.ep.id}" aria-pressed="${
+          sel.pos && QUICK_POS.indexOf(sel.pos) < 0 && !sel.skip}">${
+          sel.pos && QUICK_POS.indexOf(sel.pos) < 0 ? esc(posShort(sel.pos)) : "khác"}</button>
+        <button type="button" class="skip" data-rskip="${r.ep.id}" aria-pressed="${!!sel.skip}">chưa xoay được</button>
+      </div>
+      ${sel.skip ? `<div class="rnd-reason">
+        <select data-rreason="${r.ep.id}">${TURN_REASONS.map(x =>
+          `<option ${x === sel.reason ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></div>` : `
+      <button type="button" class="rnd-skin" data-rskin="${r.ep.id}" aria-pressed="${sel.skin !== false}">
+        <span class="box"><svg><use href="#i-check"/></svg></span>đã xem da điểm tì đè</button>`}
+    </div>`;
+  };
+
+  const html = `
+    <section class="card">
+      <div class="card-h"><h2>Ghi cữ xoay trở</h2>
+        <span class="hint">cữ chung ${fmtTime(wardSlot)} · ${todo.length} người bệnh cần ghi</span></div>
+      <p style="font-size:13.5px;color:var(--ink-2);line-height:1.55">
+        Tư thế đã gợi ý sẵn. Chỉ sửa ca nào khác gợi ý, rồi bấm lưu một lần.</p>
+    </section>
+
+    ${todo.length ? `<section>${todo.map(rowHtml).join("")}</section>` : `
+      <div class="empty">Cả buồng đã ghi xong cữ này. Cữ sau bắt đầu lúc
+        ${rows[0] && rows[0].ti.next ? fmtTime(rows[0].ti.next.at) : "—"}.</div>`}
+
+    ${done.length ? `<section class="card">
+      <div class="card-h"><h2>Đã ghi trong cữ này</h2><span class="hint">${done.length} người bệnh</span></div>
+      <div class="turnlog">${done.map(r => `<div class="row">
+        <div class="t">${esc(r.ep.bed || "—")}</div>
+        <div class="d">${esc(r.p.name)}
+          <div class="m">${r.ti.cur.turn
+            ? `${r.ti.cur.turn.skipped ? "chưa xoay được — " + esc(r.ti.cur.turn.reason)
+                 : esc(posName(r.ti.cur.turn.pos))} · ${esc(DB.userName(r.ti.cur.turn.by))} lúc ${fmtTime(r.ti.cur.turn.at)}`
+            : "—"}</div></div>
+      </div>`).join("")}</div>
+    </section>` : ""}
+
+    ${todo.length ? `<div class="stickybar">
+      <div class="live"><span class="l">Sẽ lưu</span><span class="v mono">${todo.length}</span></div>
+      <button class="btn pri" data-rsave>Lưu cả buồng</button>
+    </div><div style="height:56px"></div>` : ""}`;
+
+  return {
+    title: "Cữ xoay trở", sub: "cữ chung " + fmtTime(wardSlot) + " · " + fmtDate(wardSlot), html,
+    bind() {
+      $$("[data-rpos]").forEach(b => b.onclick = () => {
+        const s = ROUND[b.dataset.ep]; s.pos = b.dataset.rpos; s.skip = false; render();
+      });
+      $$("[data-rskip]").forEach(b => b.onclick = () => {
+        const s = ROUND[b.dataset.rskip];
+        s.skip = !s.skip;
+        if (s.skip && !s.reason) s.reason = TURN_REASONS[0];
+        render();
+      });
+      $$("[data-rskin]").forEach(b => b.onclick = () => {
+        const s = ROUND[b.dataset.rskin]; s.skin = s.skin === false; render();
+      });
+      $$("[data-rreason]").forEach(sel => sel.onchange = () => {
+        ROUND[sel.dataset.rreason].reason = sel.value;
+      });
+      $$("[data-rmore]").forEach(b => b.onclick = () => {
+        const epId = b.dataset.rmore;
+        modal({
+          title: "Chọn tư thế khác",
+          body: `<div class="bundle">${POSITIONS.map(o =>
+            `<div class="bitem" data-mpos="${o.v}" role="button" tabindex="0"
+              aria-pressed="${ROUND[epId].pos === o.v}">
+              <span class="box"><svg><use href="#i-check"/></svg></span>
+              <span class="bt">${esc(o.t)}</span></div>`).join("")}</div>`,
+          actions: [{ label: "Đóng" }]
+        });
+        setTimeout(() => $$(".modal [data-mpos]").forEach(el => el.onclick = () => {
+          ROUND[epId].pos = el.dataset.mpos; ROUND[epId].skip = false;
+          $(".modal").remove(); render();
+        }), 30);
+      });
+
+      const sv = $("[data-rsave]");
+      if (sv) sv.onclick = () => {
+        const nowIso = new Date().toISOString();
+        let n = 0, ns = 0;
+        todo.forEach(r => {
+          const s = ROUND[r.ep.id]; if (!s) return;
+          const lateMs = Math.max(0, Date.now() - r.ti.cur.ms);
+          DB.data.turns.push({
+            id: uid("t"), patientId: r.p.id, episodeId: r.ep.id,
+            at: nowIso, slotAt: r.ti.cur.at.toISOString(),
+            pos: s.skip ? null : s.pos, skipped: !!s.skip,
+            reason: s.skip ? s.reason : (lateMs > r.ti.grace ? TURN_REASONS[0] : ""),
+            by: Session.user.id, skinOk: s.skip ? false : s.skin !== false,
+            note: "", batch: true
+          });
+          s.skip ? ns++ : n++;
+        });
+        DB.log("xoay-tro-ca-buong", `Cữ ${fmtTime(wardSlot)} — ${n} lượt xoay, ${ns} hoãn`, "round", "");
+        DB.save();
+        ROUND = {};
+        toast(`Đã ghi ${n} lượt xoay trở cho cả buồng`, "ok", 5000);
+        Nav.back();
+      };
+    }
+  };
+}
+
+/* ------------------------------------------------------------
+   2. TRẠNG THÁI LIỀN THƯƠNG
+   ------------------------------------------------------------ */
+function setLesionStatus(les, status, note) {
+  const now = new Date().toISOString();
+  const old = DB.lesionState(les.key);
+  const rec = old || { id: uid("ls"), key: les.key, episodeId: les.key.split("|")[0],
+                       site: les.site, device: les.device || "" };
+  rec.status = status;
+  rec.at = now;
+  rec.by = Session.user.id;
+  rec.note = note || "";
+  rec.history = (rec.history || []).concat([{ status, at: now, by: Session.user.id, note: note || "" }]);
+  touch(rec);
+  if (!old) DB.data.lesionStates.push(rec);
+  DB.log("trang-thai-ton-thuong", `${les.site}: ${LESION_STATUS[status].t}`, "lesion", les.key);
+  DB.save();
+}
+
+/* Ghi một lần theo dõi — ghi được bao nhiêu lần tuỳ ý, mỗi lần là một dòng trong diễn tiến */
+function lesionStatusDialog(les, status) {
+  const isHeal = status === "lanh";
+  const isReopen = status === "moflai";
+  const head = `<p style="font-size:14px;line-height:1.55">
+      <b>${esc(les.site)}</b>${les.device ? ` — ${esc(les.device)}` : ""} · độ ${esc(les.stage)} ·
+      phát hiện ${fmtDate(les.foundAt)}${les.poa ? " (có sẵn khi nhập khoa)" : " (phát sinh tại khoa)"}.</p>`;
+
+  if (isHeal || isReopen) {
+    modal({
+      title: isHeal ? "Đánh dấu tổn thương đã lành" : "Mở lại theo dõi",
+      body: head + (isHeal ? `<div class="notice"><svg><use href="#i-info"/></svg><span>
+          Chỉ đánh dấu khi da đã liền kín, hết hồng ban và ổn định qua ít nhất một ca sau.</span></div>`
+        : `<div class="notice warn"><svg><use href="#i-alert"/></svg><span>
+          Dùng khi vùng đã lành bị tổn thương trở lại. Diễn tiến cũ vẫn giữ nguyên.</span></div>`) + `
+        <div class="field"><label for="ls-note">Mô tả tình trạng da</label>
+          <textarea id="ls-note" placeholder="${isHeal
+            ? "vd: Da đã liền kín, không còn hồng ban, sờ không thấy cứng."
+            : "vd: Vùng cùng cụt đỏ trở lại sau 2 ngày nằm sấp."}"></textarea></div>`,
+      actions: [{ label: "Huỷ" }, {
+        label: isHeal ? "Xác nhận đã lành" : "Mở lại theo dõi", kind: "pri", onClick: (b) => {
+          const note = $("#ls-note", b).value.trim();
+          if (!note) { toast("Cần mô tả tình trạng da", "err"); return false; }
+          setLesionStatus(les, isHeal ? "lanh" : "theodoi", note);
+          toast(isHeal ? "Đã ghi nhận tổn thương lành" : "Đã mở lại theo dõi", "ok");
+        }
+      }]
+    });
+    return;
+  }
+
+  /* Cập nhật diễn tiến: chọn tình trạng hiện tại, ghi bao nhiêu lần cũng được */
+  modal({
+    title: "Ghi diễn tiến tổn thương",
+    body: head + `
+      <div class="field"><label>Tình trạng hiện tại</label>
+        <div class="bundle" id="ls-pick">
+          ${LESION_PROGRESS.map(v => `<div class="bitem" data-lsp="${v}" role="button" tabindex="0"
+            aria-pressed="${v === (les.status === "lanh" ? "theodoi" : les.status)}">
+            <span class="box"><svg><use href="#i-check"/></svg></span>
+            <span class="bt">${esc(LESION_STATUS[v].t)}</span></div>`).join("")}
+        </div></div>
+      <div class="field"><label for="ls-note">Mô tả lần theo dõi này</label>
+        <textarea id="ls-note" placeholder="vd: Vết trợt thu nhỏ còn 1 × 1 cm, đáy đỏ, không tiết dịch."></textarea></div>
+      <p style="font-size:12.5px;color:var(--ink-3)">
+        Mỗi lần ghi là một dòng trong diễn tiến, lưu tên người ghi và giờ. Ghi được nhiều lần.</p>`,
+    actions: [{ label: "Huỷ" }, { label: "Lưu diễn tiến", kind: "pri", onClick: (b) => {
+      const sel = $("[data-lsp][aria-pressed='true']", b);
+      const note = $("#ls-note", b).value.trim();
+      if (!sel) { toast("Chưa chọn tình trạng", "err"); return false; }
+      if (!note) { toast("Cần mô tả lần theo dõi này", "err"); return false; }
+      setLesionStatus(les, sel.dataset.lsp, note);
+      toast("Đã ghi diễn tiến", "ok");
+    }}]
+  });
+  setTimeout(() => {
+    const host = $(".modal");
+    $$("[data-lsp]", host).forEach(el => {
+      const set = () => {
+        $$("[data-lsp]", host).forEach(x => x.setAttribute("aria-pressed", "false"));
+        el.setAttribute("aria-pressed", "true");
+      };
+      el.onclick = set;
+      el.onkeydown = e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); set(); } };
+    });
+  }, 30);
+}
+
+function lesionCard(les) {
+  const st = les.status;
+  const sInfo = LESION_STATUS[st] || LESION_STATUS.theodoi;
+  const healed = st === "lanh";
+  const hist = (les.state && les.state.history) || [];
+  const days = daysBetween(les.foundAt, healed && les.state ? les.state.at : new Date());
+  return `<div class="lesion ${healed ? "healed" : ""}">
+    <div class="lh"><span class="t">${esc(les.site)}${les.device ? ` — ${esc(les.device)}` : ""}</span>
+      <span class="pill neutral sm">Độ ${esc(les.stage)}</span></div>
+    <div class="tagrow">
+      <span class="tag ${sInfo.tag}">${esc(sInfo.t)}</span>
+      <span class="tag ${les.poa ? "poa" : "hapi"}">${les.poa ? "Có sẵn khi nhập khoa" : "Phát sinh tại khoa"}</span>
+      ${les.isDevice ? `<span class="tag">Do thiết bị y tế</span>` : ""}
+      <span class="tag">Phát hiện ${fmtDate(les.foundAt)}</span>
+      <span class="tag">${healed ? `Lành sau ${days} ngày` : `Đang theo dõi ngày thứ ${days + 1}`}</span>
+      ${les.firstStage && les.firstStage !== les.stage ? `<span class="tag">Từ độ ${esc(les.firstStage)} → ${esc(les.stage)}</span>` : ""}
+    </div>
+    ${les.note ? `<p style="font-size:13px;color:var(--ink-2)">${esc(les.note)}</p>` : ""}
+    ${hist.length ? `<div class="lshist">
+      <div class="eyebrow" style="margin-bottom:5px">Diễn tiến · ${hist.length} lần ghi</div>
+      ${hist.slice().reverse().map(h => `<div class="lsrow">
+        <span class="tag ${LESION_STATUS[h.status] ? LESION_STATUS[h.status].tag : ""}">${
+          esc((LESION_STATUS[h.status] || {}).t || h.status)}</span>
+        <div><span class="lsnote">${esc(h.note || "—")}</span>
+          <span class="who">${esc(DB.userName(h.by))} · ${fmtDT(h.at)}</span></div>
+      </div>`).join("")}
+    </div>` : ""}
+    ${(les.photos || []).length ? `<div class="gal">${les.photos.map(ph =>
+      `<figure data-lb="${ph.id}" data-cap="${esc(les.site + " · " + fmtDT(ph.at))}">
+        <img data-photo="${ph.id}" alt="Ảnh ${esc(les.site)}">
+        <figcaption>${fmtDate(ph.at)}</figcaption></figure>`).join("")}</div>` : ""}
+    <div class="btnrow" style="margin-top:6px">
+      ${healed
+        ? `<button class="btn sm" data-lstat="moflai" data-lkey="${esc(les.key)}">Mở lại theo dõi</button>`
+        : `<button class="btn sm" data-lstat="theodoi" data-lkey="${esc(les.key)}">Ghi diễn tiến</button>
+           <button class="btn sm pri" data-lstat="lanh" data-lkey="${esc(les.key)}">Đánh dấu đã lành</button>`}
+    </div>
+  </div>`;
+}
+
+function lesionsBlockNew(ep) {
+  if (!ep) return "";
+  const all = lesionsOfEpisode(ep.id);
+  if (!all.length) return "";
+  const active = all.filter(l => l.status !== "lanh");
+  const healed = all.filter(l => l.status === "lanh");
+  return `<section class="card" id="lesion-sec">
+    <div class="card-h"><h2>Tổn thương của đợt điều trị này</h2>
+      <span class="hint">${active.length} đang theo dõi · ${healed.length} đã lành</span></div>
+    ${active.length ? active.map(lesionCard).join("")
+      : `<div class="notice"><svg><use href="#i-check"/></svg><span>
+          Không còn tổn thương nào đang theo dõi. Vẫn tiếp tục gói chăm sóc dự phòng.</span></div>`}
+    ${healed.length ? `<details style="margin-top:6px">
+      <summary style="cursor:pointer;font-size:13.5px;color:var(--ink-2);padding:6px 0">
+        Đã lành (${healed.length}) — bấm để xem</summary>
+      <div style="margin-top:8px">${healed.map(lesionCard).join("")}</div>
+    </details>` : ""}
+  </section>`;
+}
+
+function bindLesionActions(pid) {
+  $$("[data-lstat]").forEach(b => b.onclick = () => {
+    const ep = DB.activeEpisode(pid) || DB.episodesOf(pid)[0];
+    const les = lesionsOfEpisode(ep.id).find(l => l.key === b.dataset.lkey);
+    if (les) lesionStatusDialog(les, b.dataset.lstat);
+  });
+}
+
+
+/* ------------------------------------------------------------
+   3. GIAO BAN
+   Màn hình luôn là CA ĐANG TRỰC. Chốt xong thì ca đó đóng lại,
+   thành biên bản cố định; ca sau mở trang trắng của mình.
+   ------------------------------------------------------------ */
+
+/* Dựng toàn bộ nội dung bàn giao của một ca thành dữ liệu thuần,
+   để khi ký thì đóng băng đúng những gì đã ký. */
+function buildHandoverBody(shift, ref) {
+  const st = DB.data.settings || DEFAULT_SETTINGS();
+  const { start, end } = shiftRange(shift, ref);
+  const dayKey = isoDay(start);
+  const notesOf = epId => (DB.data.handoverNotes || [])
+    .filter(n => n.episodeId === epId && n.day === dayKey && n.shift === shift.v)
+    .sort((a, b) => a.at.localeCompare(b.at))
+    .map(n => ({ text: n.text, by: DB.userName(n.by), at: n.at }));
+
+  const rows = DB.admittedPatients().map(({ ep, p }) => {
+    const last = DB.lastAssessment(ep.id);
+    const lv = last ? (last.level != null ? last.level : levelOf(last.score)) : null;
+    const clv = last ? careLevelOf(last) : null;
+    const due = dueInfo(ep);
+    const ti = turnInfo(ep);
+    const les = lesionsOfEpisode(ep.id);
+    const lesActive = les.filter(l => l.status !== "lanh");
+    const lesHealed = les.filter(l => l.status === "lanh" && l.state &&
+      dOf(l.state.at) >= start && dOf(l.state.at) < end);
+    const newHapi = les.filter(l => !l.poa && dOf(l.foundAt) >= start && dOf(l.foundAt) < end);
+    const assessShift = DB.assessmentsOf(ep.id).filter(a => dOf(a.at) >= start && dOf(a.at) < end);
+    const turnsShift = (DB.data.turns || []).filter(t => t.episodeId === ep.id &&
+      dOf(t.at) >= start && dOf(t.at) < end);
+    const flags = DB.flagsOf(p.id).filter(f => f.status !== "dong");
+    const newAdmit = dOf(ep.admittedAt) >= start;
+
+    /* Chấm điểm mức độ cần bàn giao kỹ. Ghi lại luôn LÝ DO để nói được vì sao ca này
+       nằm trong phần trọng điểm — không để máy quyết định mà người không hiểu tại sao. */
+    let score = 0;
+    const why = [];
+    const add = (n, txt) => { score += n; if (txt) why.push(txt); };
+    if (lv === 3) add(40, "nguy cơ rất cao");
+    else if (lv === 2) add(25, "nguy cơ cao");
+    else if (lv === 1) add(8, null);
+    if (lesActive.length) add(25, "đang có tổn thương");
+    if (newHapi.length) add(60, "loét mới phát sinh trong ca");
+    if (due.overdue) add(30, "quá hạn đánh giá");
+    if (ti.overdue) add(22, "chưa ghi cữ xoay hiện tại");
+    if (flags.length) add(35, "có mục cần lưu ý chưa đóng");
+    if (newAdmit) add(15, "mới nhập khoa trong ca");
+    if (!last) add(30, "chưa đánh giá lần nào");
+
+    /* Diễn biến trong ca */
+    const pts = [];
+    if (last) pts.push(`Waterlow <b>${last.score}</b> — ${esc(LEVELS[lv].short.toLowerCase())}${
+      clv > lv ? `, chăm sóc theo mức ${esc(LEVELS[clv].short.toLowerCase())}` : ""}`);
+    else pts.push(`<b>Chưa đánh giá lần nào</b>`);
+    if (newAdmit) pts.push(`Mới nhập khoa lúc ${fmtTime(ep.admittedAt)}`);
+    newHapi.forEach(l => pts.push(`<b>Tổn thương mới trong ca: ${esc(l.site)} độ ${esc(l.stage)}</b>`));
+    lesActive.filter(l => newHapi.indexOf(l) < 0).forEach(l => pts.push(
+      `${esc(l.site)} độ ${esc(l.stage)} — ${esc(LESION_STATUS[l.status].t.toLowerCase())}, ngày thứ ${daysBetween(l.foundAt, new Date()) + 1}`));
+    lesHealed.forEach(l => pts.push(`${esc(l.site)} — <b>đã lành</b> trong ca này`));
+    pts.push(`Xoay trở ${turnsShift.length} lượt trong ca (lịch cữ ${ti.every} giờ)${
+      ti.last ? `, gần nhất ${fmtTime(ti.last.at)} — ${esc(posName(ti.last.pos))}` : ""}${
+      ti.missCount ? `, <b>bỏ ${ti.missCount} cữ trong 24 giờ</b>` : ""}${
+      ti.skipCount ? `, ${ti.skipCount} cữ hoãn có lý do` : ""}`);
+    if (assessShift.length) pts.push(`Đã đánh giá lại ${assessShift.length} lượt trong ca`);
+    flags.forEach(f => pts.push(`Cần lưu ý (${esc(f.status === "moi" ? "chưa tiếp nhận"
+      : f.status === "tiepnhan" ? "đã tiếp nhận" : "đang xử lý")}): ${esc(f.text)}`));
+
+    /* Việc của ca sau */
+    const todo = [];
+    if (!last) todo.push(due.overdue
+      ? `<b>Đánh giá Waterlow lần đầu ngay</b> — đã quá hạn ${fmtDur(Date.now() - due.due.getTime())}`
+      : `Đánh giá Waterlow lần đầu — hạn ${fmtDT(due.due)}`);
+    else if (due.overdue) todo.push(`<b>Đánh giá lại ngay</b> — đã quá hạn ${fmtDur(Date.now() - due.due.getTime())}`);
+    else todo.push(`Đánh giá lại trước ${fmtDT(due.due)}`);
+    if (ti.overdue) todo.push(`<b>Chưa ghi cữ ${fmtTime(ti.cur.at)}</b> — đã qua ${fmtDur(ti.late)}`);
+    else todo.push(`Cữ xoay kế tiếp ${ti.due ? fmtTime(ti.due) : "—"}${
+      ti.last ? ` (gợi ý: ${esc(posName(suggestPosition(ep.id)))})` : ""}`);
+    if (lesActive.length) todo.push(`Thay băng / chụp ảnh theo dõi ${lesActive.map(l => esc(l.site)).join(", ")}`);
+    flags.filter(f => f.status === "moi").forEach(() => todo.push(`Tiếp nhận mục cần lưu ý trên ứng dụng`));
+
+    return {
+      epId: ep.id, patientId: p.id, score,
+      bed: ep.bed || "—", name: p.name, mrn: p.mrn, dx: ep.diagnosis || "",
+      lv, waterlow: last ? last.score : null,
+      turnsShift: turnsShift.length, dueTxt: fmtDT(due.due),
+      pts, todo, why, notes: notesOf(ep.id),
+      _f: { lesActive: lesActive.length, newHapi: newHapi.length, lesHealed: lesHealed.length,
+            dueOver: due.overdue, turnOver: ti.overdue, assess: assessShift.length, newAdmit }
+    };
+  }).sort((a, b) => b.score - a.score || (b.waterlow || 0) - (a.waterlow || 0));
+
+  const sum = {
+    tong: rows.length,
+    loet: rows.filter(r => r._f.lesActive).length,
+    moiphatsinh: rows.filter(r => r._f.newHapi).length,
+    quahandg: rows.filter(r => r._f.dueOver).length,
+    quahanxt: rows.filter(r => r._f.turnOver).length,
+    canluuy: DB.openFlags().length,
+    lanh: rows.reduce((n, r) => n + r._f.lesHealed, 0),
+    luotdg: rows.reduce((n, r) => n + r._f.assess, 0),
+    luotxt: rows.reduce((n, r) => n + r.turnsShift, 0),
+    nhapmoi: rows.filter(r => r._f.newAdmit).length
+  };
+
+  return {
+    wardName: st.wardName, hospital: st.hospital,
+    shift: shift.v, shiftName: shift.t, from: shift.from, to: shift.to,
+    day: dayKey, start: start.toISOString(), end: end.toISOString(),
+    sum,
+    cases: rows.filter(r => r.score >= 55),
+    others: rows.filter(r => r.score < 55).map(r => ({
+      bed: r.bed, name: r.name, waterlow: r.waterlow, turnsShift: r.turnsShift, dueTxt: r.dueTxt })),
+    notesCount: rows.reduce((n, r) => n + r.notes.length, 0)
+  };
+}
+
+/* Vẽ nội dung bàn giao — dùng chung cho bản nháp đang trực và biên bản đã ký */
+function renderHOBody(b, opts) {
+  opts = opts || {};
+  const s = b.sum;
+  const caseCard = r => `<div class="hocase ${levelClass(r.lv == null ? 2 : r.lv)}">
+    <div class="hn"><span class="bed">${esc(r.bed)}</span><b>${esc(r.name)}</b>
+      <span style="font-size:12.5px;color:var(--ink-3)" class="mono">${esc(r.mrn)}</span>
+      <span style="font-size:12.5px;color:var(--ink-3)">${esc(r.dx)}</span></div>
+    <ul>${r.pts.map(t => `<li>${t}</li>`).join("")}</ul>
+    <div class="todo"><b>Việc của ca sau:</b> ${r.todo.join(" · ")}</div>
+    ${(r.why || []).length ? `<div class="whyline">Vào phần trọng điểm vì: ${esc(r.why.join(" · "))}</div>` : ""}
+    ${r.notes.length ? `<div class="hnotes">
+      ${r.notes.map(n => `<div class="hnote"><span class="q">”</span><div>${esc(n.text)}
+        <span class="who">${esc(n.by)} · ${fmtTime(n.at)}</span></div></div>`).join("")}
+    </div>` : ""}
+    ${opts.editable ? `<div class="btnrow noprint" style="margin-top:8px">
+      <button class="btn sm" data-honote="${r.epId}">+ Điều dưỡng dặn thêm</button>
+      <button class="btn sm ghost" data-hopatient="${r.patientId}">Mở hồ sơ</button>
+    </div>` : ""}
+  </div>`;
+
+  return `
+    <section class="card">
+      <div class="card-h"><h2>${esc(b.wardName)}</h2>
+        <span class="hint">${fmtDate(b.start)} · ${esc(b.shiftName)} (${pad(b.from)}:00 – ${pad(b.to)}:00)</span></div>
+      <div class="tiles" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+        <div class="tile"><span class="lab">Người bệnh</span><span class="val mono">${s.tong}</span>
+          <span class="note">${s.nhapmoi} nhập trong ca</span></div>
+        <div class="tile ${s.moiphatsinh ? "alert" : ""}"><span class="lab">Loét mới trong ca</span>
+          <span class="val mono">${s.moiphatsinh}</span><span class="note">${s.loet} ca đang có tổn thương</span></div>
+        <div class="tile ${s.quahandg ? "warnT" : ""}"><span class="lab">Quá hạn đánh giá</span>
+          <span class="val mono">${s.quahandg}</span><span class="note">${s.luotdg} lượt đã làm trong ca</span></div>
+        <div class="tile ${s.quahanxt ? "warnT" : ""}"><span class="lab">Chưa ghi cữ xoay</span>
+          <span class="val mono">${s.quahanxt}</span><span class="note">${s.luotxt} lượt đã ghi trong ca</span></div>
+        <div class="tile ${s.canluuy ? "alert" : ""}"><span class="lab">Cần lưu ý chưa đóng</span>
+          <span class="val mono">${s.canluuy}</span><span class="note">${s.lanh} tổn thương lành trong ca</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card-h"><h2>Bàn giao trọng điểm</h2><span class="hint">${b.cases.length} người bệnh</span></div>
+      ${b.cases.length ? b.cases.map(caseCard).join("")
+        : `<div class="empty">Không có ca nào cần bàn giao đặc biệt trong ca này.</div>`}
+    </section>
+
+    ${b.others.length ? `<section class="card">
+      <div class="card-h"><h2>Các ca còn lại</h2><span class="hint">${b.others.length} người bệnh, diễn tiến ổn</span></div>
+      <div class="tablewrap"><table><thead><tr><th>Giường</th><th>Người bệnh</th><th>Waterlow</th>
+        <th>Xoay trở trong ca</th><th>Đánh giá lại trước</th></tr></thead><tbody>
+        ${b.others.map(r => `<tr><td class="mono">${esc(r.bed)}</td><td>${esc(r.name)}</td>
+          <td class="num">${r.waterlow == null ? "—" : r.waterlow}</td>
+          <td class="num">${r.turnsShift}</td><td>${esc(r.dueTxt)}</td></tr>`).join("")}
+      </tbody></table></div>
+    </section>` : ""}`;
+}
+
+/* Chuỗi chữ ký của một biên bản */
+function hoChain(b, ho, nNotes, lastNote) {
+  const step = (done, title, who, at, pendingTxt) => `<div class="step ${done ? "" : "pending"}">
+    <div class="col"><div class="dot"></div><div class="line"></div></div>
+    <div class="txt">${done ? title : esc(pendingTxt || title)}
+      ${done && who ? `<span class="who">${esc(who)} · ${fmtDT(at)}</span>` : ""}</div></div>`;
+  return `<div class="chain" style="border-radius:var(--r-md);border:1px solid var(--line);border-top:1px solid var(--line)">
+    ${step(true, `Hệ thống tổng hợp diễn biến ${esc(b.shiftName.toLowerCase())}: ${b.sum.tong} người bệnh, ${b.sum.luotxt} lượt xoay trở, ${b.sum.luotdg} lượt đánh giá`,
+      "Tự động", b.start, "")}
+    ${step(nNotes > 0, `Điều dưỡng trực dặn thêm ${nNotes} nội dung cho ca sau`,
+      lastNote ? `ghi gần nhất: ${lastNote.by}` : "", lastNote ? lastNote.at : null,
+      "Điều dưỡng trực bổ sung dặn dò (bấm “+ Điều dưỡng dặn thêm” ở từng ca)")}
+    ${step(!!ho, ho ? `Chốt bàn giao${ho.note ? ": " + esc(ho.note) : ""}` : "",
+      ho ? DB.userName(ho.by) : "", ho ? ho.at : null, "Người giao ca chốt và ký")}
+    ${step(!!(ho && ho.receivedAt), ho && ho.receivedAt
+      ? `Nhận bàn giao${ho.receiveNote ? ": " + esc(ho.receiveNote) : ""}` : "",
+      ho && ho.receivedBy ? DB.userName(ho.receivedBy) : "", ho ? ho.receivedAt : null,
+      "Người nhận ca xác nhận đã nhận")}
+  </div>`;
+}
+
+function hoFind(day, shiftV) {
+  return (DB.data.handovers || []).find(h => h.day === day && h.shift === shiftV) || null;
+}
+function hoAll() {
+  return (DB.data.handovers || []).slice().sort((a, b) => b.at.localeCompare(a.at));
+}
+
+/* ---------- Màn hình Giao ban: luôn là ca đang trực ---------- */
+function viewHandover() {
+  const shift = currentShift();
+  const { start } = shiftRange(shift);
+  const dayKey = isoDay(start);
+  const ho = hoFind(dayKey, shift.v);
+  const body = ho && ho.body ? ho.body : buildHandoverBody(shift);
+
+  const shiftNotes = (DB.data.handoverNotes || [])
+    .filter(n => n.day === dayKey && n.shift === shift.v)
+    .sort((a, b) => a.at.localeCompare(b.at))
+    .map(n => ({ text: n.text, by: DB.userName(n.by), at: n.at }));
+  const nNotes = shiftNotes.length;
+  const lastNote = shiftNotes[nNotes - 1];
+
+  /* Biên bản ca trước còn treo, chưa ai nhận — hiện ngay đầu trang của ca này */
+  const pendingPrev = hoAll().find(h => !h.receivedAt && !(h.day === dayKey && h.shift === shift.v));
+
+  const history = hoAll().filter(h => !(h.day === dayKey && h.shift === shift.v)).slice(0, 8);
+  const historyCard = history.length ? `<section class="card noprint">
+    <div class="card-h"><h2>Biên bản các ca trước</h2>
+      <span class="hint"><button class="btn ghost sm" data-gblog>Mở sổ giao ban</button></span></div>
+    <div class="turnlog">${history.map(h => `<div class="row">
+      <div class="t">${fmtTime(h.at)}</div>
+      <div class="d"><b>${esc(h.shiftName)}</b> ngày ${fmtDate(h.at)}
+        <div class="m">${esc(DB.userName(h.by))} giao${h.receivedAt
+          ? ` → ${esc(DB.userName(h.receivedBy))} nhận ${fmtTime(h.receivedAt)}`
+          : ` · <span style="color:var(--r2-ink);font-weight:600">chưa có ai nhận</span>`}
+          · ${h.body ? h.body.sum.tong : (h.snapshot || {}).tong} người bệnh</div></div>
+      <button class="btn sm" data-hodoc="${h.id}" style="align-self:center">Mở biên bản</button>
+    </div>`).join("")}</div>
+  </section>` : "";
+
+  const sameUser = ho && ho.by === Session.user.id;
+
+  const signCard = `<section class="card noprint" id="ho-sign">
+    <div class="card-h"><h2>Bàn giao ${esc(shift.t.toLowerCase())}</h2>
+      <span class="hint">${ho ? (ho.receivedAt ? "đã hoàn tất" : "đã chốt, chờ ca sau nhận") : "đang trực"}</span></div>
+    ${hoChain(body, ho, nNotes, lastNote)}
+    ${!ho ? `
+      <div class="field" style="margin-top:12px"><label for="ho-note">Nội dung bàn giao chung (không bắt buộc)</label>
+        <textarea id="ho-note" placeholder="vd: Máy đệm hơi giường HS-07 kêu, đã báo phòng vật tư."></textarea></div>
+      <div class="btnrow">
+        <button class="btn pri" data-hosign>Chốt và ký bàn giao ${esc(shift.t.toLowerCase())}</button>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-3);margin-top:8px">
+        Chốt xong là khoá lại. Muốn dặn gì thì dặn trước.</p>
+    ` : !ho.receivedAt ? `
+      <div class="notice" style="margin-top:12px"><svg><use href="#i-clock"/></svg><span>
+        <b>${esc(DB.userName(ho.by))}</b> đã chốt lúc ${fmtDT(ho.at)}.
+        Biên bản đã đóng, nội dung bên dưới là bản đã ký. Đang chờ điều dưỡng ca sau xác nhận.</span></div>
+      <div class="btnrow" style="margin-top:10px">
+        <button class="btn pri" data-horecv="${ho.id}">Tôi nhận bàn giao ca này</button>
+        <button class="btn" data-hodoc="${ho.id}">Mở biên bản / lưu PDF</button>
+      </div>
+      ${sameUser ? `<p style="font-size:12.5px;color:var(--r2-ink);margin-top:8px">
+        Bạn là người vừa chốt — người nhận ca phải đăng nhập tài khoản của họ.</p>` : ""}
+    ` : `
+      <div class="notice" style="margin-top:12px"><svg><use href="#i-check"/></svg><span>
+        Bàn giao hoàn tất: <b>${esc(DB.userName(ho.by))}</b> giao lúc ${fmtTime(ho.at)},
+        <b>${esc(DB.userName(ho.receivedBy))}</b> nhận lúc ${fmtTime(ho.receivedAt)}.</span></div>
+      <div class="btnrow" style="margin-top:10px">
+        <button class="btn" data-hodoc="${ho.id}">Mở biên bản / lưu PDF</button>
+      </div>
+    `}
+  </section>`;
+
+  const prevBanner = pendingPrev ? `<section class="card noprint" style="border-color:var(--r2)">
+    <div style="display:flex;gap:11px;align-items:flex-start">
+      <span style="color:var(--r2);flex:none"><svg style="width:22px;height:22px"><use href="#i-alert"/></svg></span>
+      <div style="flex:1;min-width:0">
+        <h2 style="font-size:15px">Chưa ai nhận bàn giao ${esc(pendingPrev.shiftName.toLowerCase())}</h2>
+        <p style="font-size:13.5px;color:var(--ink-2);line-height:1.5;margin-top:3px">
+          ${esc(DB.userName(pendingPrev.by))} đã chốt lúc ${fmtDT(pendingPrev.at)}.
+          Nếu bạn là điều dưỡng nhận ca, mở biên bản, đọc rồi bấm nhận.</p>
+        <div class="btnrow" style="margin-top:9px">
+          <button class="btn pri sm" data-hodoc="${pendingPrev.id}">Mở biên bản ca trước</button>
+          <button class="btn sm" data-horecv="${pendingPrev.id}">Tôi nhận bàn giao</button>
+        </div>
+      </div>
+    </div>
+  </section>` : "";
+
+  return {
+    title: "Giao ban", sub: `${shift.t} · ${fmtDate(start)}`,
+    html: prevBanner + (ho ? `<div class="notice"><svg><use href="#i-shield"/></svg><span>
+        Đây là <b>biên bản đã ký</b> của ${esc(shift.t.toLowerCase())} — không sửa được nữa.
+        ${esc(currentShift().t)} kết thúc lúc ${pad(shift.to)}:00, sau đó trang này tự mở ca mới.</span></div>` : "")
+      + renderHOBody(body, { editable: !ho }) + signCard + historyCard,
+    bind() { bindHandoverActions(shift, dayKey, body); }
+  };
+}
+
+/* ---------- Biên bản đã ký, xem lại và in ---------- */
+function viewHandoverDoc({ id }) {
+  const h = (DB.data.handovers || []).find(x => x.id === id);
+  if (!h) return { title: "Biên bản", html: `<div class="empty">Không tìm thấy biên bản.</div>` };
+  const b = h.body;
+  if (!b) return { title: "Biên bản", html: `<div class="empty">Biên bản này được tạo ở phiên bản cũ, không còn nội dung chi tiết.</div>` };
+
+  const head = `<section class="card">
+    <div style="text-align:center;padding:6px 0 10px;border-bottom:1px solid var(--line);margin-bottom:12px">
+      <div style="font-size:12.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em">${esc(b.hospital)}</div>
+      <div style="font-size:13.5px;font-weight:600">${esc(b.wardName)}</div>
+      <h2 style="font-size:19px;margin-top:10px">BIÊN BẢN BÀN GIAO CA</h2>
+      <div style="font-size:13.5px;color:var(--ink-2);margin-top:3px">
+        ${esc(b.shiftName)} (${pad(b.from)}:00 – ${pad(b.to)}:00) · ngày ${fmtDate(b.start)}</div>
+    </div>
+    <div class="grid2" style="font-size:13.5px;line-height:1.6">
+      <div><b>Người giao ca:</b> ${esc(DB.userName(h.by))}<br>
+        <span style="color:var(--ink-3)">chốt lúc ${fmtDT(h.at)}</span></div>
+      <div><b>Người nhận ca:</b> ${h.receivedAt ? esc(DB.userName(h.receivedBy)) : "—"}<br>
+        <span style="color:var(--ink-3)">${h.receivedAt ? "nhận lúc " + fmtDT(h.receivedAt) : "chưa có ai nhận"}</span></div>
+    </div>
+    ${h.note ? `<p style="font-size:13.5px;margin-top:10px"><b>Bàn giao chung:</b> ${esc(h.note)}</p>` : ""}
+    ${h.receiveNote ? `<p style="font-size:13.5px;margin-top:6px"><b>Ý kiến người nhận:</b> ${esc(h.receiveNote)}</p>` : ""}
+  </section>`;
+
+  const foot = `<section class="card noprint">
+    <div class="btnrow">
+      <button class="btn pri" data-hoprint>In / lưu PDF</button>
+      ${!h.receivedAt && h.by !== Session.user.id
+        ? `<button class="btn" data-horecv="${h.id}">Tôi nhận bàn giao ca này</button>` : ""}
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-3);margin-top:8px">
+      Trên điện thoại: <b>In</b> → <b>Lưu vào Tệp</b> để có tệp PDF.</p>
+  </section>`;
+
+  return {
+    title: "Biên bản bàn giao", sub: `${b.shiftName} · ${fmtDate(b.start)}`,
+    html: head + renderHOBody(b, { editable: false }) + foot,
+    bind() {
+      const pr = $("[data-hoprint]"); if (pr) pr.onclick = () => window.print();
+      bindHandoverActions(null, null, b);
+    }
+  };
+}
+
+/* ---------- SỔ GIAO BAN — điều dưỡng trưởng xem lại toàn bộ ---------- */
+let GBLOG = { days: 14 };
+
+function viewHandoverLog() {
+  const days = GBLOG.days;
+  const now = new Date();
+  const all = hoAll();
+
+  /* Dựng đủ mọi ca trong khoảng, kể cả ca KHÔNG có biên bản — chỗ trống mới là thứ cần thấy */
+  const list = [];
+  for (let d = 0; d < days; d++) {
+    const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() - d);
+    SHIFTS.forEach(sh => {
+      const { start, end } = shiftRange(sh, new Date(day.getFullYear(), day.getMonth(), day.getDate(), sh.from, 30));
+      if (start > now) return;                       // ca chưa tới
+      const dayKey = isoDay(start);
+      const h = hoFind(dayKey, sh.v);
+      const running = now < end;                     // ca đang trực, chưa tới giờ chốt
+      list.push({ day: dayKey, start, shift: sh, ho: h, running });
+    });
+  }
+  list.sort((a, b) => b.start - a.start);
+
+  const closed = list.filter(x => !x.running);
+  const signed = closed.filter(x => x.ho);
+  const received = signed.filter(x => x.ho.receivedAt);
+  const gaps = closed.filter(x => !x.ho);
+  const waiting = signed.filter(x => !x.ho.receivedAt);
+  const delays = received.map(x => dOf(x.ho.receivedAt) - dOf(x.ho.at)).filter(v => v >= 0);
+  const medDelay = delays.length
+    ? delays.slice().sort((a, b) => a - b)[Math.floor(delays.length / 2)] : null;
+
+  const byDay = {};
+  list.forEach(x => { (byDay[x.day] = byDay[x.day] || []).push(x); });
+  const dayKeys = Object.keys(byDay).sort().reverse();
+
+  const rowHtml = x => {
+    const h = x.ho;
+    const st = x.running ? "running" : !h ? "gap" : h.receivedAt ? "ok" : "wait";
+    const lab = { running: "đang trực", gap: "không có biên bản", ok: "đủ hai chữ ký", wait: "chưa ai nhận" }[st];
+    return `<div class="gblog-row s-${st}">
+      <div class="gb-sh">${esc(x.shift.t)}<span>${pad(x.shift.from)}:00–${pad(x.shift.to)}:00</span></div>
+      <div class="gb-body">
+        ${h ? `<div class="gb-sign">${esc(DB.userName(h.by))} <span>giao ${fmtTime(h.at)}</span>
+            ${h.receivedAt ? `→ ${esc(DB.userName(h.receivedBy))} <span>nhận ${fmtTime(h.receivedAt)}</span>`
+                           : `<span class="gb-wait">chưa có ai nhận</span>`}</div>
+          <div class="gb-meta">${h.body ? h.body.sum.tong : "—"} người bệnh ·
+            ${h.body ? h.body.sum.moiphatsinh : 0} loét mới ·
+            ${h.body ? h.body.sum.quahandg : 0} quá hạn đánh giá${h.note ? " · " + esc(h.note) : ""}</div>`
+        : `<div class="gb-meta">${x.running ? "Ca đang trực, chưa tới giờ chốt bàn giao."
+            : "<b>Không có ai chốt bàn giao ca này.</b>"}</div>`}
+      </div>
+      <div class="gb-right">
+        <span class="gb-pill ${st}">${lab}</span>
+        ${h ? `<button class="btn sm" data-hodoc="${h.id}">Mở</button>` : ""}
+      </div>
+    </div>`;
+  };
+
+  const html = `
+    <div class="btnrow">
+      ${[[7, "7 ngày"], [14, "14 ngày"], [30, "30 ngày"], [90, "90 ngày"]].map(([d, t]) =>
+        `<button class="btn sm" data-gbdays="${d}"
+          style="${days === d ? "background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600" : ""}">${t}</button>`).join("")}
+    </div>
+
+    <section class="tiles">
+      <div class="tile"><span class="lab">Ca đã qua trong kỳ</span><span class="val mono">${closed.length}</span>
+        <span class="note">${signed.length} ca có biên bản</span></div>
+      <div class="tile ${gaps.length ? "alert" : ""}"><span class="lab">Ca không ai chốt</span>
+        <span class="val mono">${gaps.length}</span>
+        <span class="note">${closed.length ? Math.round(signed.length / closed.length * 100) : 0}% ca có bàn giao</span></div>
+      <div class="tile ${waiting.length ? "warnT" : ""}"><span class="lab">Chốt nhưng chưa ai nhận</span>
+        <span class="val mono">${waiting.length}</span>
+        <span class="note">${received.length} ca đủ hai chữ ký</span></div>
+      <div class="tile"><span class="lab">Từ chốt đến nhận</span>
+        <span class="val mono">${medDelay == null ? "—" : Math.round(medDelay / 60000)}</span>
+        <span class="note">phút, trung vị</span></div>
+    </section>
+
+    <section>
+      <div class="card-h"><h2>Sổ giao ban</h2><span class="hint">mới nhất trước</span></div>
+      ${dayKeys.map(k => `<div class="gblog-day">
+        <div class="gblog-date">${fmtDate(byDay[k][0].start)}</div>
+        ${byDay[k].sort((a, b) => b.start - a.start).map(rowHtml).join("")}
+      </div>`).join("")}
+    </section>`;
+
+  return {
+    title: "Sổ giao ban", sub: `${days} ngày gần nhất`, html,
+    bind() {
+      $$("[data-gbdays]").forEach(b => b.onclick = () => { GBLOG.days = +b.dataset.gbdays; render(); });
+      $$("[data-hodoc]").forEach(b => b.onclick = () => Nav.go("handoverdoc", { id: b.dataset.hodoc }));
+  const gl = $("[data-gblog]"); if (gl) gl.onclick = () => Nav.go("handoverlog");
+    }
+  };
+}
+
+/* ---------- Thao tác dùng chung ---------- */
+function bindHandoverActions(shift, dayKey, body) {
+  $$("[data-hopatient]").forEach(b => b.onclick = () => Nav.go("patient", { id: b.dataset.hopatient }));
+  $$("[data-hodoc]").forEach(b => b.onclick = () => Nav.go("handoverdoc", { id: b.dataset.hodoc }));
+  const gl = $("[data-gblog]"); if (gl) gl.onclick = () => Nav.go("handoverlog");
+
+  /* Điều dưỡng dặn thêm cho từng người bệnh */
+  $$("[data-honote]").forEach(b => b.onclick = () => {
+    const ep = DB.episode(b.dataset.honote);
+    const p = ep && DB.patient(ep.patientId);
+    if (!ep || !p || !shift) return;
+    modal({
+      title: "Dặn ca sau — " + p.name,
+      body: `<p style="font-size:13.5px;color:var(--ink-2);line-height:1.55">
+          Ghi những gì chỉ người trực mới biết, máy không tự tổng hợp được.</p>
+        <div class="field"><label for="hn-text">Nội dung dặn ca sau</label>
+          <textarea id="hn-text" placeholder="vd: Nghiêng trái thì SpO₂ tụt còn 88%, chỉ nghiêng phải và nửa ngồi. Đã báo bác sĩ."></textarea></div>`,
+      actions: [{ label: "Huỷ" }, { label: "Lưu dặn dò", kind: "pri", onClick: (bd) => {
+        const text = $("#hn-text", bd).value.trim();
+        if (!text) { toast("Chưa nhập nội dung", "err"); return false; }
+        DB.data.handoverNotes.push({
+          id: uid("hn"), episodeId: ep.id, patientId: p.id, day: dayKey, shift: shift.v,
+          text, by: Session.user.id, at: new Date().toISOString()
+        });
+        DB.log("dan-ca-sau", `${p.name}: ${text.slice(0, 60)}`, "episode", ep.id);
+        DB.save();
+        toast("Đã thêm vào bàn giao ca sau", "ok");
+      }}]
+    });
+  });
+
+  /* Người giao ca chốt */
+  const sg = $("[data-hosign]");
+  if (sg && shift) sg.onclick = () => {
+    const note = (($("#ho-note") || {}).value || "").trim();
+    confirmBox("Chốt bàn giao " + shift.t.toLowerCase(),
+      `Sau khi chốt, biên bản ca này <b>đóng lại và không sửa được</b>, chờ điều dưỡng ca sau bấm nhận.
+       Bạn đang ký với tên <b>${esc(Session.user.name)}</b>.`,
+      "Chốt và ký", () => {
+        const frozen = buildHandoverBody(shift);   // đóng băng đúng lúc ký
+        DB.data.handovers.push(touch({
+          id: uid("ho"), at: new Date().toISOString(), shift: shift.v, shiftName: shift.t,
+          day: dayKey, by: Session.user.id, note, body: frozen,
+          receivedBy: null, receivedAt: null, receiveNote: ""
+        }));
+        DB.log("giao-ban-chot", `${shift.t} — ${frozen.sum.tong} người bệnh`, "handover", "");
+        DB.save();
+        toast("Đã chốt bàn giao " + shift.t.toLowerCase() + ". Chờ ca sau xác nhận.", "ok", 6000);
+      });
+  };
+
+  /* Người nhận ca xác nhận */
+  $$("[data-horecv]").forEach(btn => btn.onclick = () => {
+    const h = (DB.data.handovers || []).find(x => x.id === btn.dataset.horecv);
+    if (!h) { toast("Không tìm thấy biên bản", "err"); return; }
+    modal({
+      title: "Nhận bàn giao " + h.shiftName.toLowerCase(),
+      body: `<div class="notice"><svg><use href="#i-shield"/></svg><span>
+          Bấm nhận là bạn <b>đã đọc và đồng ý</b>; việc còn tồn thuộc ca của bạn.
+          Ghi tên <b>${esc(Session.user.name)}</b> và giờ phút.</span></div>
+        <div class="field"><label for="hr-note">Ý kiến khi nhận (không bắt buộc)</label>
+          <textarea id="hr-note" placeholder="vd: Đã nhận. Sẽ kiểm tra lại vùng cùng cụt giường HS-01 ngay đầu ca."></textarea></div>`,
+      actions: [{ label: "Huỷ" }, { label: "Xác nhận đã nhận bàn giao", kind: "pri", onClick: (bd) => {
+        h.receivedBy = Session.user.id;
+        h.receivedAt = new Date().toISOString();
+        h.receiveNote = $("#hr-note", bd).value.trim();
+        touch(h);
+        DB.log("giao-ban-nhan", `${h.shiftName} — nhận bàn giao`, "handover", h.id);
+        DB.save();
+        toast("Đã xác nhận nhận bàn giao", "ok", 5000);
+      }}]
+    });
+  });
 }
 </script>
 <script>
@@ -4040,6 +5682,162 @@ async function seedDemo() {
     }
   });
 
+  /* --- BẢN THỬ: xoay trở theo CỮ CỐ ĐỊNH trong 30 giờ qua --- */
+  const POS_CYCLE = ["ngua", "ngtrai", "ngua", "ngphai"];
+  const S = DEFAULT_SETTINGS();
+  current.forEach((c, idx) => {
+    const last = DB.lastAssessment(c.ep.id);
+    const clv = last ? careLevelOf(last) : 1;
+    const every = clv >= S.turnHighFrom ? S.turnEveryHoursHigh : S.turnEveryHours;
+    const from = Math.max(dOf(c.ep.admittedAt).getTime() + 30 * 60000, now.getTime() - 30 * 3600000);
+    const slots = turnSlotList(every, S.turnAnchorHour, from, now.getTime());
+    // ba ca để trống cữ gần nhất — cảnh "đang tới cữ mà chưa ai ghi"
+    const leaveOpen = (idx === 0 || idx === 3 || idx === 6) ? 1 : 0;
+    slots.slice(0, slots.length - leaveOpen).forEach((s, i) => {
+      if (chance(0.06)) return;                       // bỏ cữ, không ghi gì
+      const nurse = pick(nurses);
+      if (chance(0.05)) {                             // có ghi nhưng chưa xoay được
+        DB.data.turns.push({
+          id: uid("t"), patientId: c.p.id, episodeId: c.ep.id,
+          at: new Date(s + int(5, 30) * 60000).toISOString(), slotAt: new Date(s).toISOString(),
+          pos: null, skipped: true, by: nurse.id, skinOk: false,
+          reason: pick(TURN_REASONS.slice(0, 4)), note: "", demo: true
+        });
+        return;
+      }
+      // đa số ghi quanh mốc cữ, thỉnh thoảng trễ vì kẹt việc
+      const offset = chance(0.15) ? int(50, 95) : int(-8, 28);
+      DB.data.turns.push({
+        id: uid("t"), patientId: c.p.id, episodeId: c.ep.id,
+        at: new Date(s + offset * 60000).toISOString(), slotAt: new Date(s).toISOString(),
+        pos: POS_CYCLE[(idx + i) % POS_CYCLE.length], skipped: false,
+        by: nurse.id, skinOk: chance(0.84),
+        reason: offset > 45 ? pick(TURN_REASONS.slice(0, 3)) : "",
+        note: chance(0.14) ? pick([
+          "Da vùng cùng cụt hồng nhạt, mất màu khi ấn.",
+          "Đã kê gối chèn hông, gót chân treo tự do.",
+          "Kiểm tra da dưới dây cố định ống nội khí quản, chưa thấy bất thường.",
+          "Thay drap do ẩm, đã dùng kem bảo vệ da."
+        ]) : "",
+        demo: true
+      });
+    });
+  });
+
+  /* --- BẢN THỬ: trạng thái liền thương --- */
+  const cPoa = current.find(c => c.pr.lesion === "poa");
+  if (cPoa) {
+    const les = lesionsOfEpisode(cPoa.ep.id)[0];
+    if (les) {
+      const at = new Date(now.getTime() - 26 * 3600000);
+      DB.data.lesionStates.push({
+        id: uid("ls"), key: les.key, episodeId: cPoa.ep.id, site: les.site, device: "",
+        status: "lanh", at: at.toISOString(), by: nurses[1].id,
+        note: "Da đã liền kín, không còn hồng ban, sờ không thấy cứng. Đã đối chiếu ảnh chụp lúc nhập khoa.",
+        updatedAt: at.toISOString(),
+        history: [
+          { status: "caithien", at: new Date(at.getTime() - 40 * 3600000).toISOString(), by: nurses[2].id,
+            note: "Hồng ban nhạt dần, đường kính còn khoảng 1,5 cm." },
+          { status: "lanh", at: at.toISOString(), by: nurses[1].id,
+            note: "Da đã liền kín, không còn hồng ban, sờ không thấy cứng." }
+        ], demo: true
+      });
+    }
+  }
+  const cSac = current.find(c => c.pr.lesion === "sacrum");
+  if (cSac) {
+    const les = lesionsOfEpisode(cSac.ep.id)[0];
+    if (les) {
+      const at = new Date(now.getTime() - 5 * 3600000);
+      DB.data.lesionStates.push({
+        id: uid("ls"), key: les.key, episodeId: cSac.ep.id, site: les.site, device: "",
+        status: "caithien", at: at.toISOString(), by: nurses[0].id,
+        note: "Vùng hồng ban thu nhỏ còn khoảng 2 cm, đã mất màu khi ấn nhẹ. Tiếp tục băng bọt xốp.",
+        updatedAt: at.toISOString(),
+        history: [
+          { status: "theodoi", at: new Date(at.getTime() - 22 * 3600000).toISOString(), by: nurses[1].id,
+            note: "Hồng ban khoảng 3 cm, không mất màu khi ấn. Đã dán băng bọt xốp và kê gót treo." },
+          { status: "caithien", at: at.toISOString(), by: nurses[0].id,
+            note: "Vùng hồng ban thu nhỏ còn khoảng 2 cm, đã mất màu khi ấn nhẹ." }
+        ], demo: true
+      });
+    }
+  }
+
+  /* --- BẢN THỬ: sổ giao ban ~2 tuần trước, để điều dưỡng trưởng xem lại --- */
+  (function () {
+    const base = buildHandoverBody(currentShift(now), now);
+    for (let d = 16; d >= 1; d--) {
+      SHIFTS.forEach((sh, si) => {
+        const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() - d, sh.from, 30);
+        const { start, end } = shiftRange(sh, day);
+        if (start > now) return;
+        if (chance(0.07)) return;                       // vài ca không ai chốt — để thấy chỗ hổng
+        const giao = nurses[(d + si) % nurses.length];
+        const nhan = nurses[(d + si + 1) % nurses.length];
+        const at = new Date(end.getTime() - int(5, 25) * 60000);
+        const nhanRoi = !chance(0.12);                  // đa số có người nhận
+        DB.data.handovers.push({
+          id: uid("ho"), at: at.toISOString(), shift: sh.v, shiftName: sh.t,
+          day: isoDay(start), by: giao.id,
+          note: chance(0.4) ? pick([
+            "Đệm hơi giường HS-05 đã thay mới.",
+            "Người nhà giường HS-09 xin hỗ trợ xoay trở ban đêm.",
+            "Băng bọt xốp còn ít, đã báo kho.",
+            "Hai ca nằm sấp, lưu ý kiểm tra vùng trán và gò má."
+          ]) : "",
+          receivedBy: nhanRoi ? nhan.id : null,
+          receivedAt: nhanRoi ? new Date(at.getTime() + int(3, 24) * 60000).toISOString() : null,
+          receiveNote: nhanRoi && chance(0.35) ? "Đã nhận, sẽ kiểm tra các điểm tì ngay đầu ca." : "",
+          body: Object.assign({}, base, {
+            shift: sh.v, shiftName: sh.t, from: sh.from, to: sh.to,
+            day: isoDay(start), start: start.toISOString(), end: end.toISOString(),
+            cases: base.cases.slice(0, int(2, 4)), others: base.others.slice(0, int(5, 9)),
+            sum: Object.assign({}, base.sum, {
+              moiphatsinh: chance(0.12) ? 1 : 0, quahandg: int(0, 3), quahanxt: int(0, 4),
+              luotxt: int(18, 34), luotdg: int(2, 7), lanh: chance(0.15) ? 1 : 0, nhapmoi: int(0, 2)
+            })
+          }),
+          demo: true
+        });
+      });
+    }
+  })();
+
+  /* --- BẢN THỬ: ca vừa rồi đã bàn giao xong (có cả chữ ký giao và nhận) --- */
+  (function () {
+    const prev = new Date(now.getTime() - 8 * 3600000);
+    const sh = currentShift(prev);
+    DB.data.handovers.push({
+      id: uid("ho"), at: prev.toISOString(), shift: sh.v, shiftName: sh.t,
+      day: isoDay(shiftRange(sh, prev).start), by: nurses[2].id,
+      note: "Giường HS-07 máy đệm hơi kêu, đã báo phòng vật tư. Người nhà giường HS-03 đã được hướng dẫn cách phụ xoay trở.",
+      receivedBy: nurses[0].id,
+      receivedAt: new Date(prev.getTime() + 11 * 60000).toISOString(),
+      receiveNote: "Đã nhận. Sẽ kiểm tra lại vùng cùng cụt giường HS-01 ngay đầu ca.",
+      body: buildHandoverBody(sh, prev),
+      demo: true
+    });
+  })();
+
+  /* --- BẢN THỬ: vài dặn dò điều dưỡng tự ghi trong ca đang trực --- */
+  (function () {
+    const sh = currentShift(now);
+    const day = isoDay(shiftRange(sh, now).start);
+    const mk = (c, text, byIdx, hoursAgo) => {
+      if (!c) return;
+      DB.data.handoverNotes.push({
+        id: uid("hn"), episodeId: c.ep.id, patientId: c.p.id, day, shift: sh.v,
+        text, by: nurses[byIdx].id,
+        at: new Date(now.getTime() - hoursAgo * 3600000).toISOString(), demo: true
+      });
+    };
+    mk(current.find(c => c.pr.lesion === "sacrum"),
+      "Nghiêng trái thì SpO₂ tụt còn 88%, chỉ nghiêng phải và nửa ngồi. Đã báo bác sĩ, có y lệnh theo dõi sát.", 0, 2.5);
+    mk(current.find(c => c.pr.overdue),
+      "Người nhà đã được hướng dẫn cách phụ đỡ khi xoay trở, ca đêm có thể nhờ hỗ trợ. Da vùng gò má bên phải hơi đỏ sau khi nằm sấp.", 1, 1.2);
+  })();
+
   /* --- Ảnh minh hoạ cho một ca, để trình diễn tính năng so sánh --- */
   if (sacrumPatient && DB.data.settings.photosEnabled) {
     const withLesion = sacrumAssessments.filter(a => (a.lesions || []).length);
@@ -4143,9 +5941,16 @@ function placeholderPhoto(mrn, date, seq) {
 
   await DB.boot();
 
-  // Không tự tạo dữ liệu mẫu nữa: máy trắng sẽ hiện màn hình Thiết lập lần đầu,
-  // để người dùng chọn rõ là nối vào kho của khoa hay chỉ xem thử.
+  // BẢN THỬ: luôn chạy trên dữ liệu hư cấu, tạo sẵn để xem ngay, không nối máy chủ nào.
+  if (PREVIEW && !DB.data.users.length) await seedDemo();
   if (!DB.data.settings) { DB.data.settings = DEFAULT_SETTINGS(); DB.saveLocal(); }
+  // Máy đã cài bản cũ: bổ sung các cài đặt mới, giữ nguyên cài đặt cũ
+  if (DB.data.settings && DB.data.settings.turnEveryHours == null) {
+    Object.assign(DB.data.settings, {
+      turnAnchorHour: 7, turnEveryHours: 3, turnEveryHoursHigh: 2, turnHighFrom: 2, turnGraceMin: 45
+    });
+    DB.saveLocal();
+  }
 
   Session.restore();
   render();
