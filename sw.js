@@ -1,6 +1,6 @@
 /* Service worker — cho phép ứng dụng chạy khi không có mạng.
    Mỗi lần cập nhật ứng dụng, đổi số CACHE bên dưới để điện thoại nhận bản mới. */
-const CACHE = 'loet-ti-de-v10';
+const CACHE = 'loet-ti-de-v12';
 const SHELL = [
   './',
   './index.html',
