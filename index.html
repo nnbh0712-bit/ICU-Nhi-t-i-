@@ -1048,6 +1048,24 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
 .kdrow .kdh .pill { margin-left:auto }
 .kdnguon { margin-top:8px; padding-top:8px; border-top:1px dashed var(--line) }
 .kdnguon .eyebrow { margin-bottom:4px }
+/* Ô sửa gói chăm sóc, xếp theo bảng Bước 2 */
+.goihd { font-size:12.5px; color:var(--ink-3); line-height:1.6; margin:10px 0 12px }
+.goihd code { font-family:var(--mono); font-size:11.5px; background:var(--card-2);
+  border:1px solid var(--line); border-radius:5px; padding:1px 5px; color:var(--ink-2) }
+.goilv { border:1px solid var(--line); border-radius:var(--r-md); margin-bottom:10px;
+  background:var(--card-2) }
+.goilv > summary { list-style:none; cursor:pointer; padding:11px 13px; font-size:13.5px;
+  display:flex; align-items:center; gap:8px; user-select:none }
+.goilv > summary::-webkit-details-marker { display:none }
+.goilv > summary::after { content:""; width:7px; height:7px; border-right:2px solid var(--ink-3);
+  border-bottom:2px solid var(--ink-3); transform:rotate(45deg); margin:-3px 0 0 auto;
+  transition:transform .15s; flex:none }
+.goilv[open] > summary::after { transform:rotate(-135deg); margin-top:2px }
+.goilv > summary .fsum { margin-left:auto; margin-right:6px; font-size:12px; color:var(--ink-3) }
+.goilv > .foldin { padding:2px 13px 13px }
+.goilv .field > label { font-size:11px; font-weight:600; letter-spacing:.5px;
+  text-transform:uppercase; color:var(--ink-3) }
+.goilv textarea { background:var(--card); font-size:13.5px; line-height:24px }
 </style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -1083,7 +1101,7 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
    ============================================================ */
 "use strict";
 const PREVIEW = false;
-const APP_VER = "1.6";
+const APP_VER = "1.6.1";
 const LS_KEY  = "ltd_db_v1";
 const LS_CFG  = "ltd_cfg_v1";
 
@@ -2040,8 +2058,28 @@ const NHOM_BENH = [
 NHOM_BENH.forEach(g => g.items.forEach(([nhom, t, tuy]) => datMeta(t, nhom, tuy)));
 
 const nhomBenhTen = k => (NHOM_BENH.find(x => x.k === k) || {}).t || k;
-const nhomCuaMuc  = t => (BUNDLE_META[t] || {}).nhom || "Theo dõi";
-const mucTuyChon  = t => !!(BUNDLE_META[t] || {}).tuy;
+/* Nhóm và cờ vật tư của một mục.
+   Ưu tiên những gì điều dưỡng trưởng đặt trong Cài đặt — ở đó mỗi nhóm là một ô
+   riêng nên nhóm là do người nhập chọn, app KHÔNG đoán. Mục nào không có trong
+   Cài đặt thì tra bảng mặc định dựng theo Bước 2 quy trình. */
+function nhomCuaMuc(t, settings) {
+  const st = settings || (typeof DB !== "undefined" && DB.data && DB.data.settings) || null;
+  const m = st && st.bundleNhom;
+  if (m && m[t]) return m[t];
+  return (BUNDLE_META[t] || {}).nhom || "Theo dõi";
+}
+function mucTuyChon(t, settings) {
+  const st = settings || (typeof DB !== "undefined" && DB.data && DB.data.settings) || null;
+  if (st && Array.isArray(st.bundleTuy)) return st.bundleTuy.indexOf(t) >= 0;
+  return !!(BUNDLE_META[t] || {}).tuy;
+}
+/* Một dòng người dùng gõ có thể kết thúc bằng "(tuỳ điều kiện)" để đánh dấu
+   mục phụ thuộc vật tư. Tách ra thành lời mục và cờ. */
+function chuanMuc(dong) {
+  const t = String(dong || "").trim();
+  const m = t.match(/^(.*?)\s*\((tu[ỳy]\s*đi[eề]u\s*ki[eệ]n[^)]*)\)\s*$/i);
+  return m ? { t: m[1].trim(), tuy: true } : { t, tuy: false };
+}
 /* Mẫu số của chỉ số: bỏ các mục tuỳ điều kiện vật tư */
 const mucTinhChiSo = ds => (ds || []).filter(t => !mucTuyChon(t));
 
@@ -2294,7 +2332,13 @@ const DEFAULT_SETTINGS = () => ({
   nangTheoLoet: true,                // nâng mức khi đã có tổn thương — EPUAP/NPIAP 2019
   idleMinutes: 20,
   photosEnabled: true,
-  bundles: DEFAULT_BUNDLES.map(b => ({ level: b.level, items: b.items.slice() })),
+  bundles: DEFAULT_BUNDLES.map(b => ({ level: b.level, ten: b.ten, items: b.items.slice() })),
+  bundleNhom: (() => {
+    const o = {};
+    Object.keys(BUNDLE_META).forEach(t => { o[t] = BUNDLE_META[t].nhom; });
+    return o;
+  })(),
+  bundleTuy: Object.keys(BUNDLE_META).filter(t => BUNDLE_META[t].tuy),
   autoFlagVeryHigh: true,
   autoFlagNewInjury: true,
   autoFlagOverdue: true
@@ -5674,12 +5718,40 @@ function viewSettings() {
 
     <section class="card">
       <div class="card-h"><h2>Gói chăm sóc theo mức</h2>
-        <span class="hint">mỗi dòng là một can thiệp</span></div>
-      ${LEVELS.map((L, i) => `<div class="field" style="margin-bottom:14px">
-        <label for="s-b${i}">${esc(L.name)}</label>
-        <textarea id="s-b${i}" style="min-height:${Math.max(96, bundleFor(i).length * 24)}px">${esc(bundleFor(i).join("\n"))}</textarea>
-      </div>`).join("")}
-      <p style="font-size:12px;color:var(--ink-3)">Sửa nội dung cho khớp quy trình của khoa. Các phiếu đã ký giữ nguyên nội dung gói tại thời điểm ký.</p>
+        <span class="hint">xếp theo bảng Bước 2 của quy trình</span></div>
+      <div class="notice"><svg><use href="#i-info"/></svg><span>
+        Đây chính là nội dung hiện trong mục <b>Gói chăm sóc</b> ở hồ sơ người bệnh.
+        Ô ở đây xếp theo đúng <b>bảng Bước 2 quy trình phòng ngừa loét tì đè</b> của khoa —
+        <b>viết dòng vào nhóm nào thì nó thuộc nhóm đó</b>, phần mềm không tự đoán.</span></div>
+      <p class="goihd">Mỗi dòng là một can thiệp. Mục nào <b>phụ thuộc vật tư khoa chưa chắc có</b>
+        thì viết thêm <code>(tuỳ điều kiện)</code> ở cuối dòng — mục đó vẫn hiện cho điều dưỡng tick
+        nhưng <b>không tính vào tỷ lệ tuân thủ</b>.</p>
+      ${LEVELS.map((L, i) => {
+        const ds = bundleFor(i);
+        return `<details class="goilv"${i === 3 ? " open" : ""}>
+          <summary><b>${esc(L.name)}</b> — ${esc(tenGoi(i))}
+            <span class="fsum">${ds.length} can thiệp</span></summary>
+          <div class="foldin">
+            ${BUNDLE_NHOM.map(nh => {
+              const trong = ds.filter(it => nhomCuaMuc(it) === nh)
+                .map(it => it + (mucTuyChon(it) ? " (tuỳ điều kiện)" : ""));
+              return `<div class="field" style="margin-bottom:10px">
+                <label for="s-b${i}-${esc(nh)}">${esc(nh)}</label>
+                <textarea id="s-b${i}-${esc(nh)}" data-goibox="${i}" data-goinhom="${esc(nh)}"
+                  placeholder="Để trống nếu nhóm này không có can thiệp nào"
+                  style="min-height:${Math.max(54, trong.length * 24 + 18)}px">${esc(trong.join("\n"))}</textarea>
+              </div>`;
+            }).join("")}
+            <div class="btnrow"><button class="btn sm" data-goireset="${i}">Khôi phục theo quy trình</button></div>
+          </div>
+        </details>`;
+      }).join("")}
+      <div class="notice warn"><svg><use href="#i-alert"/></svg><span>
+        <b>Thêm dòng, bớt dòng, hay chuyển dòng sang nhóm khác thì không sao.</b>
+        Chỉ có <b>sửa chữ của dòng đang có</b> mới làm những lần tick đã lưu trước đó
+        không còn khớp — nhìn như ca đó chưa từng làm mục này. Muốn đổi lời thì nên
+        <b>bớt dòng cũ và thêm dòng mới</b>.</span></div>
+      <p style="font-size:12px;color:var(--ink-3)">Các phiếu đã ký giữ nguyên nội dung gói tại thời điểm ký.</p>
     </section>
 
     <button class="btn pri block" data-savesettings>Lưu toàn bộ cài đặt</button>
@@ -5747,6 +5819,19 @@ function viewSettings() {
   return {
     title: "Cài đặt chuyên môn", html,
     bind() {
+      $$("[data-goireset]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.goireset;
+        const goc = (DEFAULT_BUNDLES.find(x => x.level === i) || { items: [] }).items;
+        BUNDLE_NHOM.forEach(nh => {
+          const ta = $$(`[data-goibox="${i}"]`).find(x => x.dataset.goinhom === nh);
+          if (!ta) return;
+          ta.value = goc.filter(it => (BUNDLE_META[it] || {}).nhom === nh
+              || (!BUNDLE_META[it] && nh === "Theo dõi"))
+            .map(it => it + ((BUNDLE_META[it] || {}).tuy ? " (tuỳ điều kiện)" : ""))
+            .join("\n");
+        });
+        toast("Đã khôi phục nội dung theo quy trình", "ok");
+      });
       $$("[data-sw]").forEach(b => b.onclick = () =>
         b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"));
       $$("[data-tc]").forEach(b => b.onclick = () =>
@@ -5772,11 +5857,61 @@ function viewSettings() {
         ns.icuEscalate = Math.max(1, +$("#s-icu").value || 2);
         ns.idleMinutes = Math.min(120, Math.max(2, +$("#s-idle").value || 20));
         $$("[data-sw]").forEach(b => { ns[b.dataset.sw] = b.getAttribute("aria-pressed") === "true"; });
-        ns.bundles = LEVELS.map((L, i) => ({ level: i,
-          items: $("#s-b" + i).value.split("\n").map(x => x.trim()).filter(Boolean) }));
-        DB.data.settings = touch(ns);
-        DB.log("sua-cai-dat", "Cập nhật cài đặt chuyên môn");
-        DB.save(); toast("Đã lưu cài đặt", "ok");
+        /* Mỗi nhóm một ô: nhóm là do người nhập chọn, không phải app đoán */
+        const nhomMoi = {}, tuyMoi = [];
+        ns.bundles = LEVELS.map((L, i) => {
+          const items = [];
+          BUNDLE_NHOM.forEach(nh => {
+            const ta = $$(`[data-goibox="${i}"]`).find(x => x.dataset.goinhom === nh);
+            if (!ta) return;
+            ta.value.split("\n").map(x => x.trim()).filter(Boolean).forEach(dong => {
+              const m = chuanMuc(dong);
+              if (!m.t || items.indexOf(m.t) >= 0) return;
+              items.push(m.t);
+              nhomMoi[m.t] = nh;
+              if (m.tuy && tuyMoi.indexOf(m.t) < 0) tuyMoi.push(m.t);
+            });
+          });
+          return { level: i, ten: tenGoi(i), items };
+        });
+        ns.bundleNhom = nhomMoi;
+        ns.bundleTuy = tuyMoi;
+
+        /* Dòng bị ĐỔI CHỮ (không phải thêm hay bớt) làm mất nhóm, mất cờ vật tư,
+           và làm các lần tick đã lưu không còn khớp. Phải nói rõ trước khi lưu. */
+        const doiChu = [];
+        LEVELS.forEach((L, i) => {
+          const cu = bundleFor(i), moi = ns.bundles[i].items;
+          const mat = cu.filter(x => moi.indexOf(x) < 0);
+          const them = moi.filter(x => cu.indexOf(x) < 0);
+          const n = Math.min(mat.length, them.length);
+          for (let k = 0; k < n; k++) doiChu.push({ lv: i, cu: mat[k], moi: them[k] });
+        });
+
+        const luu = () => {
+          DB.data.settings = touch(ns);
+          DB.log("sua-cai-dat", "Cập nhật cài đặt chuyên môn"
+            + (doiChu.length ? ` — đổi lời ${doiChu.length} mục gói chăm sóc` : ""));
+          DB.save(); toast("Đã lưu cài đặt", "ok");
+        };
+
+        if (!doiChu.length) { luu(); return; }
+        modal({
+          title: "Có mục gói bị đổi lời",
+          body: `<div class="notice warn"><svg><use href="#i-alert"/></svg><span>
+              ${doiChu.length} mục bị đổi chữ. <b>Những lần tick đã lưu trước đó không còn
+              khớp</b> — nhìn như ca đó chưa từng làm mục này.</span></div>
+            ${doiChu.map(x => `<div class="kdrow" style="border-left-color:var(--r1)">
+              <div class="eyebrow">${esc(LEVELS[x.lv].short)}</div>
+              <div style="font-size:13.5px;line-height:1.5;margin-top:4px">
+                <span style="text-decoration:line-through;color:var(--ink-3)">${esc(x.cu)}</span><br>
+                <b>${esc(x.moi)}</b></div>
+            </div>`).join("")}
+            <p style="font-size:12.5px;color:var(--ink-3)">Muốn giữ lịch sử thì bấm Huỷ,
+              rồi <b>thêm dòng mới và để nguyên dòng cũ</b> thay vì sửa chữ.</p>`,
+          actions: [{ label: "Huỷ" },
+                    { label: "Vẫn lưu", kind: "danger", onClick: () => luu() }]
+        });
       };
 
       $("[data-testurl]").onclick = async () => {
