@@ -11,9 +11,6 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px)}
 body{min-height:100vh;min-height:100dvh}
 html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <title>Phòng ngừa Loét tì đè</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -1014,7 +1011,13 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
 .ptdky { display:flex; gap:20px; margin-top:18px; padding-top:12px; border-top:1px solid var(--line);
   font-size:13px; text-align:center }
 .ptdky > div { flex:1 1 0 }
-@media (max-width:480px) { .ptdrow { display:block } .ptdk { margin-bottom:2px } }
+/* Trên điện thoại, nhãn xuống dòng riêng. .ptdk và .ptdv là thẻ span nên
+   phải cho display:block, nếu không hai phần dính liền nhau. */
+@media (max-width:560px) {
+  .ptdrow { display:block }
+  .ptdk { display:block; flex:none; margin-bottom:3px }
+  .ptdv { display:block }
+}
 @media print {
   body.inphieu > *:not(#modalhost) { display:none !important }
   body.inphieu .modal { position:static; background:none; padding:0; display:block }
@@ -1067,6 +1070,35 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
   text-transform:uppercase; color:var(--ink-3) }
 .goilv textarea { background:var(--card); font-size:13.5px; line-height:24px }
 </style>
+<style>
+/* ── Thẻ Tổn thương: gọn lại (bản 1.6.2) ────────────────────────────
+   Trước đây thẻ này có hai tiêu đề lớn, nhiều khung và nhiều ô nhãn
+   xếp chồng nên nhìn rối. Nay còn một khối, nhãn rút thành một dòng chữ. */
+
+/* Dải khám da đầu ca — mỏng, nằm ngay dưới tiêu đề khối */
+.dastrip{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--card-2);border:1px solid var(--line);border-radius:10px;
+  padding:9px 12px;margin-bottom:12px}
+.dastrip .dat{flex:1;min-width:190px;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.dastrip .dat b{color:var(--ink)}
+.dastrip .dat span{display:inline-block;margin-left:7px;font-size:11.5px;
+  padding:1px 8px;border-radius:7px;border:1px solid var(--line)}
+.dastrip .dat span.xong{background:var(--r0-bg);color:var(--r0-ink);border-color:var(--r0)}
+.dastrip .dat span.chua{background:var(--r1-bg);color:var(--r1-ink);border-color:var(--r1)}
+.dastrip .dat em{display:block;font-style:normal;margin-top:4px;font-size:12px;color:var(--ink-3)}
+.dastrip .btn{flex:none}
+.dahint{font-size:12.5px;line-height:1.55;color:var(--ink-3);margin:-4px 0 12px}
+
+/* Thẻ tổn thương */
+.lds .lesion+.lesion{margin-top:10px}
+.lesion .lh{flex-wrap:wrap;gap:7px}
+.lesion .lmeta{font-size:12px;line-height:1.5;color:var(--ink-3);margin-top:5px}
+.lesion .lnote{font-size:13px;line-height:1.5;color:var(--ink-2);margin:7px 0 0}
+.lesion .lshist{margin-top:9px}
+.lesion .btnrow.lact{margin-top:10px;gap:7px}
+.btn.sm.nhat{color:var(--ink-3)}
+.btn.sm.nhat:hover{color:var(--ink)}
+</style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="M9 12.5 11 14.5 15.5 10"/></symbol>
@@ -1101,7 +1133,7 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
    ============================================================ */
 "use strict";
 const PREVIEW = false;
-const APP_VER = "1.6.1";
+const APP_VER = "1.6.2";
 const LS_KEY  = "ltd_db_v1";
 const LS_CFG  = "ltd_cfg_v1";
 
@@ -1908,6 +1940,18 @@ const KHAM_DA_VITRI = [
 ];
 const kdTen = k => (KHAM_DA_VITRI.find(x => x.k === k) || {}).t || k;
 
+/* Tên vị trí của các bản trước (danh sách 19 vị trí) chuyển sang mã của bảng
+   29 vị trí, để tổn thương ghi từ bản cũ vẫn hiện được chấm trên hình người.
+   Chỉ ba tên là khác: "Vùng cùng cụt" gộp cùng và cụt, "Đầu gối" và
+   "Ngón chân" không ghi bên nào. */
+const KD_ALIAS = {
+  "Vùng cùng cụt": "cung",
+  "Đầu gối": "goiP",
+  "Ngón chân": "ngonP"
+};
+/* Ngược lại: từ tên vị trí tìm ra mã, để chấm lên hình người */
+const kdMa  = t => (KHAM_DA_VITRI.find(x => x.t === t) || {}).k || KD_ALIAS[t] || null;
+
 /* Ba quan sát chung ở đầu phiếu khám da */
 const KHAM_DA_CHUNG = [
   { k: "nhiet",   t: "Nhiệt độ da",   opts: ["Bình thường", "Ấm hơn vùng xung quanh", "Lạnh hơn vùng xung quanh"] },
@@ -2231,8 +2275,13 @@ const TURN_REASONS = [
 
 /* Khoá định danh một tổn thương xuyên suốt các phiếu đã ký:
    phiếu không sửa được, nên trạng thái liền thương lưu riêng theo khoá này. */
+/* Một tổn thương được nhận ra bằng đợt điều trị + vị trí + thiết bị.
+   Tên vị trí quy về mã của bảng 29 vị trí trước khi ghép, để tên cũ và tên
+   mới của cùng một chỗ (ví dụ "Vùng cùng cụt" của bản trước và "Xương cùng"
+   của phiếu khám da) không bị tách thành hai tổn thương khác nhau. */
 function lesionKey(epId, l) {
-  return epId + "|" + (l.site || "") + "|" + (l.device || "");
+  const s = l.site || "";
+  return epId + "|" + (kdMa(s) || s) + "|" + (l.device || "");
 }
 const LESION_STATUS = {
   theodoi:  { t: "Đang theo dõi",  tag: "watch" },
@@ -3468,7 +3517,8 @@ function viewPatient({ id }) {
 
   /* BẢN THỬ: bảng xoay trở + danh sách tổn thương có trạng thái liền thương */
   const turnSec = turnBlock(p, ep);
-  const khamDa = khamDaBlock(curEp, !!ep);
+  /* Khám da nay nằm gọn bên trong khối tổn thương, không còn là khối riêng */
+  const khamDa = "";
   const lesionsBlock = lesionsBlockNew(curEp, !!ep);
 
   const photoTl = photoTimeline(p.id, curEp);
@@ -3982,12 +4032,19 @@ function initAssess(patientId, episodeId) {
     chung: { nhiet: 0, mo: 0, camgiac: 0 },
     nhomBenh: ((DB.episode && DB.episode(episodeId)) || {}).nhomBenh || (prev ? (prev.nhomBenh || []).slice() : [])
   };
-  // Tổn thương đã ghi nhận trước đó được mang sang để theo dõi tiếp
-  if (prev) {
-    AS.lesions = clone(prev.lesions || []).map(l => ({ ...l, photos: (l.photos || []).slice(0, 0), carried: true }));
-    AS.mdrpi = clone(prev.mdrpi || []).map(l => ({ ...l, photos: [], carried: true }));
-    if (AS.lesions.length || AS.mdrpi.length) AS.noLesion = false;
-  }
+  /* Tổn thương đang theo dõi được mang sang để ghi tiếp.
+     Lấy từ DANH SÁCH TỔN THƯƠNG CỦA ĐỢT ĐIỀU TRỊ, không phải từ phiếu đánh giá
+     lần trước — vì tổn thương còn được ghi qua phiếu khám da và qua nút "Ghi
+     nhận tổn thương mới", những đường đó không đi qua phiếu đánh giá nào cả. */
+  const dangTheoDoi = lesionsOfEpisode(episodeId).filter(l => l.status !== "lanh");
+  const mang = l => ({
+    k: kdMa(l.site), site: l.site, stage: l.stage || "", sau: 0, poa: !!l.poa,
+    size: l.size || "", note: l.note || "", photos: [],
+    foundAt: l.foundAt, device: l.device || null, ghi: true, carried: true
+  });
+  AS.lesions = dangTheoDoi.filter(l => !l.isDevice).map(mang);
+  AS.mdrpi   = dangTheoDoi.filter(l => l.isDevice).map(mang);
+  AS.noLesion = AS.lesions.length === 0;
 }
 
 function viewAssess({ patientId, episodeId }) {
@@ -4516,6 +4573,11 @@ function signAssessment() {
   const quanSat = a.lesions.filter(l => l.ghi === false);
   a.lesions = a.lesions.filter(l => l.ghi !== false);
   DB.data.assessments.push(a);
+
+  /* Vị trí nào trước đó đã đánh dấu lành mà nay ghi nhận tổn thương lại thì
+     mở lại theo dõi — nếu không, vết mới nằm im trong mục "đã lành". */
+  [...a.lesions, ...a.mdrpi].forEach(l =>
+    moLaiNeuDaLanh(AS.episodeId, l.site, l.device));
 
   /* Bước 3 của phiếu đánh giá chính là khám da toàn diện của Bước 1 quy trình —
      ghi luôn thành phiếu khám da của ca trực này, khỏi phải khám lại. */
@@ -6411,6 +6473,18 @@ function setLesionStatus(les, status, note) {
   DB.save();
 }
 
+/* Ghi nhận một tổn thương MỚI ở vị trí trước đó đã đánh dấu lành thì phải
+   mở lại theo dõi. App nhận diện tổn thương bằng vị trí, nên nếu không mở lại,
+   vết mới sẽ bị coi là chính vết cũ và nằm im trong mục "đã lành". */
+function moLaiNeuDaLanh(epId, site, device, note) {
+  const key = lesionKey(epId, { site, device: device || "" });
+  const st = DB.lesionState(key);
+  if (!st || st.status !== "lanh") return false;
+  setLesionStatus({ key, site, device: device || "" }, "theodoi",
+    note || "Ghi nhận tổn thương mới tại vị trí đã lành trước đó — mở lại theo dõi");
+  return true;
+}
+
 /* Ghi một lần theo dõi — ghi được bao nhiêu lần tuỳ ý, mỗi lần là một dòng trong diễn tiến */
 function lesionStatusDialog(les, status) {
   const isHeal = status === "lanh";
@@ -6612,7 +6686,8 @@ function lesionLogDialog(p, ep, les) {
         <div class="field" id="ll-devwrap" hidden><label for="ll-dev">Thiết bị gây tì đè</label>
           <select id="ll-dev">${DEVICES.map(x => `<option>${esc(x)}</option>`).join("")}</select></div>
         <div class="field"><label for="ll-site">Vị trí</label>
-          <select id="ll-site">${SITES.map(x => `<option>${esc(x)}</option>`).join("")}</select></div>`}
+          <select id="ll-site">${KHAM_DA_VITRI.map(x =>
+            `<option>${esc(x.t)}</option>`).join("")}</select></div>`}
       <div class="field"><label for="ll-stage">Phân độ (NPIAP / EPUAP)</label>
         <select id="ll-stage">${STAGES.map(x =>
           `<option value="${x.v}"${capNhat && les.stage === x.v ? " selected" : ""}>${esc(x.t)}</option>`).join("")}</select></div>
@@ -6658,8 +6733,11 @@ function lesionLogDialog(p, ep, les) {
       (DB.data.lesionLogs = DB.data.lesionLogs || []).push(rec);
       DB.log(capNhat ? "cap-nhat-ton-thuong" : "ghi-ton-thuong-moi",
         `${p.name} (${p.mrn}) — ${rec.site} độ ${rec.stage}`, "episode", ep.id);
+      const moLai = !capNhat && moLaiNeuDaLanh(ep.id, rec.site, rec.device);
       DB.save();
-      toast(capNhat ? "Đã lưu bản ghi" : "Đã ghi nhận tổn thương", "ok");
+      toast(capNhat ? "Đã lưu bản ghi"
+        : moLai ? "Đã ghi nhận tổn thương — vị trí này được mở lại theo dõi"
+        : "Đã ghi nhận tổn thương", "ok");
       render();
     }}]
   });
@@ -6689,18 +6767,22 @@ function lesionCard(les) {
   const healed = st === "lanh";
   const hist = (les.state && les.state.history) || [];
   const days = daysBetween(les.foundAt, healed && les.state ? les.state.at : new Date());
+  /* Một dòng chữ nhạt thay cho một loạt ô nhãn — cùng đủ thông tin nhưng
+     mắt chỉ phải đọc một hàng. Chỉ trạng thái và phân độ còn để dạng ô,
+     vì đó là hai thứ điều dưỡng tìm trước tiên. */
+  const meta = [
+    les.poa ? "Có sẵn khi nhập khoa" : "Phát sinh tại khoa",
+    les.isDevice ? "do thiết bị y tế" : "",
+    `phát hiện ${fmtDate(les.foundAt)}`,
+    healed ? `lành sau ${days} ngày` : `ngày thứ ${days + 1}`,
+    les.firstStage && les.firstStage !== les.stage ? `từ độ ${esc(les.firstStage)} → ${esc(les.stage)}` : ""
+  ].filter(Boolean).join(" · ");
   return `<div class="lesion ${healed ? "healed" : ""}">
     <div class="lh"><span class="t">${esc(les.site)}${les.device ? ` — ${esc(les.device)}` : ""}</span>
-      <span class="pill neutral sm">Độ ${esc(les.stage)}</span></div>
-    <div class="tagrow">
       <span class="tag ${sInfo.tag}">${esc(sInfo.t)}</span>
-      <span class="tag ${les.poa ? "poa" : "hapi"}">${les.poa ? "Có sẵn khi nhập khoa" : "Phát sinh tại khoa"}</span>
-      ${les.isDevice ? `<span class="tag">Do thiết bị y tế</span>` : ""}
-      <span class="tag">Phát hiện ${fmtDate(les.foundAt)}</span>
-      <span class="tag">${healed ? `Lành sau ${days} ngày` : `Đang theo dõi ngày thứ ${days + 1}`}</span>
-      ${les.firstStage && les.firstStage !== les.stage ? `<span class="tag">Từ độ ${esc(les.firstStage)} → ${esc(les.stage)}</span>` : ""}
-    </div>
-    ${les.note ? `<p style="font-size:13px;color:var(--ink-2)">${esc(les.note)}</p>` : ""}
+      <span class="pill neutral sm">Độ ${esc(les.stage)}</span></div>
+    <div class="lmeta">${meta}</div>
+    ${les.note ? `<p class="lnote">${esc(les.note)}</p>` : ""}
     ${hist.length ? `<div class="lshist">
       <div class="lsrow">
         <span class="tag ${LESION_STATUS[hist[hist.length-1].status] ? LESION_STATUS[hist[hist.length-1].status].tag : ""}">${
@@ -6726,12 +6808,12 @@ function lesionCard(les) {
           <img data-photo="${ph.id}" alt="Ảnh ${esc(les.site)}">
           <figcaption>${fmtDate(ph.at)}</figcaption></figure>`).join("")}</div></div>
     </details>` : ""}
-    <div class="btnrow" style="margin-top:6px">
+    <div class="btnrow lact">
       ${healed
         ? `<button class="btn sm" data-lstat="moflai" data-lkey="${esc(les.key)}">Mở lại theo dõi</button>`
-        : `<button class="btn sm" data-lupd="${esc(les.key)}">Đổi độ / thêm ảnh</button>
-           <button class="btn sm" data-lstat="theodoi" data-lkey="${esc(les.key)}">Ghi diễn tiến</button>
-           <button class="btn sm" data-lstat="lanh" data-lkey="${esc(les.key)}">Đánh dấu đã lành</button>`}
+        : `<button class="btn sm" data-lstat="theodoi" data-lkey="${esc(les.key)}">Ghi diễn tiến</button>
+           <button class="btn sm" data-lupd="${esc(les.key)}">Đổi độ / ảnh</button>
+           <button class="btn sm nhat" data-lstat="lanh" data-lkey="${esc(les.key)}">Đã lành</button>`}
     </div>
   </div>`;
 }
@@ -6760,49 +6842,56 @@ function khamDaBlock(ep, dangDieuTri) {
         ${k.note ? `<p style="font-size:13px;color:var(--ink-2);margin-top:3px">${esc(k.note)}</p>` : ""}
       </div></div>`;
   };
-  return `<section class="phang" id="khamda-sec">
-    <div class="card-h"><h2>Khám da vùng tì đè</h2>
-      <span class="hint">${ds.length} phiếu trong đợt này</span></div>
-    <div class="goica">Phiếu của <b>${esc(ca.shift.t.toLowerCase())}</b> · ${fmtDate(ca.start)}
-      · ${caNay ? "đã khám" : "chưa khám trong ca này"}</div>
-    ${dangDieuTri ? `<div class="btnrow" style="margin:10px 0">
-      <button class="btn sm ${caNay ? "" : "pri"}" data-khamda>
-        <svg><use href="#i-plus"/></svg>${caNay ? "Khám lại" : "Khám da đầu ca"}</button>
-    </div>` : ""}
-    ${gan.length ? `<div class="gls">${gan.map(mot).join("")}</div>
-      ${ds.length > gan.length ? `<details style="margin-top:6px">
-        <summary style="cursor:pointer;font-size:13.5px;color:var(--ink-2);padding:6px 0">
-          ${ds.length - gan.length} phiếu cũ hơn — bấm để xem</summary>
-        <div class="gls" style="margin-top:8px">${ds.slice(5).map(mot).join("")}</div>
-      </details>` : ""}`
-    : `<div class="card"><div class="empty">Chưa có phiếu khám da nào.${dangDieuTri
-        ? `<br>Quy trình yêu cầu khám da vùng tì đè <b>mỗi 8 giờ, vào đầu ca</b>
-           cho người bệnh từ có nguy cơ trở lên.` : ""}</div></div>`}
-  </section>`;
+  /* Lịch sử các phiếu khám da — gấp lại, vì thứ điều dưỡng cần thấy ngay
+     là danh sách tổn thương, không phải chồng phiếu cũ. */
+  return `<div id="khamda-sec">
+    <div class="dastrip">
+      <div class="dat">Khám da vùng tì đè — <b>${esc(ca.shift.t.toLowerCase())}</b>,
+        ${fmtDate(ca.start)}<span class="${caNay ? "xong" : "chua"}">${
+        caNay ? "đã khám" : "chưa khám ca này"}</span>
+        ${ds.length ? `<em>${esc(tinhTrangDa(ep.id))}</em>` : ""}</div>
+      ${dangDieuTri ? `<button class="btn sm ${caNay ? "" : "pri"}" data-khamda>
+        <svg><use href="#i-plus"/></svg>${caNay ? "Khám lại" : "Khám da đầu ca"}</button>` : ""}
+    </div>
+    ${ds.length ? `<details class="fold bare sm">
+      <summary>Các phiếu khám da đã ghi<span class="fsum">${ds.length} phiếu</span></summary>
+      <div class="foldin"><div class="gls">${ds.map(mot).join("")}</div></div>
+    </details>`
+    : dangDieuTri ? `<p class="dahint">Quy trình yêu cầu khám da vùng tì đè
+        <b>mỗi 8 giờ, vào đầu ca</b> cho người bệnh từ có nguy cơ trở lên.</p>` : ""}
+  </div>`;
 }
 
+/* Thẻ Tổn thương gộp làm MỘT khối: khám da là một dải nhỏ ở đầu, phần thân
+   là danh sách tổn thương, phần đã lành và lịch sử khám da gấp xuống dưới.
+   Trước đây là hai khối có hai tiêu đề lớn nên nhìn rối. */
 function lesionsBlockNew(ep, dangDieuTri) {
   if (!ep) return "";
   const daKhamCa = !!khamDaCa(ep.id);
   const all = lesionsOfEpisode(ep.id);
   const active = all.filter(l => l.status !== "lanh");
   const healed = all.filter(l => l.status === "lanh");
+  const dem = active.length
+    ? `${active.length} đang theo dõi${healed.length ? ` · ${healed.length} đã lành` : ""}`
+    : healed.length ? `${healed.length} đã lành` : "chưa có tổn thương";
   return `<section class="phang" id="lesion-sec">
-    <div class="card-h"><h2>Tổn thương của đợt điều trị này</h2>
-      <span class="hint">${active.length} đang theo dõi · ${healed.length} đã lành</span></div>
-    ${dangDieuTri ? `<div class="btnrow" style="margin-bottom:10px">
-      <button class="btn sm${daKhamCa ? " pri" : ""}" data-lnew><svg><use href="#i-plus"/></svg>Ghi nhận tổn thương mới</button>
+    <div class="card-h"><h2>Da và tổn thương</h2><span class="hint">${dem}</span></div>
+
+    ${khamDaBlock(ep, dangDieuTri)}
+
+    ${active.length ? `<div class="lds">${active.map(lesionCard).join("")}</div>`
+      : `<div class="card"><div class="empty">${all.length
+          ? "Không còn tổn thương nào đang theo dõi. Vẫn tiếp tục gói chăm sóc dự phòng."
+          : "Đợt điều trị này chưa ghi nhận tổn thương nào."}</div></div>`}
+
+    ${dangDieuTri ? `<div class="btnrow" style="margin-top:10px">
+      <button class="btn sm${daKhamCa && !active.length ? " pri" : ""}" data-lnew>
+        <svg><use href="#i-plus"/></svg>Ghi nhận tổn thương mới</button>
     </div>` : ""}
-    ${active.length ? active.map(lesionCard).join("")
-      : all.length ? `<div class="notice"><svg><use href="#i-check"/></svg><span>
-          Không còn tổn thương nào đang theo dõi. Vẫn tiếp tục gói chăm sóc dự phòng.</span></div>`
-      : `<div class="card"><div class="empty">Đợt điều trị này chưa ghi nhận tổn thương nào.${
-          dangDieuTri ? `<br>Phát hiện tổn thương thì bấm <b>Ghi nhận tổn thương mới</b> ở trên —
-          không cần làm lại thang điểm Waterlow.` : ""}</div></div>`}
-    ${healed.length ? `<details style="margin-top:6px">
-      <summary style="cursor:pointer;font-size:13.5px;color:var(--ink-2);padding:6px 0">
-        Đã lành (${healed.length}) — bấm để xem</summary>
-      <div style="margin-top:8px">${healed.map(lesionCard).join("")}</div>
+
+    ${healed.length ? `<details class="fold bare sm">
+      <summary>Tổn thương đã lành<span class="fsum">${healed.length}</span></summary>
+      <div class="foldin"><div class="lds">${healed.map(lesionCard).join("")}</div></div>
     </details>` : ""}
   </section>`;
 }
@@ -7707,16 +7796,23 @@ function khamDaDialog(p, ep) {
          của đợt điều trị — theo dõi diễn tiến, thêm ảnh, đánh dấu đã lành được.
          Còn lại chỉ nằm trong phiếu khám da, không vào chỉ số loét của khoa. */
       if (ghiTT.length) {
-        const daCo = new Set(lesionsOfEpisode(ep.id).map(x => x.site));
+        /* Vị trí đã có trong danh sách thì bản ghi này là CẬP NHẬT, không phải
+           vết mới — nhưng vẫn phải ghi, nếu không nhãn "đã vào danh sách tổn
+           thương" trên phiếu khám da là nói dối. Vị trí đã lành thì mở lại. */
+        const dangCo = new Map(lesionsOfEpisode(ep.id).map(x => [x.site, x]));
         let n = 0;
         ghiTT.forEach(([k, v]) => {
-          if (daCo.has(kdTen(k))) return;
+          const ten = kdTen(k);
+          const cu = dangCo.get(ten);
+          const moi = !cu || cu.status === "lanh";
           (DB.data.lesionLogs = DB.data.lesionLogs || []).push({
             id: uid("ll"), patientId: p.id, episodeId: ep.id, at: gio, by: Session.user.id,
-            kind: "moi", site: kdTen(k), device: null, stage: v.stage || "I", poa: !!v.poa,
-            size: v.size || "", note: v.note || "", photos: [], foundAt: gio,
-            tuKhamDa: rec.id
+            kind: moi ? "moi" : "capnhat", site: ten, device: null,
+            stage: v.stage || (cu ? cu.stage : "I"), poa: cu ? !!cu.poa : !!v.poa,
+            size: v.size || "", note: v.note || "", photos: [],
+            foundAt: cu && !moi ? cu.foundAt : gio, tuKhamDa: rec.id
           });
+          moLaiNeuDaLanh(ep.id, ten, null);
           n++;
         });
         if (n) {
@@ -9213,65 +9309,6 @@ function placeholderPhoto(mrn, date, seq) {
 
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden && Session.user && DB.mode === "sheet") DB.sync();
-  });
-})();
-</script>
-<script>
-/* ============================================================
-   Cài đặt ứng dụng vào màn hình chính (PWA)
-   ============================================================ */
-(function () {
-  if (!("serviceWorker" in navigator)) return;
-  window.addEventListener("load", function () {
-    navigator.serviceWorker.register("sw.js").then(function (reg) {
-      reg.addEventListener("updatefound", function () {
-        var nw = reg.installing;
-        if (!nw) return;
-        nw.addEventListener("statechange", function () {
-          if (nw.state === "installed" && navigator.serviceWorker.controller) showUpdateBar(nw);
-        });
-      });
-      // Kiểm tra bản mới mỗi khi mở lại ứng dụng
-      document.addEventListener("visibilitychange", function () {
-        if (!document.hidden) reg.update().catch(function () {});
-      });
-    }).catch(function () {});
-  });
-
-  var reloading = false;
-  navigator.serviceWorker.addEventListener("controllerchange", function () {
-    if (reloading) return; reloading = true; location.reload();
-  });
-
-  function showUpdateBar(worker) {
-    if (document.getElementById("updatebar")) return;
-    var bar = document.createElement("div");
-    bar.id = "updatebar";
-    bar.style.cssText = "position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));" +
-      "z-index:600;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 14px;" +
-      "display:flex;align-items:center;gap:10px;font-size:13.5px;box-shadow:0 12px 32px -12px rgba(0,0,0,.5);max-width:440px;margin:0 auto";
-    bar.innerHTML = '<span style="flex:1">Đã có bản cập nhật của ứng dụng.</span>' +
-      '<button style="border:0;border-radius:9px;padding:7px 13px;font-weight:600;' +
-      'background:var(--accent);color:var(--accent-ink);font-family:inherit;font-size:13.5px">Cập nhật</button>';
-    bar.querySelector("button").onclick = function () {
-      bar.remove();
-      worker.postMessage({ type: "SKIP_WAITING" });
-    };
-    document.body.appendChild(bar);
-  }
-
-  /* Android: hiện nút cài đặt ngay trong ứng dụng */
-  var deferred = null;
-  window.addEventListener("beforeinstallprompt", function (e) {
-    e.preventDefault(); deferred = e;
-    var b = document.createElement("button");
-    b.textContent = "Cài ứng dụng vào màn hình chính";
-    b.style.cssText = "position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));" +
-      "z-index:600;border:0;border-radius:12px;padding:13px;font-weight:600;font-family:inherit;font-size:14px;" +
-      "background:var(--accent);color:var(--accent-ink);box-shadow:0 12px 32px -12px rgba(0,0,0,.45);max-width:440px;margin:0 auto";
-    b.onclick = function () { b.remove(); deferred.prompt(); deferred = null; };
-    setTimeout(function () { if (deferred) document.body.appendChild(b); }, 2500);
-    setTimeout(function () { if (b.parentNode) b.remove(); }, 18000);
   });
 })();
 </script>
