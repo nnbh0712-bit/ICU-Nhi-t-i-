@@ -885,6 +885,169 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
 .hocase .hpts li::marker{color:var(--ink-3)}
 .hocase .todo{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
 .hocase.slim .hdx{margin:0 0 6px;font-size:12.5px;color:var(--ink-3)}
+
+/* ===== Gói chăm sóc bấm được ===== */
+.goihead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.goiso{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);
+  background:var(--card-2);border:1px solid var(--line-2);border-radius:10px;padding:3px 10px}
+.goiso.du{background:var(--r0-bg);border-color:var(--r0);color:var(--r0-ink)}
+.goitxt{font-size:13.5px;color:var(--ink-2);flex:1;min-width:120px}
+.goihead .btn{margin-left:auto}
+.goilive .bitem{cursor:pointer;text-align:left;width:100%;font:inherit}
+.goilive .bitem:hover{border-color:var(--accent)}
+.goilive .bitem[disabled]{cursor:default;opacity:.6}
+.bitem .bwho{display:block;font-size:11.5px;color:var(--ink-3);margin-top:2px;
+  font-weight:400;font-family:var(--mono)}
+.bitem.xong .bt{color:var(--ink-2)}
+.goinote{font-size:12.5px;color:var(--ink-3);line-height:1.55;margin:10px 0 0}
+/* Mục đang chọn nhưng chưa lưu */
+.bitem.chualuu{border-color:var(--r1);background:var(--r1-bg);border-style:dashed}
+.bitem.chualuu .box{border-color:var(--r1)}
+.bitem.chualuu.xong .box{background:var(--r1);border-color:var(--r1)}
+.bitem .bwho.cl{color:var(--r1-ink);font-weight:600;font-family:var(--sans)}
+/* Thanh lưu */
+.goiluu{margin-top:12px;display:flex;gap:11px;align-items:center;flex-wrap:wrap;
+  background:var(--r1-bg);border:1px solid var(--r1);border-radius:var(--r-md);padding:11px 13px}
+.goiluu .gltxt{flex:1;min-width:170px;font-size:13px;line-height:1.5;color:var(--r1-ink)}
+.goiluu .btnrow{margin:0}
+/* Dòng nói rõ đây là phiếu của ca nào */
+.goica{font-size:12.5px;color:var(--ink-2);background:var(--card-2);
+  border:1px solid var(--line);border-radius:9px;padding:7px 11px;margin:10px 0}
+.goica b{color:var(--ink)}
+/* Mục có thay đổi chưa lưu */
+.bitem.chualuu .bwho.cl{color:var(--r1-ink);font-weight:600;font-family:var(--sans)}
+/* Ô lọc ngày trong lịch sử */
+.lsbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;
+  padding-bottom:10px;border-bottom:1px solid var(--line)}
+.lsbar label{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.lsbar select{width:auto;min-width:130px;padding:6px 9px;font-size:12.5px}
+.lsdem{font-size:11.5px;color:var(--ink-3);font-family:var(--mono);margin-left:auto}
+/* Đầu mỗi ngày trong lịch sử */
+.lsngay{display:flex;align-items:baseline;gap:8px;font-size:12px;font-weight:700;
+  letter-spacing:.6px;text-transform:uppercase;color:var(--ink-2);
+  margin:14px 0 2px;padding-top:9px;border-top:1px solid var(--line)}
+.lsngay:first-of-type{margin-top:0;padding-top:0;border-top:0}
+.lsngay span{font-weight:400;font-size:11.5px;color:var(--ink-3);
+  text-transform:none;letter-spacing:0;margin-left:auto;font-family:var(--mono)}
+@media (max-width:430px){.lsbar select{min-width:0;flex:1 1 120px}.lsdem{flex-basis:100%;margin-left:0}}
+/* Lịch sử thực hiện gói */
+.gls{display:flex;flex-direction:column}
+.glrow{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.glrow:first-child{border-top:0;padding-top:2px}
+.glrow .glt{flex:none;width:74px;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.glrow .glt span{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
+.glrow .gld{flex:1;min-width:0;font-size:13.5px}
+.glrow .glm{display:block;font-size:12px;color:var(--ink-3);margin-top:2px;line-height:1.45}
+.gllam,.glbo{margin:6px 0 0;padding-left:16px;font-size:12.5px;line-height:1.5}
+.gllam li{color:var(--r0-ink)}
+.glbo li{color:var(--r2-ink);text-decoration:line-through}
+.gllam li::marker{content:"✓  "}
+.glbo li::marker{content:"✕  "}
+
+/* Dòng phụ trong ô bảng — số liệu xoay trở 24 giờ */
+.ptable .tsub{display:block;font-size:11px;color:var(--ink-3);font-weight:400;
+  font-family:var(--mono);margin-top:2px;white-space:nowrap}
+/* ---------- Phiếu khám da vùng tì đè ---------- */
+.bodies { display:flex; gap:10px; margin-top:8px }
+.bodywrap { flex:1 1 0; min-width:0 }
+.bodylab { font-size:11.5px; color:var(--ink-3); text-align:center; margin-bottom:3px }
+.bodybox { position:relative; width:100%; aspect-ratio:100/220; color:var(--ink-2);
+  background:var(--bg-2); border:1px solid var(--line); border-radius:10px; overflow:hidden }
+.bodysvg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none }
+.bodysvg .bd { fill:currentColor; fill-opacity:.10; stroke:currentColor;
+  stroke-opacity:.38; stroke-width:1; stroke-linejoin:round }
+.bdot { position:absolute; width:14px; height:14px; margin:-7px 0 0 -7px; padding:0;
+  border-radius:50%; border:1.5px solid var(--ink-3); background:var(--bg-1);
+  box-shadow:0 1px 2px rgba(0,0,0,.18); cursor:pointer;
+  transition:transform .12s, background .12s; -webkit-tap-highlight-color:transparent }
+.bdot::after { content:""; position:absolute; inset:-7px }
+.bdot:hover { transform:scale(1.25); border-color:var(--ink-3) }
+.bdot.co { background:var(--r3-ink); border-color:var(--r3-ink); transform:scale(1.3);
+  box-shadow:0 0 0 3px var(--r3-bg) }
+.kdso { margin-top:8px; font-size:13px; color:var(--ink-3); text-align:center;
+  padding:6px 10px; background:var(--bg-2); border-radius:8px }
+.kdso.co { color:var(--r3-ink); background:var(--r3-bg); font-weight:600 }
+.kdchips { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:6px; margin-top:8px }
+.kdchip { display:block; width:100%; text-align:left; font:inherit; font-size:12.5px;
+  line-height:1.3; padding:8px 10px; border-radius:9px; border:1px solid var(--line-2);
+  background:var(--card); color:var(--ink-2); cursor:pointer; min-height:36px }
+.kdchip:hover { border-color:var(--ink-3); color:var(--ink) }
+.kdchip[aria-pressed="true"] { background:var(--r3-bg); border-color:var(--r3);
+  color:var(--r3-ink); font-weight:600 }
+.kdchung { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px }
+.kdc .eyebrow { margin-bottom:3px }
+.kdrow { border:1px solid var(--line); border-left:3px solid var(--r3-ink);
+  border-radius:10px; padding:10px 12px; margin-top:10px; background:var(--bg-2) }
+.kdrow .kdh { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px }
+.kdrow .kdh .t { font-weight:600; font-size:14px }
+.kdrow .field { margin-top:7px }
+.kdrow .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px }
+.kdrow .field > label { font-size:11.5px }
+.kdrow input, .kdrow select { padding:7px 9px; font-size:13.5px }
+/* Gói chăm sóc xếp theo nhóm của quy trình */
+.bgroup { margin-top:12px }
+.bgroup:first-child { margin-top:2px }
+.bgname { font-size:11.5px; font-weight:600; letter-spacing:.4px; text-transform:uppercase;
+  color:var(--ink-3); padding:0 2px 5px }
+.bitem .tuy { font-size:11.5px; color:var(--ink-3); font-weight:400; margin-left:5px;
+  white-space:nowrap }
+@media (max-width:420px) { .bodies { gap:6px } .bdot { width:13px; height:13px; margin:-6.5px 0 0 -6.5px } }
+
+.hobuoc { margin:8px 0 6px; padding:8px 10px; background:var(--bg-2);
+  border-radius:8px; font-size:13px; line-height:1.55 }
+.hobuoc > div + div { margin-top:3px }
+.hobuoc b { color:var(--ink-1) }
+/* ---------- Phiếu theo dõi điều dưỡng (Bước 4.1) ---------- */
+.ptd { font-size:14px; line-height:1.6 }
+.ptdhead { text-align:center; padding-bottom:10px; border-bottom:2px solid var(--ink-1); margin-bottom:12px }
+.ptdt { font-weight:700; font-size:15px; letter-spacing:.2px }
+.ptds { font-size:12.5px; color:var(--ink-3); margin-top:3px }
+.ptdbn { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:4px 16px;
+  padding:9px 11px; background:var(--bg-2); border-radius:8px; margin-bottom:12px; font-size:13.5px }
+.ptdrow { display:flex; gap:10px; padding:8px 0; border-top:1px solid var(--line) }
+.ptdk { flex:0 0 132px; font-weight:600; color:var(--ink-2); font-size:13px }
+.ptdv { flex:1 1 0; min-width:0 }
+.ptdm { color:var(--ink-3); font-size:12.5px }
+.ptdl { margin:0; padding-left:18px }
+.ptdl li { margin-bottom:4px }
+.ptdky { display:flex; gap:20px; margin-top:18px; padding-top:12px; border-top:1px solid var(--line);
+  font-size:13px; text-align:center }
+.ptdky > div { flex:1 1 0 }
+@media (max-width:480px) { .ptdrow { display:block } .ptdk { margin-bottom:2px } }
+@media print {
+  body.inphieu > *:not(#modalhost) { display:none !important }
+  body.inphieu .modal { position:static; background:none; padding:0; display:block }
+  body.inphieu .modal .sheet { box-shadow:none; border:0; max-height:none; max-width:none; border-radius:0 }
+  body.inphieu .modal .sh, body.inphieu .modal .sf { display:none }
+  body.inphieu .modal .sb { overflow:visible; padding:0 }
+}
+.bang3 { min-width:520px }
+.bang3 td.num, .bang3 th.num { text-align:right }
+.bang3 td.xau { color:var(--r3-ink); font-weight:600 }
+.bang3 tr.tong td { border-top:2px solid var(--line-2); background:var(--bg-2) }
+/* ---------- Sửa bố cục theo góp ý ---------- */
+/* Hộp thoại: các khối bên trong không bị bóp lại khi nội dung dài */
+.sheet .sb > * { flex:none }
+.sheet .sb .tablewrap { max-height:none }
+
+/* Dòng dẫn nằm ngay dưới tiêu đề khối, cùng lề với danh sách bên dưới */
+.qlead { font-size:12.5px; color:var(--ink-3); line-height:1.5;
+  margin:0; padding:9px 13px 0 }
+
+/* Khoảng cách đều giữa các khối của một bước đánh giá */
+#stepbody > * { margin-top:12px }
+#stepbody > *:first-child { margin-top:0 }
+#stepbody > #lesion-area > .card-h:first-child { margin-top:0 }
+.qblock + .qblock { margin-top:12px }
+
+/* Ô ký: cách hẳn ô ghi chú bên trên */
+.kybox { margin-top:14px }
+/* Hàng chi tiết vị trí ngay trong bước khám da của phiếu đánh giá */
+.kdrow.gon { margin-top:8px }
+.kdrow .kdh .pill { margin-left:auto }
+.kdnguon { margin-top:8px; padding-top:8px; border-top:1px dashed var(--line) }
+.kdnguon .eyebrow { margin-bottom:4px }
 </style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -920,7 +1083,7 @@ section.phang .lesion{background:var(--card);border-color:var(--line-2)}
    ============================================================ */
 "use strict";
 const PREVIEW = false;
-const APP_VER = "1.4";
+const APP_VER = "1.6";
 const LS_KEY  = "ltd_db_v1";
 const LS_CFG  = "ltd_cfg_v1";
 
@@ -1125,6 +1288,15 @@ const emptyDB = () => ({
      {id, patientId, episodeId, at, by, kind:"moi"|"capnhat",
       site, device, stage, poa, size, note, photos:[{id,at,by}], foundAt} */
   lesionLogs: [],
+  /* Lần thực hiện từng mục gói chăm sóc. Chỉ ghi thêm, không sửa, không xoá.
+     {id, patientId, episodeId, at, by, item, level, done} */
+  bundleLogs: [],
+  /* Phiếu khám da vùng tì đè đầu ca — quy trình Bước 1, mỗi 8 giờ.
+     Chỉ ghi thêm, không sửa, không xoá.
+     {id, patientId, episodeId, at, by, shift, binhThuong,
+      chung:{nhiet,mo,camgiac},
+      viTri:[{k, size, sau, stage, note}], note} */
+  skinChecks: [],
   handovers: [],     // biên bản giao ban: {id, at, shift, day, by, note, snapshot, receivedBy, receivedAt}
   handoverNotes: []  // dặn dò cho ca sau theo từng người bệnh: {id, episodeId, day, shift, text, by, at}
 });
@@ -1151,6 +1323,8 @@ function mergeDB(local, server) {
   // Lượt xoay trở và biên bản giao ban cũng không sửa: gộp theo mã
   out.turns = union("turns").sort((a, b) => a.at.localeCompare(b.at));
   out.lesionLogs = union("lesionLogs").sort((a, b) => a.at.localeCompare(b.at));
+  out.bundleLogs = union("bundleLogs").sort((a, b) => a.at.localeCompare(b.at));
+  out.skinChecks = union("skinChecks").sort((a, b) => a.at.localeCompare(b.at));
   out.handoverNotes = union("handoverNotes").sort((a, b) => a.at.localeCompare(b.at));
   // Biên bản giao ban có hai chữ ký (giao và nhận): lấy bản có đủ chữ ký hơn
   const hm = new Map();
@@ -1397,10 +1571,19 @@ const DB = {
   },
   lastTurn(epId) { return this.turnsOf(epId)[0] || null; },
   lesionState(key) { return (this.data.lesionStates || []).find(s => s.key === key) || null; },
+  bundleLogsOf(epId) {
+    return (this.data.bundleLogs || []).filter(l => l.episodeId === epId)
+      .sort((a, b) => a.at.localeCompare(b.at));
+  },
   /* Bản ghi tổn thương của một đợt điều trị, cũ trước mới sau */
   lesionLogsOf(epId) {
     return (this.data.lesionLogs || []).filter(l => l.episodeId === epId)
       .sort((a, b) => a.at.localeCompare(b.at));
+  },
+  /* Phiếu khám da của một đợt điều trị, MỚI TRƯỚC CŨ SAU */
+  skinChecksOf(epId) {
+    return (this.data.skinChecks || []).filter(l => l.episodeId === epId)
+      .sort((a, b) => b.at.localeCompare(a.at));
   }
 };
 
@@ -1470,6 +1653,11 @@ function toast(msg, kind, ms) {
 }
 
 /* ---------- Hộp thoại ---------- */
+/* Cuộn lên đầu trang — dùng khi đổi bước trong phiếu đánh giá */
+function lenDau() {
+  try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { window.scrollTo(0, 0); }
+}
+
 function modal({ title, body, actions, wide }) {
   const host = $("#modalhost");
   const wrap = document.createElement("div");
@@ -1543,11 +1731,11 @@ function toCSV(rows) {
 <script>
 /* ============================================================
    NỘI DUNG LÂM SÀNG
-   Thang điểm Waterlow (bản sửa đổi 2005), yếu tố nguy cơ đặc thù
+   Thang điểm Waterlow điều chỉnh — theo bảng khoa đang dùng, yếu tố nguy cơ đặc thù
    hồi sức, phân độ tổn thương theo NPIAP/EPUAP, gói chăm sóc.
    ============================================================ */
 
-/* --- Thang điểm Waterlow --- */
+/* --- Thang điểm Waterlow điều chỉnh, đúng bảng Excel khoa đang dùng --- */
 const WATERLOW = [
   { key: "sex", title: "Giới tính", multi: false, opts: [
     { t: "Nam", p: 1 }, { t: "Nữ", p: 2 }
@@ -1566,71 +1754,72 @@ const WATERLOW = [
   ]},
   { key: "skin", title: "Tình trạng da vùng nguy cơ", multi: true,
     hint: "Chọn tất cả các mục đang có trên người bệnh.", opts: [
-    { t: "Da lành lặn, khoẻ mạnh", p: 0, excl: true },
-    { t: "Da mỏng, dễ rách", p: 1 },
-    { t: "Da khô", p: 1 },
-    { t: "Da phù nề", p: 1 },
-    { t: "Da ẩm ướt / người bệnh đang sốt", p: 1 },
-    { t: "Da đổi màu — tương ứng tổn thương độ I", p: 2 },
-    { t: "Da nứt, trợt, đã có tổn thương — độ II đến IV", p: 3 }
+    { t: "Bình thường", p: 0, excl: true },
+    { t: "Da mỏng", p: 1 },
+    { t: "Da khô, bong hoặc tróc vảy", p: 1 },
+    { t: "Phù", p: 1 },
+    { t: "Da ẩm, rịn mồ hôi, hoặc có sốt", p: 1 },
+    { t: "Da đổi màu — bầm, xanh, tím, lốm đốm", p: 2 },
+    { t: "Có bóng nước hoặc trợt da — loét độ II", p: 3 }
   ]},
   { key: "cont", title: "Tiêu tiểu", multi: false, opts: [
-    { t: "Tự chủ hoàn toàn / có sonde tiểu", p: 0 },
-    { t: "Tiểu không tự chủ", p: 1 },
-    { t: "Đại tiện không tự chủ", p: 2 },
-    { t: "Cả tiểu và đại tiện không tự chủ", p: 3 }
+    { t: "Có sonde tiểu hoặc sonde trực tràng", p: 0 },
+    { t: "Tiểu không tự chủ, hoặc sonde tiểu bị dò rỉ", p: 1 },
+    { t: "Tiêu không tự chủ, hoặc tiêu lỏng lượng nhiều", p: 2 },
+    { t: "Tiêu tiểu không tự chủ", p: 3 }
   ]},
   { key: "mob", title: "Vận động", multi: false, opts: [
-    { t: "Đi lại, tự xoay trở bình thường", p: 0 },
-    { t: "Bồn chồn, cựa quậy liên tục", p: 1 },
-    { t: "Thờ ơ, ít vận động", p: 2 },
-    { t: "Vận động hạn chế", p: 3 },
-    { t: "Nằm liệt giường, kéo tạ", p: 4 },
-    { t: "Ngồi xe lăn / phụ thuộc hoàn toàn", p: 5 }
+    { t: "Bình thường", p: 0 },
+    { t: "Tự xoay trở được", p: 1 },
+    { t: "Còn tỉnh táo nhưng nằm yên — an thần, trầm cảm hoặc lười vận động", p: 2 },
+    { t: "Giới hạn vận động — do đau hoặc bệnh nặng", p: 3 },
+    { t: "Bất động một phần — hôn mê, hoặc không xoay trở được do chấn thương, dị tật", p: 4 },
+    { t: "Bất động hoàn toàn", p: 5 }
   ]},
   { key: "tissue", title: "Tổn thương mô", multi: true, group: "Nguy cơ đặc biệt",
     hint: "Chọn tất cả các tình trạng người bệnh đang có.", opts: [
-    { t: "Suy kiệt giai đoạn cuối", p: 8 },
-    { t: "Suy đa tạng", p: 8 },
-    { t: "Suy một tạng (hô hấp, thận hoặc tim)", p: 5 },
+    { t: "Suy đa tạng hoặc suy kiệt nặng", p: 8 },
+    { t: "Suy một tạng — gan, thận, tim, phổi…", p: 5 },
     { t: "Bệnh lý mạch máu ngoại biên", p: 5 },
-    { t: "Thiếu máu (Hb dưới 80 g/L)", p: 2 },
+    { t: "Thiếu máu — Hb dưới 8 g/dL", p: 2 },
     { t: "Hút thuốc lá", p: 1 }
   ]},
-  { key: "neuro", title: "Suy giảm chức năng hệ thần kinh", multi: false, group: "Nguy cơ đặc biệt",
-    hint: "Đái tháo đường, đột quỵ, xơ cứng rải rác, rối loạn vận động – cảm giác, liệt hai chi hoặc tứ chi.", opts: [
+  { key: "neuro", title: "Khiếm khuyết thần kinh", multi: false, group: "Nguy cơ đặc biệt",
+    hint: "Đái tháo đường · xơ cứng thần kinh · tai biến mạch máu não · rối loạn vận động hoặc cảm giác · liệt hai chân. Bảng của bệnh viện ghi 1 – 6 điểm tuỳ mức độ nặng.", opts: [
     { t: "Không có", p: 0 },
     { t: "Có — mức độ nhẹ", p: 4 },
     { t: "Có — mức độ trung bình", p: 5 },
-    { t: "Có — mức độ nặng (liệt hai chi dưới hoặc liệt tứ chi)", p: 6 }
+    { t: "Có — mức độ nặng, liệt hai chân", p: 6 }
   ]},
   { key: "surg", title: "Phẫu thuật / Chấn thương (trong vòng 48 giờ)", multi: true, group: "Nguy cơ đặc biệt", opts: [
-    { t: "Phẫu thuật chỉnh hình, cột sống hoặc vùng dưới thắt lưng", p: 5 },
-    { t: "Thời gian trên bàn mổ trên 2 giờ", p: 5 },
-    { t: "Thời gian trên bàn mổ trên 6 giờ", p: 8 }
+    { t: "Phẫu thuật chỉnh hình, phần dưới eo, hoặc cột sống", p: 5 },
+    { t: "Phẫu thuật kéo dài trên 2 giờ", p: 5 },
+    { t: "Phẫu thuật kéo dài trên 6 giờ", p: 8 }
   ]},
   { key: "med", title: "Thuốc đang dùng", multi: true, cap: 4, group: "Nguy cơ đặc biệt",
     hint: "Mục này cộng tối đa 4 điểm dù chọn nhiều mục.", opts: [
     { t: "Thuốc độc tế bào (hoá trị)", p: 4 },
-    { t: "Corticoid liều cao hoặc dùng kéo dài", p: 4 },
+    { t: "Corticoid liều cao hoặc kéo dài", p: 4 },
     { t: "Thuốc kháng viêm", p: 4 }
   ]}
 ];
 
-/* --- Sàng lọc dinh dưỡng MST, nằm trong thang Waterlow 2005 --- */
+/* --- Yếu tố dinh dưỡng, theo đúng bảng Waterlow điều chỉnh khoa đang dùng --- */
 const MST = {
-  a: { q: "Gần đây người bệnh có sụt cân ngoài ý muốn không?", opts: [
-    { t: "Không", v: "khong", p: 0 },
-    { t: "Có", v: "co", p: 0 },
-    { t: "Không rõ", v: "khongro", p: 2 }
+  nhan: "Yếu tố dinh dưỡng",
+  a: { q: "Sụt cân không chủ ý trong 3 – 6 tháng qua", opts: [
+    { t: "Dưới 5% cân nặng", p: 0 },
+    { t: "5 – 10% cân nặng", p: 1 },
+    { t: "Trên 10% cân nặng", p: 2 }
   ]},
-  b: { q: "Sụt bao nhiêu cân?", onlyIf: "co", opts: [
-    { t: "0,5 – 5 kg", p: 1 }, { t: "5 – 10 kg", p: 2 },
-    { t: "10 – 15 kg", p: 3 }, { t: "Trên 15 kg", p: 4 },
-    { t: "Không rõ", p: 2 }
+  b: { q: "Chỉ số khối cơ thể (BMI)", opts: [
+    { t: "Trên 20", p: 0 },
+    { t: "18,5 – 20", p: 1 },
+    { t: "Dưới 18,5", p: 2 }
   ]},
-  c: { q: "Người bệnh ăn kém hoặc chán ăn?", opts: [
-    { t: "Không", p: 0 }, { t: "Có", p: 1 }
+  c: { q: "Nhịn ăn trên 5 ngày nay", opts: [
+    { t: "Không", p: 0 },
+    { t: "Có", p: 2 }
   ]}
 };
 
@@ -1660,6 +1849,57 @@ const SITES = [
   "Đầu gối", "Ngón chân", "Vị trí khác"
 ];
 
+/* ------------------------------------------------------------
+   PHIẾU KHÁM DA VÙNG TÌ ĐÈ — 29 vị trí
+   Theo Pressure Sore Data Collection / Skin Assessment Tool
+   (Outreach Services of Indiana, bản sửa 2009, phân độ theo NPUAP).
+   Quy trình Bước 1 yêu cầu khám da vùng tì đè mỗi 8 giờ vào đầu ca
+   cho người bệnh từ có nguy cơ trở lên.
+   mat: hình nhìn từ trước hay từ sau · x, y: toạ độ chấm trên hình
+   ------------------------------------------------------------ */
+const KHAM_DA_VITRI = [
+  { k: "chum",      t: "Vùng chẩm",              mat: "sau",   x: 50, y: 17 },
+  { k: "taiP",      t: "Vành tai phải",          mat: "truoc", x: 36, y: 21 },
+  { k: "taiT",      t: "Vành tai trái",          mat: "truoc", x: 64, y: 21 },
+  { k: "bavaiP",    t: "Bả vai phải",            mat: "sau",   x: 61, y: 57 },
+  { k: "bavaiT",    t: "Bả vai trái",            mat: "sau",   x: 39, y: 57 },
+  { k: "khuyuP",    t: "Khuỷu tay phải",         mat: "sau",   x: 75, y: 96 },
+  { k: "khuyuT",    t: "Khuỷu tay trái",         mat: "sau",   x: 25, y: 96 },
+  { k: "cotsong",   t: "Cột sống — đoạn lưng",   mat: "sau",   x: 50, y: 74 },
+  { k: "cung",      t: "Xương cùng",             mat: "sau",   x: 50, y: 104 },
+  { k: "cut",       t: "Xương cụt",              mat: "sau",   x: 50, y: 113 },
+  { k: "maochauP",  t: "Mào chậu phải",          mat: "truoc", x: 37, y: 103 },
+  { k: "maochauT",  t: "Mào chậu trái",          mat: "truoc", x: 63, y: 103 },
+  { k: "mauchuyenP",t: "Mấu chuyển lớn phải",    mat: "truoc", x: 32, y: 114 },
+  { k: "mauchuyenT",t: "Mấu chuyển lớn trái",    mat: "truoc", x: 68, y: 114 },
+  { k: "ungoiP",    t: "Ụ ngồi phải",            mat: "sau",   x: 57, y: 120 },
+  { k: "ungoiT",    t: "Ụ ngồi trái",            mat: "sau",   x: 43, y: 120 },
+  { k: "duiP",      t: "Đùi phải",               mat: "truoc", x: 41, y: 138 },
+  { k: "duiT",      t: "Đùi trái",               mat: "truoc", x: 59, y: 138 },
+  { k: "goiP",      t: "Đầu gối phải",           mat: "truoc", x: 41, y: 162 },
+  { k: "goiT",      t: "Đầu gối trái",           mat: "truoc", x: 59, y: 162 },
+  { k: "cangP",     t: "Cẳng chân phải",         mat: "truoc", x: 41, y: 181 },
+  { k: "cangT",     t: "Cẳng chân trái",         mat: "truoc", x: 59, y: 181 },
+  { k: "matcaP",    t: "Mắt cá phải",            mat: "truoc", x: 41, y: 199 },
+  { k: "matcaT",    t: "Mắt cá trái",            mat: "truoc", x: 59, y: 199 },
+  { k: "gotP",      t: "Gót chân phải",          mat: "sau",   x: 57, y: 203 },
+  { k: "gotT",      t: "Gót chân trái",          mat: "sau",   x: 43, y: 203 },
+  { k: "ngonP",     t: "Ngón chân phải",         mat: "truoc", x: 39, y: 211 },
+  { k: "ngonT",     t: "Ngón chân trái",         mat: "truoc", x: 61, y: 211 },
+  { k: "khac",      t: "Vị trí khác",            mat: "khac",  x: 0,  y: 0 }
+];
+const kdTen = k => (KHAM_DA_VITRI.find(x => x.k === k) || {}).t || k;
+
+/* Ba quan sát chung ở đầu phiếu khám da */
+const KHAM_DA_CHUNG = [
+  { k: "nhiet",   t: "Nhiệt độ da",   opts: ["Bình thường", "Ấm hơn vùng xung quanh", "Lạnh hơn vùng xung quanh"] },
+  { k: "mo",      t: "Độ chắc của mô", opts: ["Bình thường", "Chắc hơn", "Mềm nhão hơn"] },
+  { k: "camgiac", t: "Cảm giác",       opts: ["Bình thường", "Giảm cảm giác", "Đau khi chạm", "Không đánh giá được"] }
+];
+/* Độ sâu của tổn thương, dùng trong phiếu khám da */
+const KHAM_DA_SAU = ["Da còn nguyên vẹn", "Nông — mất một phần bề dày da",
+                     "Sâu — mất toàn bộ bề dày da", "Không đánh giá được"];
+
 /* --- Phân độ theo NPIAP / EPUAP --- */
 const STAGES = [
   { v: "I",   t: "Độ I — hồng ban không mất màu khi ấn, da còn nguyên vẹn" },
@@ -1686,46 +1926,124 @@ const LEVELS = [
   { i: 3, name: "Nguy cơ rất cao",       short: "Nguy cơ rất cao" }
 ];
 
-/* --- Gói chăm sóc mặc định theo mức --- */
+/* --- Gói chăm sóc, theo Bước 2 của quy trình phòng ngừa loét tì đè của khoa ---
+   Tên gói lấy đúng tên trong quy trình; mục xếp theo bốn nhóm của bảng Bước 2.
+   Mục đánh dấu "tuỳ điều kiện" (nệm khí động — quy trình ghi "nếu có điều kiện
+   mua") vẫn hiện để tick, nhưng KHÔNG tính vào mẫu số của chỉ số tuân thủ, vì
+   khoa không có nghĩa vụ làm khi chưa có vật tư. */
+const BUNDLE_NHOM = ["Bề mặt hỗ trợ", "Thay đổi tư thế", "Chăm sóc da", "Dinh dưỡng", "Theo dõi"];
+
+const KHAM_DA_CA = "Khám da vùng tì đè đầu ca";
+const VS_DA      = "Vệ sinh sạch sẽ, giữ da khô ráo";
+const DUONG_AM   = "Dưỡng ẩm da / kem ngừa loét 1 – 2 lần mỗi ngày";
+const XOP_CUNGCUT= "Miếng dán xốp bảo vệ da vùng cùng cụt và vùng ẩm ướt";
+const NANG_GOT   = "Nâng gót chân khỏi mặt giường";
+const NEM_YTE    = "Sử dụng nệm giường y tế";
+
 const DEFAULT_BUNDLES = [
-  { level: 0, items: [
-    "Quan sát toàn bộ vùng tì đè mỗi ca trực",
+  { level: 0, ten: "Theo dõi thường quy", items: [
+    KHAM_DA_CA,
     "Khuyến khích người bệnh tự thay đổi tư thế",
-    "Giữ da sạch và khô, thay drap khi ẩm",
+    VS_DA,
     "Đánh giá lại khi tình trạng người bệnh thay đổi"
   ]},
-  { level: 1, items: [
-    "Xoay trở mỗi 3 – 4 giờ, ghi vào bảng theo dõi tư thế",
-    "Quan sát toàn bộ điểm tì đè mỗi ca trực",
-    "Sử dụng đệm giảm áp cơ bản",
-    "Kê gối dưới cẳng chân, tránh gót chân tì trực tiếp",
-    "Dưỡng ẩm da, không xoa bóp trực tiếp lên vùng đỏ",
-    "Sàng lọc dinh dưỡng, bảo đảm đủ năng lượng và đạm"
+  { level: 1, ten: "Kế hoạch phòng ngừa cơ bản", items: [
+    KHAM_DA_CA,
+    NEM_YTE,
+    "Xoay trở mỗi 3 giờ theo lịch cữ của khoa",
+    VS_DA,
+    DUONG_AM,
+    "Đánh giá tình trạng dinh dưỡng cơ bản"
   ]},
-  { level: 2, items: [
-    "Xoay trở mỗi 2 giờ theo lịch, có bảng theo dõi tư thế tại giường",
-    "Sử dụng đệm hơi hoặc đệm động giảm áp",
-    "Kê gót chân treo tự do, không tì lên mặt giường",
-    "Dán băng bọt xốp dự phòng vùng cùng cụt và hai gót chân",
-    "Kiểm tra da dưới mọi thiết bị y tế mỗi 8 giờ và xoay đổi vị trí thiết bị",
-    "Nâng đầu giường không quá 30° khi tình trạng cho phép, tránh tư thế trượt",
-    "Kiểm soát độ ẩm da: thay tã, dùng kem bảo vệ da vùng tầng sinh môn",
-    "Hội chẩn dinh dưỡng, cân nhắc bổ sung đạm và vi chất",
-    "Báo cáo điều dưỡng trưởng trong buổi giao ban"
+  { level: 2, ten: "Kế hoạch phòng ngừa tăng cường", items: [
+    KHAM_DA_CA,
+    NEM_YTE,
+    NANG_GOT,
+    "Xoay trở mỗi 3 giờ theo lịch cữ của khoa",
+    VS_DA,
+    DUONG_AM,
+    XOP_CUNGCUT,
+    "Đánh giá dinh dưỡng, chú ý đạm, vitamin, kẽm"
   ]},
-  { level: 3, items: [
-    "Xoay trở mỗi 2 giờ, ưu tiên tư thế nghiêng 30°, có người hỗ trợ",
-    "Sử dụng đệm động giảm áp chuyên dụng",
-    "Kê gót chân treo tự do, kiểm tra hai gót mỗi 4 giờ",
-    "Dán băng bọt xốp dự phòng vùng cùng cụt, hai gót và các điểm tì khác",
-    "Kiểm tra da dưới mọi thiết bị y tế mỗi 4 – 6 giờ, xoay đổi vị trí thiết bị",
-    "Đánh giá lại sau mỗi thủ thuật lớn hoặc khi tình trạng thay đổi",
-    "Đưa vào danh sách theo dõi hằng ngày của điều dưỡng trưởng",
-    "Hội chẩn dinh dưỡng, theo dõi cân bằng dịch và albumin",
-    "Hội chẩn chăm sóc vết thương nếu đã có tổn thương",
-    "Chụp ảnh và ghi nhận tiến triển tổn thương mỗi 48 – 72 giờ"
+  { level: 3, ten: "Kế hoạch phòng ngừa tối đa", items: [
+    KHAM_DA_CA,
+    "Đệm khí động (áp lực luân phiên hoặc lật trở tự động)",
+    NANG_GOT,
+    "Xoay trở mỗi 2 giờ theo lịch cữ của khoa, hoặc thường xuyên hơn",
+    VS_DA,
+    DUONG_AM,
+    XOP_CUNGCUT,
+    "Kem bảo vệ hoặc film trong suốt dán lên vùng xương nhô ra",
+    "Kiểm tra da dưới mọi thiết bị y tế, xoay đổi vị trí thiết bị",
+    "Theo dõi chặt albumin và protein máu"
   ]}
 ];
+
+/* Nhóm hiển thị và cờ "tuỳ điều kiện vật tư" của từng mục.
+   Khoa sửa lời một mục trong Cài đặt thì mục đó rơi về nhóm "Theo dõi" và
+   được tính vào chỉ số như bình thường — không im lặng bỏ ra khỏi mẫu số. */
+const BUNDLE_META = {};
+const datMeta = (t, nhom, tuy) => { BUNDLE_META[t] = { nhom, tuy: !!tuy }; };
+datMeta(KHAM_DA_CA, "Theo dõi");
+datMeta("Khuyến khích người bệnh tự thay đổi tư thế", "Thay đổi tư thế");
+datMeta("Đánh giá lại khi tình trạng người bệnh thay đổi", "Theo dõi");
+datMeta(NEM_YTE, "Bề mặt hỗ trợ");
+datMeta(NANG_GOT, "Bề mặt hỗ trợ");
+datMeta("Đệm khí động (áp lực luân phiên hoặc lật trở tự động)", "Bề mặt hỗ trợ", true);
+datMeta("Xoay trở mỗi 3 giờ theo lịch cữ của khoa", "Thay đổi tư thế");
+datMeta("Xoay trở mỗi 2 giờ theo lịch cữ của khoa, hoặc thường xuyên hơn", "Thay đổi tư thế");
+datMeta(VS_DA, "Chăm sóc da");
+datMeta(DUONG_AM, "Chăm sóc da");
+datMeta(XOP_CUNGCUT, "Chăm sóc da");
+datMeta("Kem bảo vệ hoặc film trong suốt dán lên vùng xương nhô ra", "Chăm sóc da");
+datMeta("Kiểm tra da dưới mọi thiết bị y tế, xoay đổi vị trí thiết bị", "Chăm sóc da");
+datMeta("Đánh giá tình trạng dinh dưỡng cơ bản", "Dinh dưỡng");
+datMeta("Đánh giá dinh dưỡng, chú ý đạm, vitamin, kẽm", "Dinh dưỡng");
+datMeta("Theo dõi chặt albumin và protein máu", "Dinh dưỡng");
+
+/* --- Nhóm người bệnh đặc thù, theo Bước 3 của quy trình ---
+   Nhóm có cờ ratCao được đưa thẳng vào nguy cơ rất cao ngay giờ đầu nhập khoa,
+   không chờ điểm Waterlow — theo đề xuất "Sàng lọc loét ngay nhập viện" trong
+   báo cáo tổng kết 2025 của khoa. */
+const NHOM_BENH = [
+  { k: "uonvan", t: "Uốn ván", ratCao: true,
+    muc: "Giảm áp lực tì đè mà không gây kích thích co cứng", items: [
+      ["Bề mặt hỗ trợ", "Ưu tiên nệm khí động cho người bệnh uốn ván", true],
+      ["Thay đổi tư thế", "Xoay trở và chêm lót nhẹ nhàng", false],
+      ["Thay đổi tư thế", "Gối chêm, cuộn khăn mềm nâng đỡ khớp đang co cứng", false],
+      ["Theo dõi", "Phối hợp bác sĩ tối ưu liều an thần, giãn cơ trước khi chăm sóc", false]
+    ]},
+  { k: "socnk", t: "Sốc nhiễm khuẩn", ratCao: true,
+    muc: "Bảo vệ làn da mỏng manh, dễ tổn thương, dễ xuất huyết", items: [
+      ["Chăm sóc da", "Mọi thao tác lau rửa và thay đổi tư thế cực kỳ nhẹ nhàng", false],
+      ["Chăm sóc da", "Drap và tã thấm hút cao, bề mặt mềm, thay ngay khi ẩm", false],
+      ["Chăm sóc da", "Hạn chế băng dính trực tiếp lên da, dùng dây cố định chuyên dụng", false],
+      ["Theo dõi", "Theo dõi kỹ vùng da phù nề và vùng thấp — lưng, cùng cụt, chân", false]
+    ]},
+  { k: "sxhd", t: "Sốt xuất huyết Dengue nặng", ratCao: false,
+    muc: "Bảo vệ làn da mỏng manh, dễ tổn thương, dễ xuất huyết", items: [
+      ["Chăm sóc da", "Mọi thao tác lau rửa và thay đổi tư thế cực kỳ nhẹ nhàng", false],
+      ["Chăm sóc da", "Drap và tã thấm hút cao, bề mặt mềm, thay ngay khi ẩm", false],
+      ["Chăm sóc da", "Hạn chế băng dính trực tiếp lên da, dùng dây cố định chuyên dụng", false],
+      ["Theo dõi", "Theo dõi kỹ vùng da phù nề và vùng thấp — lưng, cùng cụt, chân", false]
+    ]},
+  { k: "ecmo", t: "ECMO hoặc lọc máu liên tục", ratCao: false,
+    muc: "Phòng ngừa tổn thương do thiết bị tại vị trí cannula và các đường truyền lớn", items: [
+      ["Thay đổi tư thế", "Không để người bệnh nằm đè lên đường ống hoặc cannula", false],
+      ["Bề mặt hỗ trợ", "Drap, vải chêm, miếng lót xốp quanh vị trí đặt cannula", false],
+      ["Theo dõi", "Quan sát da quanh chân cannula mỗi ca trực", false],
+      ["Chăm sóc da", "Dây cố định có lót gạc hoặc vật liệu mềm, không siết chặt", false]
+    ]},
+  { k: "thankinh", t: "Tổn thương thần kinh", ratCao: true,
+    muc: "", items: [] }
+];
+NHOM_BENH.forEach(g => g.items.forEach(([nhom, t, tuy]) => datMeta(t, nhom, tuy)));
+
+const nhomBenhTen = k => (NHOM_BENH.find(x => x.k === k) || {}).t || k;
+const nhomCuaMuc  = t => (BUNDLE_META[t] || {}).nhom || "Theo dõi";
+const mucTuyChon  = t => !!(BUNDLE_META[t] || {}).tuy;
+/* Mẫu số của chỉ số: bỏ các mục tuỳ điều kiện vật tư */
+const mucTinhChiSo = ds => (ds || []).filter(t => !mucTuyChon(t));
 
 /* ============================================================
    BẢN THỬ — TƯ THẾ VÀ LỊCH XOAY TRỞ
@@ -1741,12 +2059,51 @@ const POSITIONS = [
 const posName = v => (POSITIONS.find(p => p.v === v) || {}).t || v || "—";
 const posShort = v => (POSITIONS.find(p => p.v === v) || {}).s || v || "—";
 
-/* Khoa xoay trở theo CỮ CỐ ĐỊNH, cả buồng cùng giờ (vd 07:00, 10:00, 13:00…),
-   ca nặng xen thêm cữ giữa. Lịch tính từ một giờ mốc, không tính từ lượt trước. */
+/* Khoảng cách xoay trở mục tiêu, theo Bước 2 của quy trình:
+   có nguy cơ và nguy cơ cao đều mỗi 3 giờ, chỉ nguy cơ RẤT CAO mới mỗi 2 giờ. */
 function turnEveryFor(level, settings) {
   const st = settings || DB.data.settings || DEFAULT_SETTINGS();
-  return level >= (st.turnHighFrom != null ? st.turnHighFrom : 2)
+  return level >= (st.turnHighFrom != null ? st.turnHighFrom : 3)
     ? (st.turnEveryHoursHigh || 2) : (st.turnEveryHours || 3);
+}
+
+/* ------------------------------------------------------------
+   LỊCH CỮ CỦA KHOA — quy trình Bước 2
+     mức 1 và 2 : 10 – 13 – 16 – 19 – 22 – 1 – 4 – 7 giờ
+     mức 3      : 10 – 12 – 14 – 16 – 18 – 20 – 22 – 0 – 2 – 4 – 6 – 8 giờ
+   Lịch này dùng để HIỆN cữ kế tiếp cho điều dưỡng biết khi nào tới lượt.
+   CHỈ SỐ tuân thủ vẫn tính theo khoảng cách thực giữa hai lượt xoay
+   (xem turnInfo) — người xoay lúc 16g20 không bị ghi là trễ cữ.
+   ------------------------------------------------------------ */
+function lichCu(level, settings) {
+  const st = settings || DB.data.settings || DEFAULT_SETTINGS();
+  const ds = level >= (st.turnHighFrom != null ? st.turnHighFrom : 3)
+    ? (st.turnSlotsHigh || [10, 12, 14, 16, 18, 20, 22, 0, 2, 4, 6, 8])
+    : (st.turnSlots || [10, 13, 16, 19, 22, 1, 4, 7]);
+  return ds.slice().sort((a, b) => a - b);
+}
+/* Cữ kế tiếp sau một mốc thời gian */
+function cuKeTiep(level, ref, settings) {
+  const gio = lichCu(level, settings);
+  const d = new Date(ref == null ? Date.now() : ref);
+  for (const h of gio) {
+    const t = new Date(d); t.setHours(h, 0, 0, 0);
+    if (t.getTime() > d.getTime()) return t;
+  }
+  const t = new Date(d); t.setDate(t.getDate() + 1); t.setHours(gio[0], 0, 0, 0);
+  return t;
+}
+/* Tư thế gợi ý cho một cữ.
+   Quy trình chỉ quy định MỘT điều: cữ 10 giờ nằm nghiêng TRÁI.
+   Các cữ sau app gợi ý luân phiên trái → ngửa → phải → ngửa; đây là gợi ý
+   của phần mềm, không phải quy định của khoa, điều dưỡng đổi được. */
+function tuTheCu(level, when, settings) {
+  const gio = lichCu(level, settings);
+  const i0 = gio.indexOf(10), i = gio.indexOf(dOf(when).getHours());
+  if (i < 0 || i0 < 0) return null;
+  const vong = ["ngtrai", "ngua", "ngphai", "ngua"];
+  const b = ((i - i0) % gio.length + gio.length) % gio.length;
+  return vong[b % 4];
 }
 
 /* Danh sách mốc cữ trong khoảng thời gian, neo theo giờ mốc của khoa */
@@ -1918,17 +2275,23 @@ function shiftRange(shift, ref) {
 
 /* --- Cài đặt mặc định --- */
 const DEFAULT_SETTINGS = () => ({
-  wardName: "Khoa Hồi sức tích cực",
+  wardName: "Khoa Cấp cứu Hồi sức tích cực Chống độc Người lớn",
   hospital: "Bệnh viện Bệnh Nhiệt đới",
-  thresholds: [10, 15, 20],          // ngưỡng lên mức 1, 2, 3
-  reassessHours: [48, 24, 12, 8],    // hạn đánh giá lại theo mức
-  /* Lịch xoay trở theo cữ cố định của khoa (bản thử) */
-  turnEveryHours: 3,                 // cữ chung: mỗi 3 giờ
-  turnEveryHoursHigh: 2,             // ca nặng: mỗi 2 giờ
-  turnHighFrom: 2,                   // từ mức chăm sóc này trở lên thì dùng cữ ca nặng
+  thresholds: [10, 15, 20],          // ngưỡng lên mức 1, 2, 3 — quy trình Bước 1.3
+  reassessHours: [48, 24, 12, 8],    // hạn đánh giá lại theo mức — quy định của khoa
+  /* Xoay trở — quy trình Bước 2 */
+  turnEveryHours: 3,                 // có nguy cơ và nguy cơ cao: mỗi 3 giờ
+  turnEveryHoursHigh: 2,             // nguy cơ rất cao: mỗi 2 giờ
+  turnHighFrom: 3,                   // chỉ mức nguy cơ RẤT CAO mới dùng khoảng 2 giờ
+  turnSlots: [10, 13, 16, 19, 22, 1, 4, 7],                  // lịch cữ mức 1 và 2
+  turnSlotsHigh: [10, 12, 14, 16, 18, 20, 22, 0, 2, 4, 6, 8],// lịch cữ mức 3
   hoTieuChi: DEFAULT_HO_TIEUCHI(),  // tiêu chí bàn giao trọng điểm
-  firstAssessHours: 8,               // hạn đánh giá lần đầu sau nhập khoa
+  firstAssessHours: 1,               // quy trình Bước 1: trong vòng 1 giờ sau nhập khoa
+  tuDongRatCao: true,                // uốn ván, sốc nhiễm khuẩn, tổn thương thần kinh vào thẳng mức rất cao
+  khamDaMoiGio: 8,                   // quy trình Bước 1: khám da mỗi 8 giờ, vào đầu ca
   icuEscalate: 2,                    // số yếu tố hồi sức để nâng một mức
+  nangTheoIcu: true,                 // nâng mức khi đủ số yếu tố hồi sức — EPUAP/NPIAP 2019
+  nangTheoLoet: true,                // nâng mức khi đã có tổn thương — EPUAP/NPIAP 2019
   idleMinutes: 20,
   photosEnabled: true,
   bundles: DEFAULT_BUNDLES.map(b => ({ level: b.level, items: b.items.slice() })),
@@ -1958,10 +2321,10 @@ function scoreWaterlow(ans) {
 }
 function mstScore(m) {
   let s = 0;
-  const a = MST.a.opts.find(o => o.v === m.a);
-  if (a) s += a.p;
-  if (m.a === "co" && m.b != null && MST.b.opts[m.b]) s += MST.b.opts[m.b].p;
-  if (m.c != null && MST.c.opts[m.c]) s += MST.c.opts[m.c].p;
+  ["a", "b", "c"].forEach(k => {
+    const i = m[k];
+    if (typeof i === "number" && MST[k].opts[i]) s += MST[k].opts[i].p;
+  });
   return s;
 }
 function levelOf(total, settings) {
@@ -1977,14 +2340,167 @@ function careLevelOf(a, settings) {
   let lv = a.level != null ? a.level : levelOf(a.score, st);
   const nIcu = (a.icu || []).length;
   const hasLesion = (a.lesions || []).length > 0 || (a.mdrpi || []).length > 0;
-  if (nIcu >= st.icuEscalate || hasLesion) lv = Math.min(3, lv + 1);
+  /* Hai luật nâng mức, khoa bật tắt riêng trong Cài đặt.
+     Không có trong quy trình của khoa — căn cứ là EPUAP/NPIAP/PPPIA 2019,
+     tài liệu tham khảo số 2 của chính quy trình. */
+  const doIcu = st.nangTheoIcu !== false && nIcu >= st.icuEscalate;
+  const doLoet = st.nangTheoLoet !== false && hasLesion;
+  if (doIcu || doLoet) lv = Math.min(3, lv + 1);
+  /* Sàng lọc loét ngay nhập viện: uốn ván, sốc nhiễm khuẩn và tổn thương thần
+     kinh vào thẳng nguy cơ rất cao, không chờ điểm Waterlow.
+     (Đề xuất năm 2026 trong báo cáo tổng kết của khoa.) */
+  if (st.tuDongRatCao !== false && nhomRatCao(a.nhomBenh)) lv = 3;
   return lv;
 }
+/* Vì sao mức chăm sóc được nâng — chỉ nêu lý do THẬT SỰ áp dụng cho ca này */
+function lyDoNangMuc(a, settings) {
+  const st = settings || DB.data.settings || DEFAULT_SETTINGS();
+  const ds = [];
+  const nIcu = (a.icu || []).length;
+  if (st.nangTheoIcu !== false && nIcu >= st.icuEscalate)
+    ds.push(`có <b>${nIcu} yếu tố nguy cơ đặc thù hồi sức</b>`);
+  if (st.nangTheoLoet !== false && ((a.lesions || []).length || (a.mdrpi || []).length))
+    ds.push("<b>đã có tổn thương</b>");
+  return ds;
+}
+
+/* Có nhóm bệnh nào buộc lên nguy cơ rất cao không */
+function nhomRatCao(ds) {
+  return (ds || []).some(k => {
+    const g = NHOM_BENH.find(x => x.k === k);
+    return g && g.ratCao;
+  });
+}
+/* Danh sách mục gói của một mức, cộng thêm can thiệp chuyên biệt theo nhóm bệnh */
+function bundleItems(level, nhomBenh, settings) {
+  const ds = bundleFor(level, settings).slice();
+  (nhomBenh || []).forEach(k => {
+    const g = NHOM_BENH.find(x => x.k === k);
+    if (g) g.items.forEach(([nhom, t]) => { if (ds.indexOf(t) < 0) ds.push(t); });
+  });
+  return ds;
+}
+/* Mục gói của một phiếu đã ký — theo mức và nhóm bệnh lưu trong phiếu đó */
+function goiCuaPhieu(a) {
+  return bundleItems(mucGoiCuaPhieu(a), a && a.nhomBenh);
+}
+/* Tên gói theo quy trình: phòng ngừa cơ bản / tăng cường / tối đa */
+function tenGoi(level, settings) {
+  const st = settings || DB.data.settings || DEFAULT_SETTINGS();
+  const b = (st.bundles || DEFAULT_BUNDLES).find(x => x.level === level)
+         || DEFAULT_BUNDLES.find(x => x.level === level);
+  return (b && b.ten) || (DEFAULT_BUNDLES.find(x => x.level === level) || {}).ten || "Gói chăm sóc";
+}
+/* Mức chăm sóc của một phiếu: LẤY MỨC ĐÃ LƯU LÚC KÝ, không tính lại.
+
+   Tính lại thì kết quả phụ thuộc Cài đặt HIỆN TẠI. Điều dưỡng trưởng đổi
+   ngưỡng "số yếu tố hồi sức để nâng mức" là mọi phiếu cũ đổi mức theo,
+   và các mục gói đã tick trong phiếu đó biến mất khỏi màn hình vì không
+   còn khớp mức. Mức đã ký là mức của lúc đó, không đổi. */
+function mucGoiCuaPhieu(a) {
+  return a && a.careLevel != null ? a.careLevel : careLevelOf(a);
+}
+
 function bundleFor(level, settings) {
   const st = settings || DB.data.settings || DEFAULT_SETTINGS();
   const b = (st.bundles || DEFAULT_BUNDLES).find(x => x.level === level);
   return b ? b.items : [];
 }
+/* ============================================================
+   TRẠNG THÁI GÓI CHĂM SÓC
+   ------------------------------------------------------------
+   Một mục được coi là ĐÃ THỰC HIỆN nếu bản ghi mới nhất của nó
+   (trong cùng đợt điều trị, cùng mức chăm sóc) nói là đã làm.
+
+   Hai nguồn, trộn chung theo thời gian:
+     - ô tích lúc ký phiếu đánh giá  (a.bundle, mốc thời gian a.at)
+     - bản ghi thực hiện ghi sau đó  (bundleLogs)
+   Nhờ vậy phiếu cũ vẫn đọc được y như trước, không phải chuyển đổi gì.
+   ============================================================ */
+/* Ca trực chứa một mốc thời gian: {shift, start, end} */
+function caCuaLuc(ms) {
+  const d = new Date(ms == null ? Date.now() : ms);
+  const s = currentShift(d);
+  const r = shiftRange(s, d);
+  return { shift: s, start: r.start, end: r.end };
+}
+
+/* Những mục của gói đã được ghi TRONG MỘT CA TRỰC.
+   Hai nguồn, trộn theo thời gian:
+     - ô tích lúc ký phiếu đánh giá, nếu phiếu ký trong ca đó
+     - bản ghi đánh dấu trong ca
+   Trả về Map: mục → { at, by }. */
+function bundleState(epId, level, tuMs, denMs) {
+  const st = new Map();
+  const trong = t => {
+    const x = dOf(t).getTime();
+    return (tuMs == null || x >= tuMs) && (denMs == null || x < denMs);
+  };
+  const nguon = [];
+  DB.assessmentsOf(epId).forEach(a => {
+    const lv = mucGoiCuaPhieu(a);
+    if (lv !== level || !trong(a.at)) return;
+    (a.bundle || []).forEach(item => nguon.push({ at: a.at, item, by: a.userId, tuPhieu: true }));
+  });
+  (DB.data.bundleLogs || []).filter(b =>
+    b.episodeId === epId && b.level === level && trong(b.at)
+  ).forEach(b => nguon.push({ at: b.at, item: b.item, by: b.by, done: b.done !== false }));
+  nguon.sort((x, y) => String(x.at).localeCompare(String(y.at)));
+  /* Bản ghi sau đè bản ghi trước. Mục bị bỏ tick thì rời khỏi danh sách đang đánh dấu. */
+  nguon.forEach(x => {
+    if (x.done === false) st.delete(x.item);
+    else st.set(x.item, { done: true, at: x.at, by: x.by, tuPhieu: !!x.tuPhieu });
+  });
+  return st;
+}
+
+/* Gói của ca trực đang diễn ra (hoặc ca chứa mốc ref) */
+function bundleCa(epId, level, ref) {
+  const c = caCuaLuc(ref);
+  return { ca: c, st: bundleState(epId, level, c.start.getTime(), c.end.getTime()) };
+}
+
+/* Tỷ lệ gói của CA TRỰC chứa phiếu đánh giá này.
+   Dùng cho cột "% gói" trong tệp Excel — đọc là "ca đó làm được mấy phần gói". */
+function bundleRateOf(a) {
+  const lv = mucGoiCuaPhieu(a);
+  const items = mucTinhChiSo(goiCuaPhieu(a));
+  if (!items.length) return null;
+  const c = caCuaLuc(dOf(a.at).getTime());
+  const st = bundleState(a.episodeId, lv, c.start.getTime(), c.end.getTime());
+  const n = items.filter(it => st.has(it)).length;
+  return { xong: n, tong: items.length, ty: n / items.length, ca: c.shift.t };
+}
+
+/* Tuân thủ gói chăm sóc, tính trên TỪNG CA TRỰC trong kỳ báo cáo.
+   Mỗi cặp (người bệnh × ca trực) là một phiếu gói. */
+function bundleCaStats(from, to) {
+  const tu = from.getTime(), den = to.getTime();
+  let tong = 0, cong = 0, du = 0;
+  DB.liveEpisodes().forEach(ep => {
+    const vao = dOf(ep.admittedAt).getTime();
+    const ra = ep.dischargedAt ? dOf(ep.dischargedAt).getTime() : Date.now();
+    let moc = Math.max(tu, vao);
+    let canh = 0;
+    while (moc < Math.min(den, ra) && canh++ < 400) {
+      const c = caCuaLuc(moc);
+      const a = DB.assessmentsOf(ep.id).filter(x => dOf(x.at).getTime() < c.end.getTime())[0];
+      if (a) {
+        const lv = mucGoiCuaPhieu(a);
+        const items = mucTinhChiSo(goiCuaPhieu(a));
+        if (items.length) {
+          const st = bundleState(ep.id, lv, c.start.getTime(), c.end.getTime());
+          const n = items.filter(it => st.has(it)).length;
+          tong++; cong += n / items.length;
+          if (n === items.length) du++;
+        }
+      }
+      moc = c.end.getTime();
+    }
+  });
+  return { soCa: tong, ty: tong ? cong / tong : null, duGoi: du };
+}
+
 function ageBandIndex(age) {
   if (age == null) return null;
   if (age < 14) return null;
@@ -2674,12 +3190,15 @@ function patientTable(list) {
           <td class="num">${last ? last.score : "—"}</td>
           <td>${lv != null ? levelPill(lv, " sm") : '<span class="pill neutral sm">chưa đánh giá</span>'}</td>
           <td>${tinh}</td>
-          <td class="num">${ti ? `<span style="${ti.missCount ? "color:var(--r2-ink);font-weight:600" : ""}">${
-            ti.doneCount}/${ti.totalDue}</span>` : "—"}</td>
+          <td class="num">${ti ? `<span style="${ti.toiLuc && !ti.never ? "color:var(--r2-ink);font-weight:600" : ""}">${
+            ti.soLuot24h} lượt</span>${ti.khoang.length
+              ? `<span class="tsub">${ti.datKhoang}/${ti.khoang.length} khoảng đạt</span>` : ""}${
+            ti.skip24h ? `<span class="tsub">${ti.skip24h} lượt hoãn</span>` : ""}` : "—"}</td>
           <td class="num">${ls || "—"}</td></tr>`;
       }).join("")}</tbody></table></div>
     <p style="font-size:12px;color:var(--ink-3);margin-top:9px">
-      Cột <b>Xoay trở 24 giờ</b>: số cữ đã ghi trên tổng số cữ đến hạn.</p>
+      Cột <b>Xoay trở 24 giờ</b>: số lượt đã ghi trong 24 giờ qua, và bao nhiêu khoảng cách
+      giữa hai lần xoay nằm trong mục tiêu của khoa. Màu đỏ là đã quá khoảng cách mục tiêu.</p>
   </div>`;
 }
 
@@ -2785,7 +3304,10 @@ function assessRow(a) {
       </div>
       <div class="tmeta">${fmtDT(a.at)} · ${esc(DB.userName(a.userId))}</div>
       ${a.note ? `<div class="tnote">${esc(a.note)}</div>` : ""}
-      <button class="btn ghost sm" data-viewa="${a.id}" style="margin-top:4px;padding-left:0">Xem chi tiết phiếu</button>
+      <div class="btnrow" style="margin-top:5px">
+        <button class="btn ghost sm" data-viewa="${a.id}" style="padding-left:0">Xem chi tiết phiếu</button>
+        <button class="btn ghost sm" data-ptda="${a.id}">Phiếu theo dõi</button>
+      </div>
     </div></div>`;
 }
 
@@ -2795,6 +3317,11 @@ function assessRow(a) {
 /* Thẻ đang mở của từng hồ sơ. Vẽ lại màn hình (sau khi ghi xoay trở, ghi diễn tiến
    tổn thương…) thì quay về đúng thẻ đang xem, không văng về Tổng quan. */
 let PTAB = {};
+/* Thay đổi gói chăm sóc chưa lưu, theo từng đợt điều trị: { epId: { mục: true/false } }.
+   Giữ ngoài DB nên chuyển thẻ hay vẽ lại màn hình đều không mất. */
+let GOIPEND = {};
+/* Bộ lọc ngày của mục Lịch sử thực hiện, và ngăn kéo đó đang mở hay đóng */
+let GOILS = {}, GOILSMO = {};
 
 function hanhChinhDialog(p, ep) {
   const m = modal({
@@ -2837,7 +3364,7 @@ function viewPatient({ id }) {
   const assessments = curEp ? DB.assessmentsOf(curEp.id) : [];
   const last = assessments[0] || null;
   const lv = last ? (last.level != null ? last.level : levelOf(last.score)) : null;
-  const clv = last ? careLevelOf(last) : null;
+  const clv = last ? mucGoiCuaPhieu(last) : null;
   const due = ep ? dueInfo(ep) : null;
   const age = ageFrom(p.dob);
   const flags = DB.flagsOf(p.id);
@@ -2883,6 +3410,7 @@ function viewPatient({ id }) {
             ${ep ? `Nhập khoa ${fmtDT(ep.admittedAt)} · ngày điều trị thứ ${daysBetween(ep.admittedAt, new Date()) + 1}`
                  : `Đợt gần nhất: ${fmtDate(curEp.admittedAt)} – ${fmtDate(curEp.dischargedAt)}`}</p>` : ""}
           <button class="hcnut" data-hc><svg><use href="#i-cog"/></svg>Hành chính</button>
+          ${ep ? `<button class="hcnut" data-ptd><svg><use href="#i-handover"/></svg>Phiếu theo dõi</button>` : ""}
         </div>
         ${last ? `<div class="result ${levelClass(lv)}" style="min-width:142px;padding:13px 15px">
           <span class="big" style="font-size:38px">${last.score}</span>
@@ -2896,34 +3424,145 @@ function viewPatient({ id }) {
 
   /* BẢN THỬ: bảng xoay trở + danh sách tổn thương có trạng thái liền thương */
   const turnSec = turnBlock(p, ep);
+  const khamDa = khamDaBlock(curEp, !!ep);
   const lesionsBlock = lesionsBlockNew(curEp, !!ep);
 
   const photoTl = photoTimeline(p.id, curEp);
 
+  /* Gói chăm sóc: danh sách việc làm được ĐÁNH DẤU BẤT CỨ LÚC NÀO trong ca,
+     không phải chỉ đúng lúc ký phiếu. Mỗi lần đánh dấu ghi lại tên người và giờ.
+     Gói của các mức trước vẫn giữ, gấp lại bên dưới. */
+  /* Gói chăm sóc: tick nhiều mục rồi bấm LƯU LẠI một lượt.
+     Thay đổi chưa lưu giữ trong GOIPEND theo từng đợt điều trị, nên chuyển
+     thẻ qua lại không mất. */
   const careBlock = last ? (() => {
-    const items = bundleFor(clv);
-    const doneList = last.bundle || [];
-    const chua = items.filter(it => !doneList.includes(it));
-    return `<section class="card">
-      <div class="card-h"><h2>Gói chăm sóc</h2>
+    const items = goiCuaPhieu(last);              // gói theo mức + can thiệp theo nhóm bệnh
+    const demItems = mucTinhChiSo(items);          // mẫu số bỏ mục tuỳ điều kiện vật tư
+    /* Gói là phiếu của TỪNG CA TRỰC: vào ca thì trắng, tick phần mình làm */
+    const bc = bundleCa(curEp.id, clv);
+    const tt = bc.st;
+    const pend = GOIPEND[curEp.id] || {};
+    const daLuu = it => tt.has(it);                             // đang đánh dấu trong ca này
+    const dangChon = it => (it in pend) ? pend[it] : daLuu(it);  // gồm cả thay đổi chưa lưu
+    const doi = items.filter(it => (it in pend) && pend[it] !== daLuu(it));
+    const xong = demItems.filter(daLuu);
+    const ls = goiLichSu(curEp.id);
+
+    /* Ô luôn bấm được: trong ca tình trạng người bệnh có thể đổi, nên
+       tick hay bỏ tick lúc nào cũng được, bấm Lưu là ghi lại phiếu mới. */
+    const dong = it => {
+      const s = tt.get(it);
+      const luu = daLuu(it), chon = dangChon(it), khac = chon !== luu;
+      return `<button class="bitem ${chon ? "xong" : ""} ${khac ? "chualuu" : ""}"
+        ${ep ? "" : "disabled"} aria-pressed="${chon}" data-goi="${esc(it)}">
+        <span class="box"><svg><use href="#i-check"/></svg></span>
+        <span class="bt">${esc(it)}${mucTuyChon(it)
+          ? `<span class="tuy">tuỳ điều kiện vật tư</span>` : ""}${khac
+          ? `<span class="bwho cl">chưa lưu</span>` : ""}</span>
+      </button>`;
+    };
+
+    /* Lịch sử: gom theo ngày, mới nhất trước, có ô lọc để tìm lại phiếu cũ */
+    const lsKy = (GOILS[curEp.id] || {}).ky || "";
+    const ngayCoTmp = [...new Set(ls.map(g => isoDay(dOf(g.at))))].sort().reverse();
+    /* Chọn "một ngày" mà chưa chỉ ngày nào thì lấy ngày gần nhất có ghi */
+    const lsNgay = (GOILS[curEp.id] || {}).ngay || (lsKy === "ngay" ? (ngayCoTmp[0] || "") : "");
+    const lsLoc = (() => {
+      if (lsKy === "ngay" && lsNgay) return ls.filter(g => isoDay(dOf(g.at)) === lsNgay);
+      if (lsKy === "d7" || lsKy === "d30") {
+        const moc = Date.now() - (+lsKy.slice(1)) * 86400000;
+        return ls.filter(g => dOf(g.at).getTime() >= moc);
+      }
+      return ls;
+    })();
+    const ngayCo = ngayCoTmp;
+    const lsNhom = goiTheoNgay(lsLoc);
+
+    const lsHtml = ls.length ? `<details class="fold" ${GOILSMO[curEp.id] ? "open" : ""} data-goils>
+      <summary>Lịch sử thực hiện<span class="fsum">${ls.length} lần ghi · ${
+        ngayCo.length} ngày</span></summary>
+      <div class="foldin">
+        <div class="lsbar">
+          <label for="gls-ky">Xem</label>
+          <select id="gls-ky">
+            ${[["", "Tất cả"], ["d7", "7 ngày gần nhất"], ["d30", "30 ngày gần nhất"],
+               ["ngay", "Chọn một ngày…"]].map(([v, t]) =>
+              `<option value="${v}"${v === lsKy ? " selected" : ""}>${t}</option>`).join("")}
+          </select>
+          ${lsKy === "ngay" ? `<select id="gls-ngay">
+            ${ngayCo.map(n => `<option value="${n}"${n === lsNgay ? " selected" : ""}>${
+              fmtDate(n)}</option>`).join("")}</select>` : ""}
+          <span class="lsdem">${lsLoc.length}/${ls.length} lần ghi</span>
+        </div>
+        ${lsNhom.length ? lsNhom.map(nn => `
+          <div class="lsngay">${fmtDate(nn.ngay)}<span>${nn.lan.length} lần ghi</span></div>
+          <div class="gls">${nn.lan.map(g => `
+            <div class="glrow">
+              <div class="glt">${fmtTime(g.at)}</div>
+              <div class="gld">
+                <b>${esc(DB.userName(g.by))}</b>
+                <span class="glm">${esc(g.ca || "")}${g.kyPhieu ? " · tích lúc ký phiếu đánh giá" : ""}
+                  · mức ${esc(LEVELS[g.level].short.toLowerCase())} · ${g.lam.length} mục</span>
+                <ul class="gllam">${g.lam.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+              </div>
+            </div>`).join("")}</div>`).join("")
+        : `<div class="empty">Không có lần ghi nào trong kỳ đã chọn.</div>`}
+      </div>
+    </details>` : "";
+
+    return `<section class="card" id="goi-sec">
+      <div class="card-h"><h2>${esc(tenGoi(clv))}</h2>
         <span class="hint">${esc(LEVELS[clv].short)}${clv > lv ? " · đã nâng một mức" : ""}</span></div>
       ${clv > lv ? `<div class="notice"><svg><use href="#i-info"/></svg>
-        <span>Mức chăm sóc được nâng lên do người bệnh có ${(last.icu || []).length} yếu tố nguy cơ đặc thù hồi sức${(last.lesions || []).length ? " và đã có tổn thương" : ""}.</span></div>` : ""}
+        <span>${nhomRatCao(last.nhomBenh)
+          ? `Người bệnh thuộc nhóm <b>${esc((last.nhomBenh || []).map(nhomBenhTen).join(", "))}</b> — theo quy định sàng lọc của khoa, vào thẳng mức nguy cơ rất cao, không chờ điểm Waterlow.`
+          : `Mức chăm sóc được nâng lên vì người bệnh ${lyDoNangMuc(last).join(" và ")}.
+             <span style="opacity:.8">Căn cứ EPUAP/NPIAP/PPPIA 2019 — không phải quy định của khoa.</span>`}</span></div>` : ""}
 
-      ${chua.length ? `<p class="carelead">Còn <b>${chua.length}</b> mục chưa đánh dấu thực hiện:</p>
-        <div class="bundle">${chua.map(it => `<div class="bitem" aria-pressed="false" style="pointer-events:none">
-          <span class="box"><svg><use href="#i-check"/></svg></span><span class="bt">${esc(it)}</span></div>`).join("")}</div>`
-      : `<p class="carelead ok">Đã đánh dấu đủ ${items.length} mục lúc ${fmtDT(last.at)}.</p>`}
+      ${(() => {
+        /* Tên người và giờ ghi đưa lên đầu phiếu, không lặp ở từng dòng nữa */
+        const lan = [...tt.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+        const nguoi = [...new Set(lan.map(x => x.by))];
+        return `<div class="goica">Phiếu gói của <b>${esc(bc.ca.shift.t.toLowerCase())}</b>
+          · ${fmtDate(bc.ca.start)}${lan.length
+            ? ` · ghi lúc <b>${fmtTime(lan[0].at)}</b> — ${esc(DB.userName(nguoi[0]))}${
+                nguoi.length > 1 ? ` và ${nguoi.length - 1} người khác` : ""}`
+            : " · ca này chưa ghi"}</div>`;
+      })()}
 
-      <details class="fold">
-        <summary>Cả gói ${items.length} mục<span class="fsum">${doneList.length}/${items.length} đã làm</span></summary>
-        <div class="foldin">
-          <div class="bundle">${items.map(it => `<div class="bitem" aria-pressed="${doneList.includes(it)}" style="pointer-events:none">
-            <span class="box"><svg><use href="#i-check"/></svg></span><span class="bt">${esc(it)}</span></div>`).join("")}</div>
-          <p style="font-size:12px;color:var(--ink-3);margin-top:8px">
-            Đánh dấu lúc ${fmtDT(last.at)} — ${esc(DB.userName(last.userId))}.</p>
+      <div class="goihead">
+        <span class="goiso ${xong.length === demItems.length ? "du" : ""}">${xong.length}/${demItems.length}</span>
+        <span class="goitxt">${xong.length === demItems.length
+          ? "ca này đã ghi đủ gói"
+          : `ca này còn <b>${demItems.length - xong.length}</b> mục chưa ghi`}${(() => {
+            const tuy = items.filter(it => mucTuyChon(it) && daLuu(it)).length;
+            return tuy ? ` · ${tuy} mục tuỳ điều kiện vật tư đã làm, không tính vào tỷ lệ` : "";
+          })()}</span>
+        ${ep ? `<div class="btnrow" style="margin-left:auto">
+          ${xong.length < demItems.length ? `<button class="btn sm" data-goiall>Chọn hết</button>` : ""}
+          ${items.some(dangChon) ? `<button class="btn sm" data-goinone>Bỏ chọn tất cả</button>` : ""}
+        </div>` : ""}
+      </div>
+
+      <div class="goilive">${BUNDLE_NHOM.map(nh => {
+        const ds = items.filter(it => nhomCuaMuc(it) === nh);
+        if (!ds.length) return "";
+        return `<div class="bgroup"><div class="bgname">${esc(nh)}</div>
+          <div class="bundle">${ds.map(dong).join("")}</div></div>`;
+      }).join("")}</div>
+
+      ${ep ? (doi.length ? `<div class="goiluu">
+        <span class="gltxt"><b>${doi.length} thay đổi chưa lưu</b> — bấm Lưu để ghi phiếu
+          kèm tên bạn và giờ hiện tại.</span>
+        <div class="btnrow">
+          <button class="btn sm" data-goibo>Bỏ thay đổi</button>
+          <button class="btn sm pri" data-goiluu>Lưu</button>
         </div>
-      </details>
+      </div>` : `<p class="goinote">Tick vào những mục <b>đã làm trong ca này</b> rồi bấm <b>Lưu</b>.
+        Trong ca đổi cách chăm sóc thì cứ tick hay bỏ tick lại rồi lưu tiếp — mỗi lần lưu là một
+        phiếu trong Lịch sử. <b>Sang ca sau danh sách trắng lại</b> cho ca đó ghi phần của họ.</p>`) : ""}
+
+      ${lsHtml}
     </section>`;
   })() : "";
 
@@ -2998,7 +3637,7 @@ function viewPatient({ id }) {
   ];
   const noiDung = {
     tq: header + flagBlock + careBlock + editHistoryBlock(p),
-    tt: lesionsBlock + photoTl,
+    tt: khamDa + lesionsBlock + photoTl,
     xt: turnSec || `<div class="empty">Người bệnh đã xuất khoa, không còn theo dõi xoay trở.</div>`,
     dt: tl + epsBlock
   };
@@ -3023,6 +3662,62 @@ function viewPatient({ id }) {
       const tb = $("[data-turn]"); if (tb) tb.onclick = () => turnDialog(p, ep);
       const tb2 = $("[data-turn2]"); if (tb2) tb2.onclick = () => turnDialog(p, ep);
       bindLesionActions(p.id);
+      const ptd = $("[data-ptd]"); if (ptd) ptd.onclick = () => phieuTheoDoi(p, ep);
+      /* Mỗi phiếu đánh giá đã ký có một phiếu theo dõi đóng băng của riêng nó */
+      $$("[data-ptda]").forEach(b => b.onclick = () => {
+        const a = DB.data.assessments.find(x => x.id === b.dataset.ptda);
+        if (a) phieuTheoDoi(p, curEp, a);
+      });
+      /* Gói chăm sóc — chọn nhiều mục rồi lưu một lượt */
+      if (ep && last) {
+        const clvNow = mucGoiCuaPhieu(last);
+        const pend = GOIPEND[ep.id] = GOIPEND[ep.id] || {};
+        const daLuu = it => bundleCa(ep.id, clvNow).st.has(it);   // đang đánh dấu trong ca này
+        $$("[data-goi]").forEach(b => b.onclick = () => {
+          const it = b.dataset.goi;
+          const moi = b.getAttribute("aria-pressed") !== "true";
+          /* Bấm về đúng trạng thái đã lưu thì coi như không đổi gì */
+          if (moi === daLuu(it)) delete pend[it]; else pend[it] = moi;
+          render();
+        });
+        const all = $("[data-goiall]");
+        if (all) all.onclick = () => {
+          mucTinhChiSo(goiCuaPhieu(last)).forEach(it => { if (!daLuu(it)) pend[it] = true; });
+          render();
+        };
+        const non = $("[data-goinone]");
+        if (non) non.onclick = () => {
+          goiCuaPhieu(last).forEach(it => { if (daLuu(it)) pend[it] = false; else delete pend[it]; });
+          render();
+        };
+        const boC = $("[data-goibo]");
+        if (boC) boC.onclick = () => { GOIPEND[ep.id] = {}; render(); };
+        const lu = $("[data-goiluu]");
+        if (lu) lu.onclick = () => {
+          const n = luuGoi(p, ep, clvNow, pend);
+          GOIPEND[ep.id] = {};
+          if (n) toast(`Đã ghi ${n} mục vào hồ sơ`, "ok");
+          render();
+        };
+        /* Lịch sử: nhớ ngăn kéo đang mở, và lọc theo ngày */
+        const lsD = $("[data-goils]");
+        if (lsD) lsD.ontoggle = () => { GOILSMO[ep.id] = lsD.open; };
+        const lsK = $("#gls-ky");
+        if (lsK) lsK.onchange = () => {
+          GOILS[ep.id] = GOILS[ep.id] || {};
+          GOILS[ep.id].ky = lsK.value;
+          if (lsK.value !== "ngay") GOILS[ep.id].ngay = "";
+          GOILSMO[ep.id] = true;
+          render();
+        };
+        const lsN = $("#gls-ngay");
+        if (lsN) lsN.onchange = () => {
+          GOILS[ep.id] = GOILS[ep.id] || {};
+          GOILS[ep.id].ngay = lsN.value;
+          GOILSMO[ep.id] = true;
+          render();
+        };
+      }
       const a = $("[data-assess]"); if (a) a.onclick = () => Nav.go("assess", { patientId: p.id, episodeId: ep.id });
       const f = $("[data-flag]"); if (f) f.onclick = () => flagDialog(p.id, ep.id);
       const d = $("[data-discharge]"); if (d) d.onclick = () => dischargeDialog(p, ep);
@@ -3172,11 +3867,13 @@ function showAssessment(aid) {
   }).join("");
   const mstTxt = (() => {
     const m = a.answers.mst || {};
-    const aa = MST.a.opts.find(o => o.v === m.a);
-    let t = aa ? aa.t : "—";
-    if (m.a === "co" && m.b != null) t += "; sụt " + MST.b.opts[m.b].t;
-    if (m.c != null) t += "; ăn kém: " + MST.c.opts[m.c].t;
-    return t;
+    const ds = ["a", "b", "c"]
+      .map(k => (typeof m[k] === "number" && MST[k].opts[m[k]]) ? MST[k].opts[m[k]].t : null)
+      .filter(Boolean);
+    if (ds.length) return ds.join("; ");
+    /* Phiếu cũ trước bản 1.6 ghi theo kiểu khác — hiện lại cho đọc được */
+    if (m.a != null || m.b != null || m.c != null) return "ghi theo bản cũ của phần mềm";
+    return "—";
   })();
   modal({
     title: "Phiếu đánh giá đã ký", wide: true,
@@ -3184,8 +3881,10 @@ function showAssessment(aid) {
         <span class="big">${a.score}</span><span class="lvl">${esc(LEVELS[lv].name)}</span>
         <span class="sub">${fmtDT(a.at)} · ${esc(DB.userName(a.userId))}</span></div>
       <div class="tablewrap"><table style="min-width:420px"><thead><tr><th>Mục</th><th>Lựa chọn</th><th>Điểm</th></tr></thead>
-        <tbody>${rows}<tr><td>Sàng lọc dinh dưỡng (MST)</td><td>${esc(mstTxt)}</td><td class="num">${a.detail.mst || 0}</td></tr>
+        <tbody>${rows}<tr><td>Yếu tố dinh dưỡng</td><td>${esc(mstTxt)}</td><td class="num">${a.detail.mst || 0}</td></tr>
         <tr style="font-weight:700"><td colspan="2">Tổng điểm Waterlow</td><td class="num">${a.score}</td></tr></tbody></table></div>
+      ${(a.nhomBenh || []).length ? `<div><div class="eyebrow" style="margin-bottom:6px">Nhóm người bệnh đặc thù</div>
+        <div class="tagrow">${a.nhomBenh.map(k => `<span class="tag">${esc(nhomBenhTen(k))}</span>`).join("")}</div></div>` : ""}
       ${(a.icu || []).length ? `<div><div class="eyebrow" style="margin-bottom:6px">Yếu tố nguy cơ đặc thù hồi sức</div>
         <div class="tagrow">${a.icu.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div></div>` : ""}
       ${(a.lesions || []).length || (a.mdrpi || []).length ? `<div><div class="eyebrow" style="margin-bottom:6px">Tổn thương ghi nhận</div>
@@ -3222,13 +3921,22 @@ function initAssess(patientId, episodeId) {
     ["build", "tissue", "neuro", "med"].forEach(k => {
       ans[k] = Array.isArray(prev.answers[k]) ? prev.answers[k].slice() : prev.answers[k];
     });
-    ans.mst = clone(prev.answers.mst || {});
+    /* Phiếu cũ (trước bản 1.6) ghi phần dinh dưỡng theo kiểu khác — chỉ chép
+       sang những giá trị còn hợp lệ, tránh hiện tick sẵn sai. */
+    const cu = prev.answers.mst || {};
+    ans.mst = {};
+    ["a", "b", "c"].forEach(k => {
+      const v = cu[k];
+      if (typeof v === "number" && MST[k].opts[v]) ans.mst[k] = v;
+    });
   }
   AS = {
     patientId, episodeId, step: 0, ans,
     icu: prev ? (prev.icu || []).slice() : [],
-    noLesion: null, lesions: [], mdrpi: [],
-    bundle: [], note: "", carriedFrom: prev ? prev.id : null
+    noLesion: true, lesions: [], mdrpi: [],
+    bundle: [], note: "", carriedFrom: prev ? prev.id : null,
+    chung: { nhiet: 0, mo: 0, camgiac: 0 },
+    nhomBenh: ((DB.episode && DB.episode(episodeId)) || {}).nhomBenh || (prev ? (prev.nhomBenh || []).slice() : [])
   };
   // Tổn thương đã ghi nhận trước đó được mang sang để theo dõi tiếp
   if (prev) {
@@ -3257,7 +3965,7 @@ function viewAssess({ patientId, episodeId }) {
     bind() {
       bindStep();
       $("#as-next").onclick = nextStep;
-      const pv = $("#as-prev"); if (pv) pv.onclick = () => { AS.step--; render(); };
+      const pv = $("#as-prev"); if (pv) pv.onclick = () => { AS.step--; render(); lenDau(); };
       recalcAssess();
     }
   };
@@ -3323,41 +4031,60 @@ function optHTML(b, j, o) {
 }
 function mstBlock() {
   const m = AS.ans.mst || {};
-  const showB = m.a === "co";
+  /* Thang Waterlow tính BMI ở HAI chỗ: câu Thể trạng, và trong phần dinh dưỡng.
+     Câu Thể trạng đã trả lời từ 20 trở lên thì phần dinh dưỡng chắc chắn là
+     "Trên 20" — app tự điền, khỏi hỏi lại. Dưới 20 thì vẫn phải chọn tay vì
+     phải biết có dưới 18,5 hay không. */
+  const tt = AS.ans.build;            // 0 TB · 1 trên TB · 2 béo phì · 3 dưới TB
+  const tuBiet = tt != null && tt !== 3;
+  if (tuBiet && m.b !== 0) { m.b = 0; AS.ans.mst = m; }
+  const cau = (k, q) => `
+    <div style="padding:8px 13px 0"><div class="eyebrow">${esc(q)}</div></div>
+    <div class="qopts">${MST[k].opts.map((o, j) =>
+      `<button class="opt" type="button" aria-pressed="${m[k] === j}" data-mst="${k}" data-i="${j}">
+        <span class="mark"><svg><use href="#i-check"/></svg></span>
+        <span class="txt">${esc(o.t)}</span><span class="p">+${o.p}</span></button>`).join("")}</div>`;
   return `<div class="qblock">
-    <div class="qhead"><span class="qnum">DD</span><span class="t">Sàng lọc dinh dưỡng (MST)</span>
+    <div class="qhead"><span class="qnum">DD</span><span class="t">${esc(MST.nhan)}</span>
       <span class="pts" data-pts="mst">+0</span></div>
-    <p class="qnote" style="padding-top:8px;font-size:12.5px;color:var(--ink-3);margin:0">Thuộc thang Waterlow bản 2005. Điểm từ 2 trở lên cần hội chẩn dinh dưỡng.</p>
-    <div style="padding:6px 13px 0"><div class="eyebrow">${esc(MST.a.q)}</div></div>
-    <div class="qopts">${MST.a.opts.map((o, j) =>
-      `<button class="opt" type="button" aria-pressed="${m.a === o.v}" data-mst="a" data-v="${o.v}" data-i="${j}">
-        <span class="mark"><svg><use href="#i-check"/></svg></span>
-        <span class="txt">${esc(o.t)}</span><span class="p">+${o.p}</span></button>`).join("")}</div>
-    <div id="mst-b" ${showB ? "" : "hidden"}>
-      <div style="padding:6px 13px 0"><div class="eyebrow">${esc(MST.b.q)}</div></div>
-      <div class="qopts">${MST.b.opts.map((o, j) =>
-        `<button class="opt" type="button" aria-pressed="${m.b === j}" data-mst="b" data-i="${j}">
-          <span class="mark"><svg><use href="#i-check"/></svg></span>
-          <span class="txt">${esc(o.t)}</span><span class="p">+${o.p}</span></button>`).join("")}</div>
-    </div>
-    <div style="padding:6px 13px 0"><div class="eyebrow">${esc(MST.c.q)}</div></div>
-    <div class="qopts">${MST.c.opts.map((o, j) =>
-      `<button class="opt" type="button" aria-pressed="${m.c === j}" data-mst="c" data-i="${j}">
-        <span class="mark"><svg><use href="#i-check"/></svg></span>
-        <span class="txt">${esc(o.t)}</span><span class="p">+${o.p}</span></button>`).join("")}</div>
+    <p class="qnote" style="padding-top:8px;font-size:12.5px;color:var(--ink-3);margin:0">
+      Theo đúng bảng Waterlow điều chỉnh khoa đang dùng. Ba mục độc lập, mỗi mục chọn một dòng.</p>
+    ${cau("a", MST.a.q)}
+    ${tuBiet
+      ? `<div style="padding:8px 13px 0"><div class="eyebrow">${esc(MST.b.q)}</div></div>
+         <div class="qnote" style="padding-top:5px"><div class="notice"><svg><use href="#i-check"/></svg>
+           <span>Đã có ở câu <b>Thể trạng</b> phía trên — BMI từ 20 trở lên nên mục này
+           tự tính <b>+0</b>. Thang Waterlow tính BMI ở hai chỗ, app chỉ hỏi bạn một lần.</span></div></div>`
+      : cau("b", MST.b.q)}
+    ${cau("c", MST.c.q)}
     <div class="qnote" id="mst-warn" hidden><div class="notice warn"><svg><use href="#i-alert"/></svg>
-      <span>Điểm MST từ 2 trở lên — cần hội chẩn dinh dưỡng cho người bệnh.</span></div></div>
+      <span>Điểm dinh dưỡng từ 2 trở lên — cần hội chẩn dinh dưỡng cho người bệnh.</span></div></div>
   </div>`;
 }
 
 /* ---------- Bước 2: yếu tố hồi sức ---------- */
 function stepICU() {
   const st = DB.data.settings || DEFAULT_SETTINGS();
-  return `<div class="notice"><svg><use href="#i-info"/></svg>
-      <span>Các yếu tố này <b>không cộng vào điểm Waterlow</b>. Nếu có từ ${st.icuEscalate} yếu tố trở lên, hệ thống sẽ đề xuất nâng gói chăm sóc lên một mức.</span></div>
+  const nb = AS.nhomBenh || [];
+  return `<div class="qblock"><div class="qhead"><span class="qnum">NB</span>
+      <span class="t">Nhóm người bệnh đặc thù</span>
+      <span class="pts" id="nb-count">${nb.length} mục</span></div>
+      <p class="qnote qlead">Theo Bước 3 của quy trình. Mỗi nhóm có can thiệp chuyên biệt,
+        sẽ được thêm vào gói chăm sóc.</p>
+      <div class="qopts">${NHOM_BENH.map(g =>
+        `<button class="opt multi" type="button" aria-pressed="${nb.includes(g.k)}" data-nb="${esc(g.k)}">
+          <span class="mark"><svg><use href="#i-check"/></svg></span>
+          <span class="txt">${esc(g.t)}</span></button>`).join("")}</div>
+      ${nhomRatCao(nb) ? `<div class="qnote"><div class="notice warn"><svg><use href="#i-alert"/></svg>
+        <span>Nhóm này được sàng lọc vào <b>nguy cơ rất cao</b> ngay giờ đầu nhập khoa,
+        không chờ điểm Waterlow — theo quy định của khoa.</span></div></div>` : ""}
+    </div>
+
     <div class="qblock"><div class="qhead"><span class="qnum">HS</span>
       <span class="t">Yếu tố nguy cơ đặc thù hồi sức</span>
       <span class="pts" id="icu-count">${AS.icu.length} mục</span></div>
+      <p class="qnote qlead">Các yếu tố này <b>không cộng vào điểm Waterlow</b>.
+        Có từ ${st.icuEscalate} yếu tố trở lên thì hệ thống đề xuất nâng gói chăm sóc lên một mức.</p>
       <div class="qopts">${ICU_FACTORS.map(f =>
         `<button class="opt multi" type="button" aria-pressed="${AS.icu.includes(f)}" data-icu="${esc(f)}">
           <span class="mark"><svg><use href="#i-check"/></svg></span><span class="txt">${esc(f)}</span></button>`).join("")}</div>
@@ -3367,41 +4094,58 @@ function stepICU() {
 /* ---------- Bước 3: khám da ---------- */
 function stepSkin() {
   const st = DB.data.settings || DEFAULT_SETTINGS();
-  const hasAny = AS.lesions.length || AS.mdrpi.length;
+  const daChon = new Set(AS.lesions.map(l => l.k).filter(Boolean));
+  const c = AS.chung || (AS.chung = { nhiet: 0, mo: 0, camgiac: 0 });
+
   return `
     <div class="notice"><svg><use href="#i-info"/></svg>
-      <span>Đánh giá nguy cơ không thay thế khám da. Hãy quan sát toàn bộ điểm tì đè và <b>vùng da dưới mọi thiết bị y tế</b>.</span></div>
+      <span>Quy trình Bước 1: khám da toàn diện cùng lúc với chấm điểm Waterlow.
+      Quan sát toàn bộ điểm tì đè và <b>vùng da dưới mọi thiết bị y tế</b>.
+      Phiếu này cũng tính là <b>khám da đầu ca</b>, không phải làm lại.</span></div>
 
     <div class="qblock"><div class="qhead"><span class="qnum">DA</span>
-      <span class="t">Hiện tại người bệnh có tổn thương do tì đè không?</span></div>
-      <div class="qopts">
-        <button class="opt" type="button" aria-pressed="${AS.noLesion === true}" data-nolesion="1">
-          <span class="mark"><svg><use href="#i-check"/></svg></span>
-          <span class="txt">Không — da còn nguyên vẹn tại mọi điểm tì</span></button>
-        <button class="opt" type="button" aria-pressed="${AS.noLesion === false}" data-nolesion="0">
-          <span class="mark"><svg><use href="#i-check"/></svg></span>
-          <span class="txt">Có — ghi nhận tổn thương bên dưới</span></button>
+      <span class="t">Quan sát chung</span></div>
+      <div class="qnote" style="padding-top:10px"><div class="kdchung">${KHAM_DA_CHUNG.map(x => `
+        <div class="kdc"><div class="eyebrow">${esc(x.t)}</div>
+          <select data-chung="${x.k}">${x.opts.map((o, j) =>
+            `<option value="${j}"${c[x.k] === j ? " selected" : ""}>${esc(o)}</option>`).join("")}</select></div>`).join("")}</div></div>
+    </div>
+
+    <div class="qblock"><div class="qhead"><span class="qnum">VT</span>
+      <span class="t">Vị trí bất thường</span>
+      <span class="pts">${AS.lesions.length} vị trí</span></div>
+      <p class="qlead">Bấm <b>Thêm vị trí</b> để ghi, hoặc chạm thẳng vào vị trí trên hình.
+        Vị trí đã ghi hiện chấm đỏ; chạm vào chấm đỏ để sửa.</p>
+      <div class="qnote" style="padding-top:8px">
+        <div id="as-hinh">${hinhViTri(daChon, "asda")}</div>
+        <div class="kdso ${AS.lesions.length ? "co" : ""}">${AS.lesions.length
+          ? `${AS.lesions.length} vị trí bất thường`
+          : "Chưa đánh dấu vị trí nào — da bình thường"}</div>
+        <div id="lesion-list" style="margin-top:10px">${
+          AS.lesions.map((l, i) => lesionEditCard(l, i, false)).join("")
+          || `<div class="empty">Chưa ghi nhận vị trí nào.</div>`}</div>
+        <button class="btn block" data-addlesion style="margin-top:8px">
+          <svg><use href="#i-plus"/></svg>Thêm vị trí tổn thương</button>
       </div>
     </div>
 
-    <div id="lesion-area" ${AS.noLesion === false ? "" : "hidden"}>
-      <div class="card-h" style="margin-top:16px"><h2>Tổn thương do tì đè</h2>
-        <span class="hint">${AS.lesions.length} vị trí</span></div>
-      <div id="lesion-list">${AS.lesions.map((l, i) => lesionEditCard(l, i, false)).join("")
-        || `<div class="empty">Chưa ghi nhận vị trí nào.</div>`}</div>
-      <button class="btn block" data-addlesion style="margin-top:8px"><svg><use href="#i-plus"/></svg>Thêm vị trí tổn thương</button>
-
-      <div class="card-h" style="margin-top:20px"><h2>Loét do thiết bị y tế</h2>
-        <span class="hint">${AS.mdrpi.length} vị trí</span></div>
-      <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:8px">
-        Sau tai do dây oxy, sống mũi do mặt nạ, mép miệng và môi do ống nội khí quản, cổ tay do vòng cố định…</p>
-      <div id="mdrpi-list">${AS.mdrpi.map((l, i) => lesionEditCard(l, i, true)).join("")
-        || `<div class="empty">Chưa ghi nhận vị trí nào.</div>`}</div>
-      <button class="btn block" data-addmdrpi style="margin-top:8px"><svg><use href="#i-plus"/></svg>Thêm tổn thương do thiết bị</button>
+    <div class="qblock"><div class="qhead"><span class="qnum">TB</span>
+      <span class="t">Loét do thiết bị y tế</span>
+      <span class="pts">${AS.mdrpi.length} vị trí</span></div>
+      <p class="qlead">Sau tai do dây oxy, sống mũi do mặt nạ, mép miệng và môi do ống
+        nội khí quản, cổ tay do vòng cố định…</p>
+      <div class="qnote" style="padding-top:8px">
+        <div id="mdrpi-list">${AS.mdrpi.map((l, i) => lesionEditCard(l, i, true)).join("")
+          || `<div class="empty">Chưa ghi nhận vị trí nào.</div>`}</div>
+        <button class="btn block" data-addmdrpi style="margin-top:8px">
+          <svg><use href="#i-plus"/></svg>Thêm tổn thương do thiết bị</button>
+      </div>
     </div>
 
-    ${st.photosEnabled ? `<div class="notice" style="margin-top:16px"><svg><use href="#i-cam"/></svg>
-      <span>Ảnh chụp chỉ lấy vùng tổn thương, <b>không lấy mặt hoặc đặc điểm nhận dạng</b>. Ảnh được tự động đóng dấu mã hồ sơ và thời điểm chụp để phục vụ so sánh và truy vết.</span></div>` : ""}`;
+    ${st.photosEnabled && (AS.lesions.length || AS.mdrpi.length)
+      ? `<div class="notice"><svg><use href="#i-cam"/></svg>
+        <span>Ảnh chụp chỉ lấy vùng tổn thương, <b>không lấy mặt hoặc đặc điểm nhận dạng</b>.
+        Ảnh được tự động đóng dấu mã hồ sơ và thời điểm chụp để phục vụ so sánh và truy vết.</span></div>` : ""}`;
 }
 
 function lesionEditCard(l, i, isDev) {
@@ -3427,17 +4171,31 @@ function lesionEditCard(l, i, isDev) {
   </div>`;
 }
 
-function lesionDialog(isDev, existing, idx) {
-  const l = existing || { site: SITES[0], stage: "I", poa: false, size: "", note: "", photos: [],
-    foundAt: new Date().toISOString(), device: isDev ? DEVICES[0] : null };
+function lesionDialog(isDev, existing, idx, kSan) {
+  const l = existing || { k: kSan || KHAM_DA_VITRI[0].k, site: kdTen(kSan || KHAM_DA_VITRI[0].k), stage: "", sau: 0, poa: false,
+    size: "", note: "", photos: [], foundAt: new Date().toISOString(),
+    device: isDev ? DEVICES[0] : null };
   modal({
     title: isDev ? "Tổn thương do thiết bị y tế" : "Tổn thương do tì đè",
     body: `${isDev ? `<div class="field"><label for="le-dev">Thiết bị gây tì đè</label>
         <select id="le-dev">${DEVICES.map(d => `<option ${l.device === d ? "selected" : ""}>${esc(d)}</option>`).join("")}</select></div>` : ""}
       <div class="field"><label for="le-site">Vị trí</label>
-        <select id="le-site">${SITES.map(s => `<option ${l.site === s ? "selected" : ""}>${esc(s)}</option>`).join("")}</select></div>
+        <select id="le-site">${KHAM_DA_VITRI.map(v =>
+          `<option value="${v.k}" ${(l.k || "") === v.k ? "selected" : ""}>${esc(v.t)}</option>`).join("")}</select></div>
+      ${isDev ? "" : `<div class="field"><label>Ghi nhận thế nào</label>
+        <div class="qopts" style="padding:0">
+          <button class="opt" type="button" id="le-ghi0" aria-pressed="${l.ghi === false}">
+            <span class="mark"><svg><use href="#i-check"/></svg></span>
+            <span class="txt">Chỉ ghi nhận quan sát</span></button>
+          <button class="opt" type="button" id="le-ghi1" aria-pressed="${l.ghi !== false}">
+            <span class="mark"><svg><use href="#i-check"/></svg></span>
+            <span class="txt">Ghi thành tổn thương — theo dõi diễn tiến, thêm ảnh, đánh dấu đã lành</span></button>
+        </div>
+        <span class="help">Chỉ quan sát thì nằm trong phiếu khám da thôi, không vào
+          danh sách tổn thương và không tính vào chỉ số loét của khoa.</span></div>`}
       <div class="field"><label for="le-stage">Phân độ (NPIAP / EPUAP)</label>
-        <select id="le-stage">${STAGES.map(s => `<option value="${s.v}" ${l.stage === s.v ? "selected" : ""}>${esc(s.t)}</option>`).join("")}</select></div>
+        <select id="le-stage"><option value=""${l.stage ? "" : " selected"}>Chưa phân độ</option>
+          ${STAGES.map(s => `<option value="${s.v}" ${l.stage === s.v ? "selected" : ""}>${esc(s.t)}</option>`).join("")}</select></div>
       <div class="field"><label>Nguồn gốc tổn thương</label>
         <div class="qopts" style="padding:0">
           <button class="opt" type="button" id="le-poa0" aria-pressed="${!l.poa}">
@@ -3454,15 +4212,22 @@ function lesionDialog(isDev, existing, idx) {
         <div class="field"><label for="le-found">Ngày phát hiện</label>
           <input id="le-found" type="date" value="${isoDay(l.foundAt)}"></div>
       </div>
+      <div class="field"><label for="le-sau">Độ sâu</label>
+        <select id="le-sau">${KHAM_DA_SAU.map((x, j) =>
+          `<option value="${j}"${(l.sau || 0) === j ? " selected" : ""}>${esc(x)}</option>`).join("")}</select></div>
       <div class="field"><label for="le-note">Mô tả thêm</label>
         <textarea id="le-note" placeholder="vd: đáy vết đỏ, dịch tiết ít, bờ không hoại tử">${esc(l.note || "")}</textarea></div>`,
     actions: [{ label: "Huỷ" }, { label: existing ? "Lưu" : "Thêm", kind: "pri", onClick: (b) => {
+      const kSite = $("#le-site", b).value;
       const obj = {
         ...l,
-        site: $("#le-site", b).value,
+        ghi: isDev ? true : $("#le-ghi1", b).getAttribute("aria-pressed") === "true",
+        k: kSite,
+        site: kdTen($("#le-site", b).value),
         stage: $("#le-stage", b).value,
         poa: $("#le-poa1", b).getAttribute("aria-pressed") === "true",
         size: $("#le-size", b).value.trim(),
+        sau: +$("#le-sau", b).value,
         note: $("#le-note", b).value.trim(),
         foundAt: new Date($("#le-found", b).value || Date.now()).toISOString(),
         device: isDev ? $("#le-dev", b).value : null,
@@ -3475,9 +4240,13 @@ function lesionDialog(isDev, existing, idx) {
     }}]
   });
   const bd = $(".modal .sb");
-  const p0 = $("#le-poa0", bd), p1 = $("#le-poa1", bd);
-  p0.onclick = () => { p0.setAttribute("aria-pressed", "true"); p1.setAttribute("aria-pressed", "false"); };
-  p1.onclick = () => { p1.setAttribute("aria-pressed", "true"); p0.setAttribute("aria-pressed", "false"); };
+  const doi = (a, b2) => {
+    if (!a || !b2) return;
+    a.onclick = () => { a.setAttribute("aria-pressed", "true"); b2.setAttribute("aria-pressed", "false"); };
+    b2.onclick = () => { b2.setAttribute("aria-pressed", "true"); a.setAttribute("aria-pressed", "false"); };
+  };
+  doi($("#le-poa0", bd), $("#le-poa1", bd));
+  doi($("#le-ghi0", bd), $("#le-ghi1", bd));
 }
 
 /* --- Chụp ảnh --- */
@@ -3510,9 +4279,10 @@ function pickPhoto(lesionIdx, isDev) {
 function stepResult() {
   const r = scoreWaterlow(AS.ans);
   const lv = levelOf(r.total);
-  const draft = { score: r.total, level: lv, icu: AS.icu, lesions: AS.lesions, mdrpi: AS.mdrpi };
+  const draft = { score: r.total, level: lv, icu: AS.icu, lesions: AS.lesions,
+                  mdrpi: AS.mdrpi, nhomBenh: AS.nhomBenh };
   const clv = careLevelOf(draft);
-  const items = bundleFor(clv);
+  const items = bundleItems(clv, AS.nhomBenh);
   const newHapi = [...AS.lesions, ...AS.mdrpi].filter(l => !l.poa && !l.carried);
   const missing = missingAnswers();
 
@@ -3527,20 +4297,32 @@ function stepResult() {
     </div>
 
     ${clv > lv ? `<div class="notice warn"><svg><use href="#i-alert"/></svg>
-      <span>Đề xuất <b>nâng gói chăm sóc lên mức “${esc(LEVELS[clv].short)}”</b> vì người bệnh có ${AS.icu.length} yếu tố nguy cơ hồi sức${AS.lesions.length || AS.mdrpi.length ? " và đã có tổn thương" : ""}.</span></div>` : ""}
+      <span>${nhomRatCao(AS.nhomBenh)
+        ? `Người bệnh thuộc nhóm <b>${esc((AS.nhomBenh || []).filter(k => (NHOM_BENH.find(x => x.k === k) || {}).ratCao).map(nhomBenhTen).join(", "))}</b> — theo quy định sàng lọc của khoa, áp <b>${esc(tenGoi(clv).toLowerCase())}</b> ngay, không chờ điểm Waterlow.`
+        : `Đề xuất <b>nâng gói chăm sóc lên mức “${esc(LEVELS[clv].short)}”</b> vì người bệnh ${
+            lyDoNangMuc(draft).join(" và ")}.
+           <span style="opacity:.8">Căn cứ EPUAP/NPIAP/PPPIA 2019 — không phải quy định của khoa;
+           điều dưỡng trưởng tắt được trong Cài đặt.</span>`}</span></div>` : ""}
 
     ${newHapi.length ? `<div class="notice bad"><svg><use href="#i-alert"/></svg>
       <span>Ghi nhận <b>${newHapi.length} tổn thương mới phát sinh tại khoa</b> (${esc(newHapi.map(l => l.site).join(", "))}).
       Hệ thống sẽ tự động đẩy ca này lên mục Cần lưu ý.</span></div>` : ""}
 
     <div class="card">
-      <div class="card-h"><h2>Gói chăm sóc đề xuất — ${esc(LEVELS[clv].short)}</h2>
-        <span class="hint"><span id="bcount">${AS.bundle.length}</span>/${items.length} đã thực hiện</span></div>
+      <div class="card-h"><h2>${esc(tenGoi(clv))}</h2>
+        <span class="hint"><span id="bcount">${AS.bundle.length}</span>/${mucTinhChiSo(items).length} đã thực hiện</span></div>
       <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:6px">
         Đánh dấu những can thiệp đã thực hiện tại thời điểm này. Tỷ lệ đánh dấu chính là chỉ số tuân thủ gói chăm sóc của khoa.</p>
-      <div class="bundle">${items.map(it =>
-        `<button class="bitem" type="button" aria-pressed="${AS.bundle.includes(it)}" data-bundle="${esc(it)}">
-          <span class="box"><svg><use href="#i-check"/></svg></span><span class="bt">${esc(it)}</span></button>`).join("")}</div>
+      ${BUNDLE_NHOM.map(nh => {
+        const ds = items.filter(it => nhomCuaMuc(it) === nh);
+        if (!ds.length) return "";
+        return `<div class="bgroup"><div class="bgname">${esc(nh)}</div>
+          <div class="bundle">${ds.map(it =>
+            `<button class="bitem" type="button" aria-pressed="${AS.bundle.includes(it)}" data-bundle="${esc(it)}">
+              <span class="box"><svg><use href="#i-check"/></svg></span>
+              <span class="bt">${esc(it)}${mucTuyChon(it) ? `<span class="tuy">tuỳ điều kiện vật tư</span>` : ""}</span>
+            </button>`).join("")}</div></div>`;
+      }).join("")}
       <div class="btnrow" style="margin-top:8px">
         <button class="btn sm" data-ball>Đánh dấu tất cả</button>
         <button class="btn sm" data-bnone>Bỏ đánh dấu tất cả</button>
@@ -3550,7 +4332,7 @@ function stepResult() {
     <div class="field"><label for="as-note">Ghi chú của điều dưỡng</label>
       <textarea id="as-note" placeholder="vd: Đã đặt đệm hơi, hẹn kiểm tra gót chân lúc 14 giờ.">${esc(AS.note)}</textarea></div>
 
-    <div class="notice"><svg><use href="#i-shield"/></svg>
+    <div class="notice kybox"><svg><use href="#i-shield"/></svg>
       <span>Bấm <b>Hoàn tất và ký</b> đồng nghĩa <b>${esc(Session.user.name)}</b> xác nhận đã trực tiếp đánh giá người bệnh này
       lúc ${fmtTime(new Date())} ngày ${fmtDate(new Date())}. Phiếu sau khi ký <b>không thể sửa hay xoá</b>;
       muốn điều chỉnh phải thực hiện một lượt đánh giá mới.</span></div>`;
@@ -3563,7 +4345,7 @@ function missingAnswers() {
     if (b.multi) { if (!(s || []).length && b.key !== "med" && b.key !== "surg" && b.key !== "tissue") out.push(b.title); }
     else if (s == null) out.push(b.title);
   });
-  if (!AS.ans.mst || AS.ans.mst.a == null) out.push("Sàng lọc dinh dưỡng");
+  if (!AS.ans.mst || AS.ans.mst.a == null) out.push("Yếu tố dinh dưỡng");
   return out;
 }
 
@@ -3585,39 +4367,51 @@ function bindStep() {
       AS.ans[key] = AS.ans[key] === i ? null : i;
       $$(`[data-opt="${key}"]`).forEach(o => o.setAttribute("aria-pressed", AS.ans[key] === +o.dataset.i));
     }
-    recalcAssess();
-  });
-  // MST
-  $$("[data-mst]").forEach(btn => btn.onclick = () => {
-    const part = btn.dataset.mst;
-    AS.ans.mst = AS.ans.mst || {};
-    if (part === "a") {
-      AS.ans.mst.a = btn.dataset.v;
-      if (btn.dataset.v !== "co") AS.ans.mst.b = null;
-      const bBox = $("#mst-b"); if (bBox) bBox.hidden = btn.dataset.v !== "co";
-      $$('[data-mst="a"]').forEach(o => o.setAttribute("aria-pressed", o.dataset.v === AS.ans.mst.a));
-      if (btn.dataset.v !== "co") $$('[data-mst="b"]').forEach(o => o.setAttribute("aria-pressed", "false"));
-    } else {
-      const i = +btn.dataset.i;
-      AS.ans.mst[part] = AS.ans.mst[part] === i ? null : i;
-      $$(`[data-mst="${part}"]`).forEach(o => o.setAttribute("aria-pressed", AS.ans.mst[part] === +o.dataset.i));
+    /* Câu Thể trạng quyết định phần BMI trong mục dinh dưỡng — vẽ lại để
+       mục đó tự điền hoặc hiện lại cho chọn tay */
+    if (key === "build") {
+      const y = window.scrollY;
+      render();
+      window.scrollTo(0, y);
+      return;
     }
     recalcAssess();
   });
+  // Dinh dưỡng — ba mục độc lập, bấm lại là bỏ chọn
+  $$("[data-mst]").forEach(btn => btn.onclick = () => {
+    const k = btn.dataset.mst, i = +btn.dataset.i;
+    AS.ans.mst = AS.ans.mst || {};
+    AS.ans.mst[k] = AS.ans.mst[k] === i ? null : i;
+    $$(`[data-mst="${k}"]`).forEach(o =>
+      o.setAttribute("aria-pressed", AS.ans.mst[k] === +o.dataset.i));
+    recalcAssess();
+  });
   // Yếu tố hồi sức
+  $$("[data-nb]").forEach(btn => btn.onclick = () => {
+    const k = btn.dataset.nb;
+    AS.nhomBenh = AS.nhomBenh || [];
+    AS.nhomBenh = AS.nhomBenh.includes(k) ? AS.nhomBenh.filter(x => x !== k) : AS.nhomBenh.concat(k);
+    const ep = DB.episode(AS.episodeId);
+    if (ep) { ep.nhomBenh = AS.nhomBenh.slice(); touch(ep); DB.save(); }
+    render();
+  });
   $$("[data-icu]").forEach(btn => btn.onclick = () => {
     const f = btn.dataset.icu;
     if (AS.icu.includes(f)) AS.icu = AS.icu.filter(x => x !== f); else AS.icu.push(f);
     btn.setAttribute("aria-pressed", AS.icu.includes(f));
     const c = $("#icu-count"); if (c) { c.textContent = AS.icu.length + " mục"; c.classList.toggle("on", AS.icu.length > 0); }
   });
-  // Khám da
-  $$("[data-nolesion]").forEach(btn => btn.onclick = () => {
-    const yes = btn.dataset.nolesion === "1";
-    if (yes && (AS.lesions.length || AS.mdrpi.length)) {
-      toast("Đang có tổn thương được ghi nhận — hãy xoá trước khi chọn “không”", "err", 4500); return;
-    }
-    AS.noLesion = yes; render();
+  // Khám da — ba quan sát chung
+  $$("[data-chung]").forEach(sel => sel.onchange = () => {
+    AS.chung = AS.chung || {};
+    AS.chung[sel.dataset.chung] = +sel.value;
+  });
+  /* Chạm vào chấm trên hình: chưa có thì mở hộp thoại thêm, có rồi thì mở ra sửa */
+  $$("[data-asda]").forEach(d => d.onclick = () => {
+    const k = d.dataset.asda;
+    const i = AS.lesions.findIndex(l => l.k === k);
+    if (i >= 0) lesionDialog(false, AS.lesions[i], i);
+    else lesionDialog(false, null, null, k);
   });
   const al = $("[data-addlesion]"); if (al) al.onclick = () => lesionDialog(false);
   const am = $("[data-addmdrpi]"); if (am) am.onclick = () => lesionDialog(true);
@@ -3641,25 +4435,25 @@ function bindStep() {
     const it = btn.dataset.bundle;
     if (AS.bundle.includes(it)) AS.bundle = AS.bundle.filter(x => x !== it); else AS.bundle.push(it);
     btn.setAttribute("aria-pressed", AS.bundle.includes(it));
-    const c = $("#bcount"); if (c) c.textContent = AS.bundle.length;
+    const c = $("#bcount"); if (c) c.textContent = AS.bundle.filter(x => !mucTuyChon(x)).length;
   });
   const ba = $("[data-ball]"), bn = $("[data-bnone]");
-  if (ba) ba.onclick = () => { AS.bundle = $$("[data-bundle]").map(b => b.dataset.bundle); render(); };
+  if (ba) ba.onclick = () => { AS.bundle = $$("[data-bundle]").map(b => b.dataset.bundle).filter(x => !mucTuyChon(x)); render(); };
   if (bn) bn.onclick = () => { AS.bundle = []; render(); };
   const nt = $("#as-note"); if (nt) nt.oninput = () => { AS.note = nt.value; };
   hydratePhotos();
 }
 
 function nextStep() {
-  if (AS.step === 2 && AS.noLesion == null) { toast("Hãy xác nhận người bệnh có tổn thương hay không", "err"); return; }
-  if (AS.step < 3) { AS.step++; render(); return; }
+  if (AS.step < 3) { AS.step++; render(); lenDau(); return; }
   signAssessment();
 }
 
 function signAssessment() {
   const r = scoreWaterlow(AS.ans);
   const lv = levelOf(r.total);
-  const draft = { score: r.total, level: lv, icu: AS.icu, lesions: AS.lesions, mdrpi: AS.mdrpi };
+  const draft = { score: r.total, level: lv, icu: AS.icu, lesions: AS.lesions,
+                  mdrpi: AS.mdrpi, nhomBenh: AS.nhomBenh };
   const clv = careLevelOf(draft);
   const now = new Date().toISOString();
   const a = {
@@ -3667,12 +4461,32 @@ function signAssessment() {
     userId: Session.user.id, at: now, signedBy: Session.user.name,
     answers: clone(AS.ans), detail: r.detail, score: r.total, level: lv, careLevel: clv,
     icu: AS.icu.slice(), lesions: clone(AS.lesions), mdrpi: clone(AS.mdrpi),
-    bundle: AS.bundle.slice(), bundleTotal: bundleFor(clv).length,
+    nhomBenh: (AS.nhomBenh || []).slice(),
+    bundle: AS.bundle.slice(), bundleTotal: mucTinhChiSo(bundleItems(clv, AS.nhomBenh)).length,
     note: AS.note.trim(), locked: true, appVer: APP_VER
   };
   a.lesions.forEach(l => delete l.carried);
   a.mdrpi.forEach(l => delete l.carried);
+  /* Vị trí điều dưỡng đánh dấu "chỉ ghi nhận quan sát" nằm trong phiếu khám da,
+     không vào danh sách tổn thương và không tính vào chỉ số loét của khoa. */
+  const quanSat = a.lesions.filter(l => l.ghi === false);
+  a.lesions = a.lesions.filter(l => l.ghi !== false);
   DB.data.assessments.push(a);
+
+  /* Bước 3 của phiếu đánh giá chính là khám da toàn diện của Bước 1 quy trình —
+     ghi luôn thành phiếu khám da của ca trực này, khỏi phải khám lại. */
+  const ca = caCuaLuc();
+  (DB.data.skinChecks = DB.data.skinChecks || []).push({
+    id: uid("kd"), patientId: AS.patientId, episodeId: AS.episodeId,
+    at: now, by: Session.user.id, shift: ca.shift.v,
+    binhThuong: !(a.lesions.length || quanSat.length || a.mdrpi.length),
+    chung: Object.assign({ nhiet: 0, mo: 0, camgiac: 0 }, AS.chung || {}),
+    viTri: [...a.lesions, ...quanSat].filter(l => l.k).map(l => ({
+      k: l.k, size: l.size || "", sau: l.sau || 0, stage: l.stage || "",
+      note: l.note || "", ghi: l.ghi !== false, poa: !!l.poa
+    })),
+    note: "", tuPhieu: a.id
+  });
 
   const p = DB.patient(AS.patientId);
   const st = DB.data.settings || DEFAULT_SETTINGS();
@@ -4099,9 +4913,10 @@ function computeMetrics(win) {
   const onTime = pairs ? pairsOk / pairs : null;
 
   /* 3. Tuân thủ gói chăm sóc */
-  const withBundle = asses.filter(a => a.bundleTotal);
-  const bundleRate = withBundle.length
-    ? withBundle.reduce((s, a) => s + (a.bundle || []).length / a.bundleTotal, 0) / withBundle.length : null;
+  /* Tuân thủ gói: mỗi cặp (người bệnh × ca trực) là một phiếu gói */
+  const bcs = bundleCaStats(from, to);
+  const bundleRate = bcs.ty;
+  const bundleCaN = bcs.soCa, bundleCaDu = bcs.duGoi;
 
   /* 4. Tổn thương — tách nguồn gốc, tính lần xuất hiện đầu tiên của mỗi vị trí trong mỗi đợt */
   const seen = new Set(); const hapi = []; const poa = [];
@@ -4126,6 +4941,11 @@ function computeMetrics(win) {
   const poaWin = poa.filter(x => inWin(x.at));
   const mdrpiWin = hapiWin.filter(x => x.device);
   const hapiRate = patientDays > 0 ? hapiWin.length / patientDays * 1000 : null;
+  /* Mẫu số của KHOA (Bảng 3 báo cáo tổng kết): tổng người bệnh nhập khoa trong kỳ.
+     Tỷ lệ GỘP — cộng tử số rồi chia cộng mẫu số — chứ không lấy trung bình cộng
+     của các tỷ lệ tháng, vì tháng ít bệnh không ngang tháng đông bệnh. */
+  const nhapKhoa = DB.liveEpisodes().filter(e => inWin(e.admittedAt)).length;
+  const hapiTyLe = nhapKhoa > 0 ? hapiWin.length / nhapKhoa : null;
 
   /* 5. Thời gian đáp ứng chuỗi cần lưu ý */
   const fl = DB.data.flags.filter(f => inWin(f.createdAt));
@@ -4161,18 +4981,21 @@ function computeMetrics(win) {
     const pd = DB.liveEpisodes().reduce((s, e) => s + overlapDays(e, d, end), 0);
     const h = hapi.filter(x => inM(x.at)).length;
     const p = poa.filter(x => inM(x.at)).length;
-    const am = DB.data.assessments.filter(a => inM(a.at) && a.bundleTotal);
+    const am = bundleCaStats(d, end);
+    const nk = DB.liveEpisodes().filter(e => inM(e.admittedAt)).length;
     months.push({
-      label, hapi: h, poa: p, patientDays: pd,
+      label, hapi: h, poa: p, patientDays: pd, nhapKhoa: nk,
+      tyLe: nk > 0 ? h / nk * 100 : 0,
       rate: pd > 0 ? h / pd * 1000 : 0,
-      bundle: am.length ? am.reduce((s, a) => s + (a.bundle || []).length / a.bundleTotal, 0) / am.length * 100 : 0,
+      bundle: am.ty == null ? 0 : am.ty * 100,
       assessments: DB.data.assessments.filter(a => inM(a.at)).length
     });
   }
 
   return {
     from, to, days, eps, patientDays, asses, firstRate, epsAdmN: epsAdm.length,
-    onTime, pairs, bundleRate, hapi: hapiWin, poa: poaWin, mdrpi: mdrpiWin, hapiRate,
+    onTime, pairs, bundleRate, bundleCaN, bundleCaDu,
+    hapi: hapiWin, poa: poaWin, mdrpi: mdrpiWin, hapiRate, nhapKhoa, hapiTyLe,
     accAvg: avg(accs), doneAvg: avg(dones), flagsN: fl.length, accN: accs.length, months
   };
 }
@@ -4221,16 +5044,40 @@ function viewReports() {
     <section>
       <div class="card-h"><h2>Chỉ số đầu ra</h2><span class="hint">kết quả trên người bệnh</span></div>
       <div class="tiles">
-        <div class="tile"><span class="lab">Loét mới phát sinh tại khoa</span>
-          <span class="val mono">${m.hapi.length}</span>
-          <span class="note">${m.mdrpi.length} trong đó do thiết bị y tế</span></div>
+        <div class="tile"><span class="lab">Tỷ lệ loét mới tại khoa</span>
+          <span class="val mono">${m.hapiTyLe == null ? "—" : (m.hapiTyLe * 100).toFixed(2) + "%"}</span>
+          <span class="note">${m.hapi.length} ca / ${m.nhapKhoa} người bệnh nhập khoa</span></div>
+        <div class="tile"><span class="lab">Loét có sẵn từ tuyến trước</span>
+          <span class="val mono">${m.poa.length}</span>
+          <span class="note">không tính vào tỷ lệ loét mới</span></div>
         <div class="tile"><span class="lab">Tỷ suất trên 1000 ngày nằm</span>
           <span class="val mono">${m.hapiRate == null ? "—" : m.hapiRate.toFixed(1)}</span>
-          <span class="note">${Math.round(m.patientDays)} ngày nằm trong kỳ</span></div>
-        <div class="tile"><span class="lab">Loét có sẵn khi vào khoa</span>
-          <span class="val mono">${m.poa.length}</span>
-          <span class="note">không tính vào tỷ suất mắc mới</span></div>
+          <span class="note">${Math.round(m.patientDays)} ngày nằm · ${m.mdrpi.length} ca do thiết bị</span></div>
       </div>
+      <p style="font-size:12.5px;color:var(--ink-3);line-height:1.55;margin-top:8px">
+        Tỷ lệ loét mới tính theo <b>mẫu số của khoa</b> — tổng người bệnh nhập khoa trong kỳ,
+        đúng như Bảng 3 báo cáo tổng kết. Đây là <b>tỷ lệ gộp</b>: cộng số ca rồi chia tổng
+        người bệnh, không lấy trung bình cộng của các tỷ lệ tháng.
+        Mục tiêu khoa đặt năm 2025 là dưới 4,25%.</p>
+    </section>
+
+    <section>
+      <div class="card-h"><h2>Loét theo tháng</h2>
+        <span class="hint">theo mẫu Bảng 3 của khoa</span></div>
+      <div class="tablewrap"><table class="bang3">
+        <thead><tr><th>Tháng</th><th class="num">Người bệnh nhập khoa</th>
+          <th class="num">Loét tuyến trước</th><th class="num">Loét mới tại khoa</th>
+          <th class="num">Tỷ lệ loét mới</th></tr></thead>
+        <tbody>${m.months.map(x => `<tr>
+          <td>${esc(x.label)}</td><td class="num mono">${x.nhapKhoa}</td>
+          <td class="num mono">${x.poa}</td><td class="num mono">${x.hapi}</td>
+          <td class="num mono${x.tyLe > 4.25 ? " xau" : ""}">${x.tyLe.toFixed(2)}%</td></tr>`).join("")}
+        <tr class="tong"><td><b>Cả kỳ</b></td>
+          <td class="num mono"><b>${m.nhapKhoa}</b></td>
+          <td class="num mono"><b>${m.poa.length}</b></td>
+          <td class="num mono"><b>${m.hapi.length}</b></td>
+          <td class="num mono"><b>${m.hapiTyLe == null ? "—" : (m.hapiTyLe * 100).toFixed(2) + "%"}</b></td></tr>
+        </tbody></table></div>
     </section>
 
     <section>
@@ -4800,6 +5647,14 @@ function viewSettings() {
       <div class="field" style="margin-bottom:12px"><label for="s-icu">Số yếu tố nguy cơ hồi sức để nâng gói chăm sóc lên một mức</label>
         <input id="s-icu" type="number" min="1" max="12" value="${s.icuEscalate}"></div>
       <div class="qopts" style="padding:0">
+        <button class="opt multi" type="button" data-sw="nangTheoIcu" aria-pressed="${s.nangTheoIcu !== false}">
+          <span class="mark"><svg><use href="#i-check"/></svg></span>
+          <span class="txt">Nâng gói một mức khi đủ số yếu tố nguy cơ hồi sức nêu trên
+            <span class="tuy">EPUAP/NPIAP 2019 — không có trong quy trình khoa</span></span></button>
+        <button class="opt multi" type="button" data-sw="nangTheoLoet" aria-pressed="${s.nangTheoLoet !== false}">
+          <span class="mark"><svg><use href="#i-check"/></svg></span>
+          <span class="txt">Nâng gói một mức khi người bệnh đã có tổn thương
+            <span class="tuy">EPUAP/NPIAP 2019 — không có trong quy trình khoa</span></span></button>
         <button class="opt multi" type="button" data-sw="autoFlagVeryHigh" aria-pressed="${!!s.autoFlagVeryHigh}">
           <span class="mark"><svg><use href="#i-check"/></svg></span>
           <span class="txt">Tự đẩy lên “Cần lưu ý” khi Waterlow đạt mức nguy cơ rất cao</span></button>
@@ -5052,10 +5907,15 @@ function viewSettings() {
    ------------------------------------------------------------ */
 
 /* Gợi ý tư thế kế tiếp: luân phiên ngửa → nghiêng, đổi bên mỗi vòng */
-function suggestPosition(epId) {
+function suggestPosition(epId, level) {
   const recent = DB.turnsOf(epId).slice(0, 6);
   const last = recent[0];
-  if (!last) return "ngua";
+  /* Chưa có lượt nào: theo quy trình, cữ 10 giờ nằm nghiêng TRÁI.
+     Các cữ khác app gợi ý luân phiên từ mốc đó. */
+  if (!last) {
+    const lv = level != null ? level : 1;
+    return tuTheCu(lv, new Date()) || tuTheCu(lv, cuKeTiep(lv)) || "ngtrai";
+  }
   if (last.pos === "ngua" || last.pos === "nuangoi") {
     const lastLeft = recent.find(t => t.pos === "ngtrai");
     const lastRight = recent.find(t => t.pos === "ngphai");
@@ -5069,8 +5929,8 @@ function suggestPosition(epId) {
 }
 
 function turnDialog(p, ep, onDone) {
-  const sug = suggestPosition(ep.id);
   const info = turnInfo(ep);
+  const sug = suggestPosition(ep.id, info.level);
 
   const body = `
     <div class="notice ${info.toiLuc && !info.never ? "warn" : ""}"><svg><use href="#i-clock"/></svg><span>
@@ -5078,8 +5938,9 @@ function turnDialog(p, ep, onDone) {
         ? "Chưa ghi lượt xoay nào trong đợt điều trị này."
         : `Lần xoay gần nhất <b>${fmtTime(info.last.at)}</b> — ${esc(posName(info.last.pos))},
            cách đây <b>${fmtDur(info.cach)}</b>.`}
-      <br>Khoa đặt mục tiêu xoay mỗi <b>${info.every} giờ</b>
-      (${esc(LEVELS[info.level].short.toLowerCase())}).
+      <br>Quy trình đặt khoảng cách <b>mỗi ${info.every} giờ</b>
+      (${esc(LEVELS[info.level].short.toLowerCase())}) · lịch cữ
+      ${lichCu(info.level).map(h => pad(h) + "g").join(" · ")}.
       <br>Lượt này sẽ ghi đúng giờ bấm nút: <b>${fmtTime(new Date())}</b>.</span></div>
 
     <div class="field"><label>Tư thế vừa chuyển sang</label>
@@ -5203,10 +6064,13 @@ function turnBlock(p, ep) {
   /* Năm lượt gần nhất hiện thẳng ra, không phải bấm mở — ghi xong là thấy ngay */
   const gan5 = log.slice(0, 5);
   const con = log.length - gan5.length;
+  /* Lịch cữ của khoa — dùng để HIỆN cữ kế tiếp; chỉ số vẫn tính theo khoảng cách thực */
+  const cuTiep = cuKeTiep(info.level);
+  const goiY = tuTheCu(info.level, cuTiep);
 
   return `<section class="card" id="turn-sec">
     <div class="card-h"><h2>Xoay trở</h2>
-      <span class="hint">khoa đặt mục tiêu mỗi ${info.every} giờ · ${esc(LEVELS[info.level].short.toLowerCase())}</span></div>
+      <span class="hint">quy trình: mỗi ${info.every} giờ · ${esc(LEVELS[info.level].short.toLowerCase())}</span></div>
 
     <div class="turnhead">
       <span class="now">${info.never ? "Chưa ghi lượt nào" : esc(posName(info.last.pos))}</span>
@@ -5216,6 +6080,10 @@ function turnBlock(p, ep) {
           : `Lần gần nhất ${fmtTime(info.last.at)} — cách đây <b>${fmtDur(info.cach)}</b>`}
         ${info.toiLuc && !info.never ? ` · đã quá mục tiêu ${fmtDur(info.quaBaoLau)}` : ""}</span>
     </div>
+
+    <div class="goica">Lịch cữ của khoa: ${lichCu(info.level).map(h => pad(h) + "g").join(" · ")}
+      <br><b>Cữ kế tiếp ${fmtTime(cuTiep)}</b>${goiY
+        ? ` — tư thế gợi ý <b>${esc(posName(goiY).toLowerCase())}</b>` : ""}</div>
 
     <button class="bigtap nhe" data-turn>
       <svg><use href="#i-rotate"/></svg>Ghi lượt xoay trở
@@ -5514,6 +6382,75 @@ async function chupAnhTonThuong(p) {
 }
 
 /* Hộp thoại ghi tổn thương mới (les = null) hoặc cập nhật một tổn thương đang có */
+/* Lưu cả loạt thay đổi gói chăm sóc thành MỘT lần ghi.
+
+   Mỗi lần bấm Lưu lại sinh ra một nhóm bản ghi cùng mã đợt ghi (batch),
+   cùng giờ, cùng người — nên mục Lịch sử đọc được "lúc 21:06 chị Châu
+   đánh dấu 3 mục, bỏ 1 mục", chứ không phải bốn dòng rời rạc.
+
+   Bỏ đánh dấu cũng là một bản ghi, không xoá bản ghi cũ. */
+function luuGoi(p, ep, level, thayDoi) {
+  if (!ep) { toast("Người bệnh đã kết thúc đợt điều trị", "err"); return 0; }
+  const ds = Object.keys(thayDoi || {});
+  if (!ds.length) return 0;
+  const gio = new Date().toISOString();
+  const batch = uid("gb");
+  ds.forEach(item => (DB.data.bundleLogs = DB.data.bundleLogs || []).push({
+    id: uid("bl"), batch, patientId: p.id, episodeId: ep.id,
+    at: gio, by: Session.user.id, item, level, done: !!thayDoi[item]
+  }));
+  DB.log("goi-cham-soc", `${p.name} (${p.mrn}) — cập nhật gói chăm sóc (${ds.length} mục)`,
+    "episode", ep.id);
+  DB.save();
+  return ds.length;
+}
+
+/* Lịch sử thực hiện gói: mỗi lần bấm Lưu là MỘT PHIẾU, mới nhất lên trước.
+
+   Mỗi phiếu hiện ẢNH CHỤP tại thời điểm lưu — tức là lúc đó những mục nào
+   đang được đánh dấu — chứ không phải chỉ phần vừa đổi. Đọc như một phiếu
+   chăm sóc của ca, không phải nhật ký thao tác. */
+function goiLichSu(epId) {
+  /* Gom mọi sự kiện lại, theo thứ tự thời gian */
+  const sk = [];
+  DB.assessmentsOf(epId).forEach(a => {
+    const lv = mucGoiCuaPhieu(a);
+    if (!(a.bundle || []).length) return;
+    (a.bundle || []).forEach(item => sk.push({
+      at: a.at, by: a.userId, level: lv, item, done: true,
+      batch: "as|" + a.id, kyPhieu: true }));
+  });
+  (DB.data.bundleLogs || []).filter(b => b.episodeId === epId).forEach(b => sk.push({
+    at: b.at, by: b.by, level: b.level, item: b.item, done: b.done !== false,
+    batch: b.batch || ("bl|" + b.id) }));
+  sk.sort((x, y) => String(x.at).localeCompare(String(y.at)));
+
+  /* Cuộn tới, giữ trạng thái theo từng (ca trực × mức chăm sóc) */
+  const trangThai = new Map();      // khoá ca → Set mục đang đánh dấu
+  const phieu = new Map();          // batch → phiếu
+  sk.forEach(x => {
+    const c = caCuaLuc(dOf(x.at).getTime());
+    const k = c.start.getTime() + "|" + x.level;
+    if (!trangThai.has(k)) trangThai.set(k, new Set());
+    const set = trangThai.get(k);
+    if (x.done) set.add(x.item); else set.delete(x.item);
+    phieu.set(x.batch, { at: x.at, by: x.by, level: x.level, kyPhieu: !!x.kyPhieu,
+                         ca: c.shift.t, lam: [...set] });
+  });
+  return [...phieu.values()].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+}
+
+/* Gom lịch sử theo NGÀY, mới nhất trước — để tìm lại phiếu chăm sóc cũ */
+function goiTheoNgay(ds) {
+  const m = new Map();
+  ds.forEach(g => {
+    const k = isoDay(dOf(g.at));
+    if (!m.has(k)) m.set(k, { ngay: k, lan: [] });
+    m.get(k).lan.push(g);
+  });
+  return [...m.values()].sort((a, b) => b.ngay.localeCompare(a.ngay));
+}
+
 function lesionLogDialog(p, ep, les) {
   if (!ep) { toast("Người bệnh đã kết thúc đợt điều trị", "err"); return; }
   const capNhat = !!les;
@@ -5664,8 +6601,54 @@ function lesionCard(les) {
   </div>`;
 }
 
+/* Khối "Khám da vùng tì đè" — quy trình Bước 1, mỗi 8 giờ vào đầu ca */
+function khamDaBlock(ep, dangDieuTri) {
+  if (!ep) return "";
+  const ds = DB.skinChecksOf(ep.id);
+  const caNay = khamDaCa(ep.id);
+  const ca = caCuaLuc();
+  const gan = ds.slice(0, 5);
+  const mot = k => {
+    const nguoi = DB.userName(k.by);
+    if (k.binhThuong) return `<div class="glrow"><div class="glt">${fmtTime(k.at)}</div>
+      <div class="gld"><b>${esc(nguoi)}</b>
+        <span class="glm">${fmtDate(k.at)} · da bình thường, không có vị trí bất thường</span>
+        ${k.note ? `<p style="font-size:13px;color:var(--ink-2);margin-top:3px">${esc(k.note)}</p>` : ""}
+      </div></div>`;
+    return `<div class="glrow"><div class="glt">${fmtTime(k.at)}</div>
+      <div class="gld"><b>${esc(nguoi)}</b>
+        <span class="glm">${fmtDate(k.at)} · ${k.viTri.length} vị trí bất thường</span>
+        <ul class="gllam">${k.viTri.map(v => `<li>${esc(kdTen(v.k))}${
+          v.stage ? ` — độ ${esc(v.stage)}` : ""}${v.size ? ` · ${esc(v.size)}` : ""}${
+          v.note ? ` · ${esc(v.note)}` : ""}${v.ghi
+            ? ` <span class="tag hapi">đã vào danh sách tổn thương</span>` : ""}</li>`).join("")}</ul>
+        ${k.note ? `<p style="font-size:13px;color:var(--ink-2);margin-top:3px">${esc(k.note)}</p>` : ""}
+      </div></div>`;
+  };
+  return `<section class="phang" id="khamda-sec">
+    <div class="card-h"><h2>Khám da vùng tì đè</h2>
+      <span class="hint">${ds.length} phiếu trong đợt này</span></div>
+    <div class="goica">Phiếu của <b>${esc(ca.shift.t.toLowerCase())}</b> · ${fmtDate(ca.start)}
+      · ${caNay ? "đã khám" : "chưa khám trong ca này"}</div>
+    ${dangDieuTri ? `<div class="btnrow" style="margin:10px 0">
+      <button class="btn sm ${caNay ? "" : "pri"}" data-khamda>
+        <svg><use href="#i-plus"/></svg>${caNay ? "Khám lại" : "Khám da đầu ca"}</button>
+    </div>` : ""}
+    ${gan.length ? `<div class="gls">${gan.map(mot).join("")}</div>
+      ${ds.length > gan.length ? `<details style="margin-top:6px">
+        <summary style="cursor:pointer;font-size:13.5px;color:var(--ink-2);padding:6px 0">
+          ${ds.length - gan.length} phiếu cũ hơn — bấm để xem</summary>
+        <div class="gls" style="margin-top:8px">${ds.slice(5).map(mot).join("")}</div>
+      </details>` : ""}`
+    : `<div class="card"><div class="empty">Chưa có phiếu khám da nào.${dangDieuTri
+        ? `<br>Quy trình yêu cầu khám da vùng tì đè <b>mỗi 8 giờ, vào đầu ca</b>
+           cho người bệnh từ có nguy cơ trở lên.` : ""}</div></div>`}
+  </section>`;
+}
+
 function lesionsBlockNew(ep, dangDieuTri) {
   if (!ep) return "";
+  const daKhamCa = !!khamDaCa(ep.id);
   const all = lesionsOfEpisode(ep.id);
   const active = all.filter(l => l.status !== "lanh");
   const healed = all.filter(l => l.status === "lanh");
@@ -5673,7 +6656,7 @@ function lesionsBlockNew(ep, dangDieuTri) {
     <div class="card-h"><h2>Tổn thương của đợt điều trị này</h2>
       <span class="hint">${active.length} đang theo dõi · ${healed.length} đã lành</span></div>
     ${dangDieuTri ? `<div class="btnrow" style="margin-bottom:10px">
-      <button class="btn sm pri" data-lnew><svg><use href="#i-plus"/></svg>Ghi nhận tổn thương mới</button>
+      <button class="btn sm${daKhamCa ? " pri" : ""}" data-lnew><svg><use href="#i-plus"/></svg>Ghi nhận tổn thương mới</button>
     </div>` : ""}
     ${active.length ? active.map(lesionCard).join("")
       : all.length ? `<div class="notice"><svg><use href="#i-check"/></svg><span>
@@ -5701,6 +6684,8 @@ function bindLesionActions(pid) {
      không phải đi qua phiếu đánh giá Waterlow nữa */
   const nm = $("[data-lnew]");
   if (nm) nm.onclick = () => lesionLogDialog(p, epCur, null);
+  const kd = $("[data-khamda]");
+  if (kd) kd.onclick = () => khamDaDialog(p, epCur);
   $$("[data-lupd]").forEach(b => b.onclick = () => {
     const les = lesionsOfEpisode(epAny.id).find(l => l.key === b.dataset.lupd);
     if (les) lesionLogDialog(p, epCur, les);
@@ -5795,6 +6780,15 @@ function buildHandoverBody(shift, ref) {
       bed: ep.bed || "—", name: p.name, mrn: p.mrn, dx: ep.diagnosis || "",
       lv, waterlow: last ? last.score : null,
       turnsShift: turnsShift.length, dueTxt: fmtDT(due.due),
+      /* Quy trình Bước 4.2 bắt buộc bàn giao hai điều này cho từng người bệnh */
+      da: tinhTrangDa(ep.id),
+      xoayTiep: (() => {
+        const t = cuKeTiep(lv == null ? 1 : lv);
+        const tt = tuTheCu(lv == null ? 1 : lv, t);
+        return `cữ kế tiếp ${fmtTime(t)}${tt ? ` — ${posName(tt).toLowerCase()}` : ""}`
+             + `, duy trì mỗi ${turnEveryFor(lv == null ? 1 : lv)} giờ`;
+      })(),
+      thietBi: [...(last ? (last.mdrpi || []) : [])].map(l => l.site + (l.device ? ` (${l.device})` : "")),
       pts, todo, why, notes: notesOf(ep.id),
       /* gap = ca sau phải LÀM cái gì đó ngay, không chỉ theo dõi tiếp.
          Dùng để tách hai mức trong màn giao ban. Biên bản cũ không có trường
@@ -5848,6 +6842,10 @@ function renderHOBody(b, opts) {
       ${r.waterlow == null ? `<span class="pill neutral sm">chưa đánh giá</span>`
         : `${levelPill(r.lv, " sm")}<span class="tag mono">Waterlow ${r.waterlow}</span>`}</div>
     ${r.dx ? `<div class="hdx">${esc(r.dx)}</div>` : ""}
+    <div class="hobuoc"><div><b>Tình trạng da:</b> ${esc(r.da || "—")}</div>
+      <div><b>Kế hoạch xoay trở tiếp theo:</b> ${esc(r.xoayTiep || "—")}</div>
+      ${(r.thietBi || []).length ? `<div><b>Da dưới thiết bị y tế:</b> ${
+        esc(r.thietBi.join(" · "))}</div>` : ""}</div>
     <div class="todo"><b>Việc của ca sau:</b> ${r.todo.join(" · ")}</div>
     ${r.pts.length ? `<ul class="hpts">${r.pts.map(t => `<li>${t}</li>`).join("")}</ul>` : ""}
     ${r.notes.length ? `<div class="hnotes">
@@ -5869,6 +6867,8 @@ function renderHOBody(b, opts) {
       <div class="foldin">
         <div class="hdx"><span class="mono">${esc(r.mrn)}</span>${r.dx ? " · " + esc(r.dx) : ""}</div>
         ${r.pts.length ? `<ul class="hpts">${r.pts.map(t => `<li>${t}</li>`).join("")}</ul>` : ""}
+        <div class="hobuoc"><div><b>Tình trạng da:</b> ${esc(r.da || "—")}</div>
+          <div><b>Kế hoạch xoay trở tiếp theo:</b> ${esc(r.xoayTiep || "—")}</div></div>
         <div class="todo"><b>Việc của ca sau:</b> ${r.todo.join(" · ")}</div>
         ${r.notes.length ? `<div class="hnotes">
           ${r.notes.map(n => `<div class="hnote"><span class="q">”</span><div>${esc(n.text)}
@@ -6391,6 +7391,336 @@ function bindHandoverActions(shift, dayKey, body) {
         render();
       }}]
     });
+  });
+}
+
+
+/* ============================================================
+   PHIẾU KHÁM DA VÙNG TÌ ĐÈ — quy trình Bước 1
+   Mặc định mọi vị trí bình thường: người bệnh không có gì thì bấm
+   "Da bình thường" là xong. Chỗ nào bất thường thì chọn từ thanh
+   vị trí, chấm đỏ hiện lên hình, rồi ghi kích thước / độ sâu / phân độ.
+   ============================================================ */
+
+/* Hình người: nét ngoài, dùng chung cho mặt trước và mặt sau */
+function hinhNguoi(mat) {
+  const d = mat === "sau"
+    ? `M50 6c-7 0-12 5-12 12s5 13 12 13 12-6 12-13S57 6 50 6z`
+    : `M50 6c-7 0-12 5-12 12s5 13 12 13 12-6 12-13S57 6 50 6z`;
+  return `<svg viewBox="0 0 100 220" class="bodysvg" aria-hidden="true">
+    <path d="${d}" class="bd"/>
+    <path d="M46 31h8v9h-8z" class="bd"/>
+    <path d="M34 40h32c3 0 5 2 5 5v55c0 3-2 5-5 5H34c-3 0-5-2-5-5V45c0-3 2-5 5-5z" class="bd"/>
+    <path d="M29 46l-8 6-5 44 7 2 9-42z" class="bd"/>
+    <path d="M71 46l8 6 5 44-7 2-9-42z" class="bd"/>
+    <path d="M36 105h12l3 60-2 42h-12l1-42z" class="bd"/>
+    <path d="M64 105H52l-3 60 2 42h12l-1-42z" class="bd"/>
+    <path d="M36 207h13v7H36z" class="bd"/>
+    <path d="M64 207H51v7h13z" class="bd"/>
+  </svg>`;
+}
+
+/* Một mặt của hình, kèm các chấm vị trí.
+   attr: tên thuộc tính data- gắn lên chấm, để màn hình đánh giá và phiếu
+   khám da dùng chung một hình mà xử lý bấm khác nhau. */
+function matHinh(mat, chon, attr) {
+  const a = attr || "kd";
+  const ds = KHAM_DA_VITRI.filter(v => v.mat === mat);
+  return `<div class="bodywrap">
+    <div class="bodylab">${mat === "truoc" ? "Nhìn từ phía trước" : "Nhìn từ phía sau"}</div>
+    <div class="bodybox">
+      ${hinhNguoi(mat)}
+      ${ds.map(v => {
+        const co = chon.has(v.k);
+        return `<button type="button" class="bdot ${co ? "co" : ""}" data-${a}="${v.k}"
+          style="left:${v.x}%;top:${(v.y / 220 * 100).toFixed(2)}%"
+          title="${esc(v.t)}" aria-label="${esc(v.t)}" aria-pressed="${co}"></button>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+/* Hai mặt hình, dùng chung cho mọi màn hình cần chấm vị trí */
+function hinhViTri(chon, attr) {
+  return `<div class="bodies">${matHinh("truoc", chon, attr)}${matHinh("sau", chon, attr)}</div>`;
+}
+
+/* Phiếu khám da đầu ca */
+function khamDaDialog(p, ep) {
+  if (!ep) { toast("Người bệnh đã kết thúc đợt điều trị", "err"); return; }
+  const chon = new Map();                    // k -> {size, sau, stage, note}
+  const chung = { nhiet: 0, mo: 0, camgiac: 0 };
+  const ca = caCuaLuc();
+
+  const veHinh = b => {
+    const k = new Set(chon.keys());
+    $("#kd-hinh", b).innerHTML = matHinh("truoc", k, "kd") + matHinh("sau", k, "kd");
+    $$("#kd-hinh [data-kd]", b).forEach(x => x.onclick = () => bat(b, x.dataset.kd));
+  };
+  const veChon = b => {
+    const ds = [...chon.keys()];
+    $("#kd-so", b).textContent = ds.length
+      ? `${ds.length} vị trí bất thường` : "Chưa đánh dấu vị trí nào — da bình thường";
+    $("#kd-so", b).className = ds.length ? "kdso co" : "kdso";
+    $("#kd-ds", b).innerHTML = ds.map(k => {
+      const v = chon.get(k);
+      const ghi = !!v.ghi;
+      return `<div class="kdrow" data-kdrow="${k}">
+        <div class="kdh"><span class="t">${esc(kdTen(k))}</span>
+          <button type="button" class="lnk" data-kdbo="${k}">Bỏ</button></div>
+        <div class="qopts" style="padding:0">
+          <button class="opt" type="button" aria-pressed="${!ghi}" data-kdg="${k}" data-v="0">
+            <span class="mark"><svg><use href="#i-check"/></svg></span>
+            <span class="txt">Chỉ ghi nhận quan sát</span></button>
+          <button class="opt" type="button" aria-pressed="${ghi}" data-kdg="${k}" data-v="1">
+            <span class="mark"><svg><use href="#i-check"/></svg></span>
+            <span class="txt">Ghi thành tổn thương — theo dõi diễn tiến, thêm ảnh, đánh dấu đã lành</span></button>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Kích thước</label>
+            <input type="text" data-kdf="size" value="${esc(v.size || "")}" placeholder="vd: 3 × 2 cm"></div>
+          <div class="field"><label>Độ sâu</label>
+            <select data-kdf="sau">${KHAM_DA_SAU.map((x, i) =>
+              `<option value="${i}"${v.sau === i ? " selected" : ""}>${esc(x)}</option>`).join("")}</select></div>
+        </div>
+        <div class="field"><label>Phân độ (NPIAP / EPUAP)</label>
+          <select data-kdf="stage"><option value="">Chưa phân độ</option>
+            ${STAGES.map(x => `<option value="${x.v}"${v.stage === x.v ? " selected" : ""}>${esc(x.t)}</option>`).join("")}</select></div>
+        ${ghi ? `<div class="kdnguon"><div class="eyebrow">Nguồn gốc tổn thương</div>
+          <div class="qopts" style="padding:0">
+            <button class="opt" type="button" aria-pressed="${!v.poa}" data-kdp="${k}" data-v="0">
+              <span class="mark"><svg><use href="#i-check"/></svg></span>
+              <span class="txt">Phát sinh tại khoa</span></button>
+            <button class="opt" type="button" aria-pressed="${!!v.poa}" data-kdp="${k}" data-v="1">
+              <span class="mark"><svg><use href="#i-check"/></svg></span>
+              <span class="txt">Đã có sẵn khi vào khoa</span></button>
+          </div>
+          <span class="help">Chỗ này quyết định chỉ số loét mới của khoa. Ghi cho đúng.</span></div>` : ""}
+        <div class="field"><label>Mô tả</label>
+          <input type="text" data-kdf="note" value="${esc(v.note || "")}" placeholder="vd: đỏ không mất màu khi ấn"></div>
+      </div>`;
+    }).join("");
+    $$("[data-kdchip]", b).forEach(c =>
+      c.setAttribute("aria-pressed", chon.has(c.dataset.kdchip)));
+    $$("#kd-ds [data-kdg]", b).forEach(x => x.onclick = () => {
+      chon.get(x.dataset.kdg).ghi = x.dataset.v === "1";
+      veChon(b);
+    });
+    $$("#kd-ds [data-kdp]", b).forEach(x => x.onclick = () => {
+      chon.get(x.dataset.kdp).poa = x.dataset.v === "1";
+      $$(`[data-kdp="${x.dataset.kdp}"]`, b).forEach(o => o.setAttribute("aria-pressed", o === x));
+    });
+    $$("#kd-ds [data-kdbo]", b).forEach(x => x.onclick = () => bat(b, x.dataset.kdbo));
+    $$("#kd-ds [data-kdf]", b).forEach(inp => inp.onchange = inp.oninput = () => {
+      const k = inp.closest("[data-kdrow]").dataset.kdrow;
+      const f = inp.dataset.kdf;
+      chon.get(k)[f] = f === "sau" ? +inp.value : inp.value;
+    });
+  };
+  const bat = (b, k) => {
+    if (chon.has(k)) chon.delete(k);
+    else chon.set(k, { size: "", sau: 0, stage: "", note: "", ghi: false, poa: false });
+    veHinh(b); veChon(b);
+  };
+
+  const m = modal({
+    title: "Khám da vùng tì đè",
+    body: `
+      <div class="notice"><svg><use href="#i-info"/></svg><span>
+        Phiếu của <b>${esc(ca.shift.t.toLowerCase())}</b> · ${fmtDate(ca.start)}.
+        Mặc định mọi vị trí bình thường — không có gì bất thường thì bấm thẳng
+        <b>Da bình thường</b>.</span></div>
+      <div class="field"><label>Quan sát chung</label>
+        <div class="kdchung">${KHAM_DA_CHUNG.map(c => `
+          <div class="kdc"><div class="eyebrow">${esc(c.t)}</div>
+            <select data-kdc="${c.k}">${c.opts.map((o, i) =>
+              `<option value="${i}">${esc(o)}</option>`).join("")}</select></div>`).join("")}</div></div>
+      <div class="field"><label>Vị trí bất thường</label>
+        <span class="help">Chạm vào chấm trên hình, hoặc chọn tên ở thanh bên dưới.</span>
+        <div id="kd-hinh" class="bodies"></div>
+        <div id="kd-so" class="kdso">Chưa đánh dấu vị trí nào — da bình thường</div>
+        <details><summary style="cursor:pointer;font-size:13px;color:var(--ink-2);padding:6px 0">
+          Chọn theo tên vị trí</summary>
+          <div class="kdchips">${KHAM_DA_VITRI.map(v =>
+            `<button type="button" class="kdchip" aria-pressed="${chon.has(v.k)}" data-kdchip="${v.k}">${esc(v.t)}</button>`).join("")}</div>
+        </details>
+      </div>
+      <div id="kd-ds"></div>
+      <div class="field"><label for="kd-note">Ghi chú thêm</label>
+        <textarea id="kd-note" placeholder="vd: da vùng dưới dây cố định nội khí quản hơi đỏ, đã xoay đổi vị trí"></textarea></div>`,
+    actions: [{ label: "Huỷ" }, { label: "Lưu phiếu khám da", kind: "pri", onClick: b => {
+      const rec = {
+        id: uid("kd"), patientId: p.id, episodeId: ep.id,
+        at: new Date().toISOString(), by: Session.user.id, shift: ca.shift.v,
+        binhThuong: chon.size === 0,
+        chung: {
+          nhiet: +$('[data-kdc="nhiet"]', b).value,
+          mo: +$('[data-kdc="mo"]', b).value,
+          camgiac: +$('[data-kdc="camgiac"]', b).value
+        },
+        viTri: [...chon.entries()].map(([k, v]) => Object.assign({ k }, v)),
+        note: $("#kd-note", b).value.trim()
+      };
+      const ghiTT = [...chon.entries()].filter(([, v]) => v.ghi);
+      const gio = rec.at;
+      (DB.data.skinChecks = DB.data.skinChecks || []).push(rec);
+      DB.log("kham-da", `${p.name} (${p.mrn}) — khám da ${rec.binhThuong
+        ? "bình thường" : `${rec.viTri.length} vị trí bất thường`}`, "episode", ep.id);
+      DB.save();
+      toast(rec.binhThuong ? "Đã ghi: da bình thường"
+        : `Đã ghi ${rec.viTri.length} vị trí bất thường`, "ok");
+      /* Vị trí điều dưỡng chọn "ghi thành tổn thương" thì vào danh sách tổn thương
+         của đợt điều trị — theo dõi diễn tiến, thêm ảnh, đánh dấu đã lành được.
+         Còn lại chỉ nằm trong phiếu khám da, không vào chỉ số loét của khoa. */
+      if (ghiTT.length) {
+        const daCo = new Set(lesionsOfEpisode(ep.id).map(x => x.site));
+        let n = 0;
+        ghiTT.forEach(([k, v]) => {
+          if (daCo.has(kdTen(k))) return;
+          (DB.data.lesionLogs = DB.data.lesionLogs || []).push({
+            id: uid("ll"), patientId: p.id, episodeId: ep.id, at: gio, by: Session.user.id,
+            kind: "moi", site: kdTen(k), device: null, stage: v.stage || "I", poa: !!v.poa,
+            size: v.size || "", note: v.note || "", photos: [], foundAt: gio,
+            tuKhamDa: rec.id
+          });
+          n++;
+        });
+        if (n) {
+          DB.log("ghi-ton-thuong-moi",
+            `${p.name} (${p.mrn}) — ${n} tổn thương ghi từ phiếu khám da`, "episode", ep.id);
+          DB.save();
+          toast(`Đã ghi ${n} tổn thương vào đợt điều trị`, "ok");
+        }
+      }
+      render();
+    }}]
+  });
+
+  veHinh(m.body); veChon(m.body);
+  $$("[data-kdchip]", m.body).forEach(c => c.onclick = () => bat(m.body, c.dataset.kdchip));
+}
+
+/* Phiếu khám da của ca trực đang làm, nếu đã có */
+function khamDaCa(epId, ref) {
+  const c = caCuaLuc(ref);
+  return DB.skinChecksOf(epId).find(x => {
+    const t = dOf(x.at).getTime();
+    return t >= c.start.getTime() && t < c.end.getTime();
+  }) || null;
+}
+
+/* Tình trạng da gần nhất, một dòng — dùng cho bàn giao và phiếu theo dõi */
+function tinhTrangDa(epId) {
+  const k = DB.skinChecksOf(epId)[0];
+  if (!k) return "Chưa khám da trong hồ sơ";
+  if (k.binhThuong) return `Da bình thường (khám ${fmtDT(k.at)})`;
+  return `${k.viTri.map(v => kdTen(v.k) + (v.stage ? ` độ ${v.stage}` : "")).join(", ")} (khám ${fmtDT(k.at)})`;
+}
+
+/* ============================================================
+   PHIẾU THEO DÕI ĐIỀU DƯỠNG — quy trình Bước 4.1
+   In ra đúng các mục khoa đang viết tay, để điều dưỡng khỏi ghi hai lần.
+   Hai chỗ trong văn bản khoa được sửa cho đúng:
+     · bỏ mẫu số "/23" — thang Waterlow không có mức tối đa 23 điểm
+     · dùng ba mức của quy trình thay cho "(cao/trung bình/thấp)"
+   ============================================================ */
+function phieuTheoDoi(p, ep, phieu) {
+  if (!ep) { toast("Người bệnh đã kết thúc đợt điều trị", "err"); return; }
+  const st = DB.data.settings || DEFAULT_SETTINGS();
+  /* phieu = một phiếu đánh giá đã ký → dựng lại phiếu theo dõi ĐÚNG LÚC ĐÓ.
+     Không truyền gì → phiếu đang hiện hành, dùng để bàn giao tại giường. */
+  const dong_bang = !!phieu;
+  const last = phieu || DB.lastAssessment(ep.id);
+  const moc = dong_bang ? dOf(phieu.at).getTime() : Date.now();
+  const lv = last ? mucGoiCuaPhieu(last) : null;
+  const ti = turnInfo(ep, dong_bang ? new Date(moc) : null);
+  const ca = caCuaLuc(moc);
+
+  /* a. Tình trạng da — phiếu khám da đi kèm phiếu đánh giá này, hoặc gần nhất trước đó */
+  const kd = dong_bang
+    ? (DB.skinChecksOf(ep.id).find(x => x.tuPhieu === phieu.id)
+       || DB.skinChecksOf(ep.id).find(x => dOf(x.at).getTime() <= moc))
+    : DB.skinChecksOf(ep.id)[0];
+  const daTxt = !kd ? "Chưa khám da trong hồ sơ"
+    : kd.binhThuong ? `Da bình thường (khám ${fmtDT(kd.at)})`
+    : `${kd.viTri.map(v => kdTen(v.k) + (v.stage ? ` độ ${v.stage}` : "")).join(", ")} (khám ${fmtDT(kd.at)})`;
+
+  /* c. Can thiệp phòng ngừa — gói của ca chứa mốc thời gian này */
+  const daTick = last
+    ? (dong_bang ? (last.bundle || []) : [...bundleCa(ep.id, lv).st.keys()])
+    : [];
+  const nhom = n => daTick.filter(x => nhomCuaMuc(x) === n);
+  const beMat = nhom("Bề mặt hỗ trợ"), daCs = nhom("Chăm sóc da"), dd = nhom("Dinh dưỡng");
+
+  /* d. Ghi nhận loét */
+  const les = dong_bang
+    ? [...(phieu.lesions || []), ...(phieu.mdrpi || [])]
+    : lesionsOfEpisode(ep.id).filter(l => l.status !== "lanh");
+
+  const dong = (nhan, noiDung) =>
+    `<div class="ptdrow"><span class="ptdk">${nhan}</span><span class="ptdv">${noiDung}</span></div>`;
+
+  modal({
+    title: "Phiếu theo dõi điều dưỡng",
+    wide: true,
+    body: `<div class="ptd">
+      <div class="ptdhead">
+        <div class="ptdt">PHIẾU THEO DÕI ĐIỀU DƯỠNG — PHÒNG NGỪA LOÉT TÌ ĐÈ</div>
+        <div class="ptds">${esc(st.wardName)} · ${esc(st.hospital)}</div>
+      </div>
+      ${dong_bang
+        ? `<div class="notice"><svg><use href="#i-shield"/></svg><span>
+            Phiếu dựng lại từ <b>lượt đánh giá đã ký lúc ${fmtDT(phieu.at)}</b>
+            (${esc(DB.userName(phieu.userId))}) — giữ nguyên nội dung của thời điểm đó,
+            không đổi theo dữ liệu về sau.</span></div>`
+        : `<div class="notice"><svg><use href="#i-info"/></svg><span>
+            Phiếu <b>đang hiện hành</b>, dựng từ lượt đánh giá gần nhất và tình trạng hiện tại
+            — dùng để bàn giao tại giường bệnh. Mỗi lượt đánh giá đã ký có phiếu riêng
+            trong thẻ <b>Diễn tiến</b>.</span></div>`}
+      <div class="ptdbn">
+        <div><b>Họ tên:</b> ${esc(p.name)}</div>
+        <div><b>Mã hồ sơ:</b> <span class="mono">${esc(p.mrn)}</span></div>
+        <div><b>Giường:</b> ${esc(ep.bed || "—")}</div>
+        <div><b>Chẩn đoán:</b> ${esc(ep.diagnosis || "—")}</div>
+      </div>
+      ${dong("Ngày / Giờ", `${fmtTime(moc)} · ${fmtDate(moc)} — ${esc(ca.shift.t.toLowerCase())}`)}
+      ${dong("a. Tình trạng da", esc(daTxt))}
+      ${dong("b. Đánh giá nguy cơ", last
+        ? `Thang điểm Waterlow <b>${last.score} điểm</b>, xác định mức độ nguy cơ
+           <b>${esc(LEVELS[last.level].short.toLowerCase())}</b>${
+           lv !== last.level ? ` — áp ${esc(tenGoi(lv).toLowerCase())}` : ""}
+           <span class="ptdm">(đánh giá ${fmtDT(last.at)}, ${esc(DB.userName(last.userId))})</span>`
+        : "<i>Chưa đánh giá lần nào trong đợt điều trị này</i>")}
+      ${dong("c. Can thiệp phòng ngừa", `
+        Xoay <b>${esc(ti.never ? "chưa ghi lượt nào" : posName(ti.last.pos).toLowerCase())}</b>.
+        Duy trì xoay trở tư thế mỗi <b>${ti.every} giờ</b>${
+          lv != null ? ` (lịch cữ ${lichCu(lv).map(h => pad(h) + "g").join(" · ")})` : ""}.
+        ${beMat.length ? esc(beMat.join("; ")) + ". " : ""}
+        ${daCs.length ? esc(daCs.join("; ")) + ". " : "Giữ da sạch và khô. "}
+        ${dd.length ? esc(dd.join("; ")) + "." : "Bảo đảm dinh dưỡng đầy đủ."}
+        <span class="ptdm">(${ti.soLuot24h} lượt xoay trong 24 giờ trước mốc này)</span>`)}
+      ${dong("d. Ghi nhận loét", les.length
+        ? `<ul class="ptdl">${les.map(l => `<li>Vết loét vùng <b>${esc(l.site)}</b>${
+            l.device ? ` (do ${esc(l.device)})` : ""}, phân độ <b>${esc(l.stage)}</b>${
+            l.size ? `, kích thước <b>${esc(l.size)}</b>` : ""}${
+            l.note ? `. ${esc(l.note)}` : ""}${
+            l.poa ? " <i>— có sẵn khi nhập khoa</i>" : " <i>— phát sinh tại khoa</i>"}</li>`).join("")}</ul>`
+        : "Không ghi nhận loét.")}
+      <div class="ptdky">
+        <div>Điều dưỡng lập phiếu<br><b>${esc(dong_bang
+          ? DB.userName(phieu.userId) : Session.user.name)}</b></div>
+        <div>Điều dưỡng trưởng<br><span class="ptdm">………………………</span></div>
+      </div>
+      <div class="ptdm" style="margin-top:10px">Phiếu do phần mềm lập từ hồ sơ điện tử,
+        theo Bước 4.1 quy trình phòng ngừa loét tì đè của khoa. Phiếu này không thay thế
+        bàn giao bằng lời tại giường bệnh.</div>
+    </div>`,
+    actions: [{ label: "Đóng" }, { label: "In phiếu", kind: "pri",
+      onClick: () => {
+        document.body.classList.add("inphieu");
+        window.print();
+        setTimeout(() => document.body.classList.remove("inphieu"), 400);
+        return false;
+      } }]
   });
 }
 </script>
@@ -6988,19 +8318,21 @@ function baoCaoSheets(m, win) {
   ];
 
   /* 2. Chỉ số theo tháng */
-  const thang = m.months.map(x => [x.label, Math.round(x.patientDays), x.assessments,
-    x.poa, x.hapi, +x.rate.toFixed(2), Math.round(x.bundle)]);
+  const thang = m.months.map(x => [x.label, x.nhapKhoa, x.poa, x.hapi,
+    +x.tyLe.toFixed(2), Math.round(x.patientDays), x.assessments,
+    +x.rate.toFixed(2), Math.round(x.bundle)]);
 
   /* 3. Lượt đánh giá */
   const dg = DB.data.assessments.filter(a => inWin(a.at))
     .sort((a, b) => a.at.localeCompare(b.at)).map(a => {
       const p = DB.patient(a.patientId) || {}, e = DB.episode(a.episodeId) || {};
       const lv = a.level != null ? a.level : levelOf(a.score);
+      const br = bundleRateOf(a);
       return [dOrNull(a.at), p.mrn, p.name, ngayOnly(p.dob), p.sex === "nu" ? "Nữ" : "Nam",
         e.bed, a.score, LV(lv), LV(a.careLevel != null ? a.careLevel : lv),
         (a.icu || []).length, (a.lesions || []).length + (a.mdrpi || []).length,
-        (a.bundle || []).length, a.bundleTotal || 0,
-        a.bundleTotal ? Math.round((a.bundle || []).length / a.bundleTotal * 100) : "",
+        (br ? br.xong : (a.bundle || []).length), (br ? br.tong : a.bundleTotal || 0),
+        br ? Math.round(br.ty * 100) : "",
         DB.userName(a.userId), a.note || ""];
     });
 
@@ -7019,6 +8351,41 @@ function baoCaoSheets(m, win) {
       l.poa ? "Có sẵn khi nhập khoa" : "Phát sinh tại khoa", l.device || "",
       l.size || "", (l.photos || []).length, x.cach, DB.userName(x.by), l.note || ""];
   });
+
+  /* 4b. Gói chăm sóc — từng lần đánh dấu, ai làm lúc nào */
+  const gcsNguon = [];
+  DB.data.assessments.filter(a => inWin(a.at)).forEach(a => {
+    const lv = mucGoiCuaPhieu(a);
+    (a.bundle || []).forEach(it => gcsNguon.push({
+      at: a.at, patientId: a.patientId, by: a.userId, item: it, level: lv,
+      done: true, cach: "Tích lúc ký phiếu" }));
+  });
+  (DB.data.bundleLogs || []).filter(b => inWin(b.at) && b.done !== false).forEach(b => gcsNguon.push({
+    at: b.at, patientId: b.patientId, by: b.by, item: b.item, level: b.level,
+    cach: "Đánh dấu trong ca" }));
+  const gcs = gcsNguon.sort((a, b) => String(a.at).localeCompare(String(b.at))).map(x => {
+    const p = DB.patient(x.patientId) || {};
+    return [dOrNull(x.at), p.mrn, p.name, LV(x.level), x.item, x.cach, DB.userName(x.by)];
+  });
+
+  /* 4c. Khám da vùng tì đè — phiếu đầu ca */
+  const CAT = {}; SHIFTS.forEach(c => CAT[c.v] = c.t);
+  const kd = [];
+  (DB.data.skinChecks || []).filter(k => inWin(k.at))
+    .sort((a, b) => String(a.at).localeCompare(String(b.at))).forEach(k => {
+      const p = DB.patient(k.patientId) || {};
+      const chung = [KHAM_DA_CHUNG[0].opts[k.chung ? k.chung.nhiet : 0],
+                     KHAM_DA_CHUNG[1].opts[k.chung ? k.chung.mo : 0],
+                     KHAM_DA_CHUNG[2].opts[k.chung ? k.chung.camgiac : 0]];
+      if (k.binhThuong || !(k.viTri || []).length) {
+        kd.push([dOrNull(k.at), CAT[k.shift] || "", p.mrn, p.name, "Da bình thường",
+          "", "", "", "", "", chung[0], chung[1], chung[2], k.note || "", DB.userName(k.by)]);
+        return;
+      }
+      (k.viTri || []).forEach(v => kd.push([dOrNull(k.at), CAT[k.shift] || "", p.mrn, p.name,
+        "Có bất thường", kdTen(v.k), v.size || "", KHAM_DA_SAU[v.sau] || "", v.stage || "",
+        v.note || "", chung[0], chung[1], chung[2], k.note || "", DB.userName(k.by)]));
+    });
 
   /* 5. Xoay trở */
   const POSN = {};
@@ -7049,8 +8416,10 @@ function baoCaoSheets(m, win) {
 
   return [
     { ten: "Bộ chỉ số", cols: [{ t: "Chỉ số", w: 44 }, { t: "Giá trị", w: 22 }], rows: chiSo },
-    { ten: "Theo tháng", rows: thang, cols: [{ t: "Tháng", w: 10 }, { t: "Ngày nằm viện", w: 14 },
-      { t: "Lượt đánh giá", w: 14 }, { t: "Loét có sẵn", w: 13 }, { t: "Loét mới", w: 11 },
+    { ten: "Theo tháng", rows: thang, cols: [{ t: "Tháng", w: 10 },
+      { t: "Người bệnh nhập khoa", w: 20 }, { t: "Loét tuyến trước", w: 16 },
+      { t: "Loét mới tại khoa", w: 17 }, { t: "Tỷ lệ loét mới (%)", w: 17 },
+      { t: "Ngày nằm viện", w: 14 }, { t: "Lượt đánh giá", w: 14 },
       { t: "Tỷ suất/1000 ngày", w: 17 }, { t: "Tuân thủ gói (%)", w: 16 }] },
     { ten: "Lượt đánh giá", rows: dg, cols: [{ t: "Thời điểm", w: 17 }, { t: "Mã hồ sơ", w: 13 },
       { t: "Họ tên", w: 22 }, { t: "Ngày sinh", w: 12 }, { t: "Giới", w: 7 }, { t: "Giường", w: 9 },
@@ -7063,6 +8432,15 @@ function baoCaoSheets(m, win) {
       { t: "Họ tên", w: 22 }, { t: "Vị trí", w: 18 }, { t: "Phân độ", w: 10 }, { t: "Nguồn gốc", w: 20 },
       { t: "Thiết bị y tế", w: 16 }, { t: "Kích thước", w: 12 }, { t: "Số ảnh", w: 8 },
       { t: "Ghi bằng cách nào", w: 21 }, { t: "Người ghi nhận", w: 20 }, { t: "Mô tả", w: 34 }] },
+    { ten: "Gói chăm sóc", rows: gcs, cols: [{ t: "Thời điểm", w: 17 }, { t: "Mã hồ sơ", w: 13 },
+      { t: "Họ tên", w: 22 }, { t: "Mức chăm sóc", w: 16 }, { t: "Mục", w: 42 },
+      { t: "Ghi bằng cách nào", w: 22 }, { t: "Người ghi", w: 20 }] },
+    { ten: "Khám da", rows: kd, cols: [{ t: "Thời điểm", w: 17 }, { t: "Ca trực", w: 10 },
+      { t: "Mã hồ sơ", w: 13 }, { t: "Họ tên", w: 22 }, { t: "Kết quả", w: 15 },
+      { t: "Vị trí", w: 20 }, { t: "Kích thước", w: 12 }, { t: "Độ sâu", w: 26 },
+      { t: "Phân độ", w: 10 }, { t: "Mô tả", w: 30 }, { t: "Nhiệt độ da", w: 20 },
+      { t: "Độ chắc mô", w: 16 }, { t: "Cảm giác", w: 18 }, { t: "Ghi chú phiếu", w: 30 },
+      { t: "Người khám", w: 20 }] },
     { ten: "Xoay trở", rows: xt, cols: [{ t: "Thời điểm", w: 17 }, { t: "Mã hồ sơ", w: 13 },
       { t: "Họ tên", w: 22 }, { t: "Giường", w: 9 }, { t: "Tư thế", w: 18 },
       { t: "Đã xem da", w: 11 }, { t: "Lý do chưa xoay", w: 24 }, { t: "Ghi chú", w: 26 },
